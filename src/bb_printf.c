@@ -20,9 +20,7 @@ void uart_start_printf(void) {
     char c;
     while (rbf_has_chars(&uart_tx_buffer)) {
         c = rbf_get_char(&uart_tx_buffer);
-        // if (c != 0) {
-	        putchar(c);
-        // }
+        putchar(c);
     }
 }
 
@@ -39,10 +37,9 @@ static char *hex_to_str(const long t, const char filler, const int len) {
         *(dst--) = '0';
         idx++;
     } else {
-        while (idx < _prbuffer_len) {
+        while (idx++ < _prbuffer_len) {
             idx++;
             if (x == 0) {
-                idx--;
                 break;
             } else {
                 int r = (int)(x & 0xf);
@@ -55,11 +52,11 @@ static char *hex_to_str(const long t, const char filler, const int len) {
             }
         }
     }
-    while (idx < len - 1) {
-        *(dst--) = filler;
-        idx++;
+    if (len == -1) {
+	    return dst;
+    } else {
+        return b + _prbuffer_len - len;
     }
-    return dst;
 }
 
 static char *int_to_str(const long t, const char filler, const int len) {
@@ -79,14 +76,12 @@ static char *int_to_str(const long t, const char filler, const int len) {
         *(dst--) = '0';
         idx++;
     } else {
-        while (1) {
+        while (idx < _prbuffer_len) {
             idx++;
             if (x == 0) {
-                idx--;
                 break;
             } else if (x < 10) {
                 *(dst--) = '0' + x;
-                idx--;
                 break;
             } else {
                 long r = x % 10;
@@ -95,14 +90,14 @@ static char *int_to_str(const long t, const char filler, const int len) {
             }
         }
     }
-    while (idx < len - 1) {
-        *(dst--) = filler;
-        idx++;
-    }
     if (neg) {
         *dst = '-';
     }
-    return dst;
+    if (len == -1) {
+	    return dst;
+    } else {
+        return b + _prbuffer_len - len;
+    }
 }
 
 
