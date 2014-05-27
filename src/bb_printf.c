@@ -35,10 +35,8 @@ static char *hex_to_str(const long t, const char filler, const int len) {
 
     if (t == 0) {
         *(dst--) = '0';
-        idx++;
     } else {
         while (idx++ < _prbuffer_len) {
-            idx++;
             if (x == 0) {
                 break;
             } else {
@@ -53,7 +51,7 @@ static char *hex_to_str(const long t, const char filler, const int len) {
         }
     }
     if (len == -1) {
-	    return dst;
+	    return dst + 1;
     } else {
         return b + _prbuffer_len - len;
     }
@@ -74,10 +72,8 @@ static char *int_to_str(const long t, const char filler, const int len) {
     }
     if (t == 0) {
         *(dst--) = '0';
-        idx++;
     } else {
-        while (idx < _prbuffer_len) {
-            idx++;
+        while (idx++ < _prbuffer_len) {
             if (x == 0) {
                 break;
             } else if (x < 10) {
@@ -94,7 +90,7 @@ static char *int_to_str(const long t, const char filler, const int len) {
         *dst = '-';
     }
     if (len == -1) {
-	    return dst;
+	    return dst + 1;
     } else {
         return b + _prbuffer_len - len;
     }
