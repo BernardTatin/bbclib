@@ -54,9 +54,7 @@ static inline void rbf_add_char(TSrbuffer *rb, const char c) {
 static inline void rbf_end_of_line(TSrbuffer *rb) {
 	int in = rb->in;
 
-	rb->buffer[in++] = 0;
-	in &= RBUFFER_MASK;
-	rb->in = in;
+	rb->buffer[in] = 0;
 	rb->line_count++;
 	rb->char_count++;
 }

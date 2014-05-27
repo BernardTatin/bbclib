@@ -33,7 +33,9 @@ int rbf_get_line(TSrbuffer *rb, char *line) {
 		if (c == '\n') {
 			break;
 		}
-		*(line++) = c;
+        if (c != 0) {
+            *(line++) = c;
+        }
 		r++;
 	}
 	*line = 0;

@@ -9,7 +9,7 @@ ODIR = objs
 
 
 STD_WARNINGS = -Wall -Wextra -pedantic -std=c11
-STD_INCLUDES = -Iinclude
+STD_INCLUDES = -Iinclude -Itests
 
 _os = $(shell uname)
 ifeq ($(OS), Windows_NT)
@@ -18,14 +18,17 @@ else
 	_exe =
 endif
 
-SOURCES = $(wildcard src/*.c)
+SOURCES = $(wildcard src/*.c) $(wildcard tests/*.c)
 _OBJS = $(patsubst %.c,%.o,$(notdir $(SOURCES)))
 OBJS = $(addprefix $(ODIR)/, $(_OBJS))
 
 EXE = bbclib-test$(_exe)
 
 $(ODIR)/%.o: src/%.c
-	$(CC) $(STD_INCLUDES) $(STD_WARNIGS) -c $< -o $@
+	$(CC) $(STD_INCLUDES) $(STD_WARNINGS) -c $< -o $@
+
+$(ODIR)/%.o: tests/%.c
+	$(CC) $(STD_INCLUDES) $(STD_WARNINGS) -c $< -o $@
 
 all: _odir $(EXE)
 	@echo "_os $(_os) OS $(OS) EXE $(EXE)"

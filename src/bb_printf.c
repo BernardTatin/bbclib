@@ -5,7 +5,9 @@
  * @date 27 mai 2014
  */
 
+#include <stdio.h>
 #include <stdarg.h>
+
 #include "bbclib.h"
 
 TSrbuffer uart_tx_buffer;
@@ -15,8 +17,12 @@ void uart_wait_end_of_tx(void) {
 }
 
 void uart_start_printf(void) {
+    char c;
     while (rbf_has_chars(&uart_tx_buffer)) {
-        putchar(rbf_get_char(&uart_tx_buffer));
+        c = rbf_get_char(&uart_tx_buffer);
+        // if (c != 0) {
+	        putchar(c);
+        // }
     }
 }
 
@@ -80,6 +86,7 @@ static char *int_to_str(const long t, const char filler, const int len) {
                 break;
             } else if (x < 10) {
                 *(dst--) = '0' + x;
+                idx--;
                 break;
             } else {
                 long r = x % 10;
