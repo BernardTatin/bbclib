@@ -1,15 +1,20 @@
 # Makefile
 
+# base_cc = gcc48
+base_cc = clang
 
+CC = $(base_cc)
+LD = $(base_cc)
 
-CC = gcc48
-LD = gcc48
+.if $(base_cc) == gcc48
+STD_WARNINGS = -Wall -Wextra -pedantic -std=c11
+.elif $(base_cc)
+STD_WARNINGS = -Wall -Wextra -pedantic -std=c11
+.endif
+
+STD_INCLUDES = -Iinclude -Itests
 
 ODIR = objs
-
-
-STD_WARNINGS = -Wall -Wextra -pedantic -std=c11
-STD_INCLUDES = -Iinclude -Itests
 
 _os != uname
 .if $(_os) == Windows_NT
@@ -24,6 +29,8 @@ SOBJS = ${_SOBJS1:S/c$/o/g}
 
 _TOBJS1 = ${TESTS:T}
 TOBJS = ${_TOBJS1:S/c$/o/g}
+
+OBJS = $(SOBJS) $(TOBJS)
 
 CFLAGS =  $(STD_INCLUDES) $(STD_WARNINGS)
 
@@ -47,7 +54,7 @@ _odir: $(ODIR)
 $(ODIR):
 	mkdir -p $@
 
-$(EXE): $(SOBJS) $(TOBJS)
+$(EXE): $(OBJS)
 	$(LD)  -o $(.TARGET) $(.ALLSRC)
 
 tests: $(EXE)
