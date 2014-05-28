@@ -1,0 +1,57 @@
+# Makefile
+
+
+
+CC = gcc48
+LD = gcc48
+
+ODIR = objs
+
+
+STD_WARNINGS = -Wall -Wextra -pedantic -std=c11
+STD_INCLUDES = -Iinclude -Itests
+
+_os != uname
+.if $(_os) == Windows_NT
+	_exe = .exe
+.endif
+
+SOURCES != ls src/*.c
+TESTS != ls tests/*.c
+
+_SOBJS1 = ${SOURCES:T}
+SOBJS = ${_SOBJS1:S/c$/o/g}
+
+_TOBJS1 = ${TESTS:T}
+TOBJS = ${_TOBJS1:S/c$/o/g}
+
+CFLAGS =  $(STD_INCLUDES) $(STD_WARNINGS)
+
+EXE = bbclib-test$(_exe)
+
+.SUFFIXES: .cpp .c .o .sh
+
+$(SOBJS)         : src/$(.PREFIX).c
+	$(CC) $(CFLAGS) -c src/$(.PREFIX).c
+
+$(TOBJS)         : tests/$(.PREFIX).c
+	$(CC) $(CFLAGS) -c tests/$(.PREFIX).c
+
+all: _odir $(EXE)
+
+clean:
+	-rm -fv $(OBJS) $(EXE) *.log
+
+_odir: $(ODIR)
+
+$(ODIR):
+	mkdir -p $@
+
+$(EXE): $(SOBJS) $(TOBJS)
+	$(LD)  -o $(.TARGET) $(.ALLSRC)
+
+tests: $(EXE)
+		./$(EXE) --ref > ref.log
+		./$(EXE) --test > test.log
+		diff test.log ref.log
+
