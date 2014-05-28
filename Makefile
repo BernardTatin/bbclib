@@ -34,7 +34,7 @@ all: _odir $(EXE)
 	@echo "_os $(_os) OS $(OS) EXE $(EXE)"
 
 clean:
-	rm -fv $(OBJS) $(EXE)
+	rm -fv $(OBJS) $(EXE) *.log
 
 _odir: $(ODIR)
 
@@ -44,4 +44,9 @@ $(ODIR):
 $(EXE): $(OBJS)
 	$(LD) $(OBJS) -o $@
 
-.PHONY: _odir all clean
+tests: $(EXE)
+		./$(EXE) --ref > ref.log
+		./$(EXE) --test > test.log
+		diff test.log ref.log
+
+.PHONY: _odir all clean tests
