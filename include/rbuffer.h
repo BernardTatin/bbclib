@@ -17,7 +17,6 @@ typedef struct {
 	volatile int in;
 	volatile int out;
 	volatile int line_count;
-	volatile int char_count;
 	volatile int overrun;
 } TSrbuffer;
 
@@ -47,7 +46,6 @@ static inline void rbf_add_char(TSrbuffer *rb, const char c) {
 		if (c == '\n') {
 			rb->line_count++;
 		}
-		rb->char_count++;
 	}
 }
 
@@ -56,7 +54,6 @@ static inline void rbf_end_of_line(TSrbuffer *rb) {
 
 	rb->buffer[in] = 0;
 	rb->line_count++;
-	rb->char_count++;
 }
 
 static inline char rbf_get_char(TSrbuffer *rb) {
@@ -67,12 +64,6 @@ static inline char rbf_get_char(TSrbuffer *rb) {
 	if (c == '\n' && rb->line_count) {
 		rb->line_count--;
 	}
-	rb->char_count--;
-#if 0
-	if (rb->char_count > 0) {
-		rb->char_count--;
-	}
-#endif
 	return c;
 }
 

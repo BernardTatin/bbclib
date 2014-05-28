@@ -36,17 +36,13 @@ static char *hex_to_str(const long t, const char filler, const int len) {
     if (t == 0) {
         *(dst--) = '0';
     } else {
-        while (idx++ < _prbuffer_len) {
-            if (x == 0) {
-                break;
+        while (x != 0 && idx++ < _prbuffer_len) {
+            int r = (int)(x & 0xf);
+            x >>= 4;
+            if (r < 10) {
+                *(dst--) = '0' + r;
             } else {
-                int r = (int)(x & 0xf);
-                x >>= 4;
-                if (r < 10) {
-                    *(dst--) = '0' + r;
-                } else {
-                    *(dst--) = 'a' + r - 10;
-                }
+                *(dst--) = 'a' + r - 10;
             }
         }
     }
@@ -66,28 +62,26 @@ static char *int_to_str(const long t, const char filler, const int len) {
 
     memset(b, filler, _prbuffer_len);
     b[_prbuffer_len] = 0;
-    if (x < 0) {
-        x = -x;
-        neg = true;
-    }
     if (t == 0) {
         *(dst--) = '0';
     } else {
-        while (idx++ < _prbuffer_len) {
-            if (x == 0) {
-                break;
-            } else if (x < 10) {
+        if (x < 0) {
+            x = -x;
+            neg = true;
+        }
+        while (x != 0 && idx++ < _prbuffer_len) {
+            if (x < 10) {
                 *(dst--) = '0' + x;
-                break;
+                x = 0;
             } else {
                 long r = x % 10;
                 x /= 10;
                 *(dst--) = '0' + r;
             }
         }
-    }
-    if (neg) {
-        *dst = '-';
+        if (neg) {
+            *dst = '-';
+        }
     }
     if (len == -1) {
 	    return dst + 1;
