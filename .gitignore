@@ -5,3 +5,6 @@
 *.gz
 .*.swp
 bbclib-test
+*.kdev*
+*.layout
+<*

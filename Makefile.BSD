@@ -44,7 +44,15 @@ $(SOBJS)         : src/$(.PREFIX).c
 $(TOBJS)         : tests/$(.PREFIX).c
 	$(CC) $(CFLAGS) -c tests/$(.PREFIX).c
 
+Debug: all
+
+Release: all
+
 all: _odir $(EXE)
+
+cleanDebug: clean
+
+cleanRelease: clean
 
 clean:
 	@echo "TOBJS <$(TOBJS)>"
