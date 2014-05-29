@@ -6,8 +6,6 @@
         <in>bbclib.h</in>
         <in>rbuffer.h</in>
       </df>
-      <df name="objs">
-      </df>
       <df name="src">
         <in>bb_printf.c</in>
         <in>main.c</in>
@@ -24,7 +22,7 @@
     <conf name="compile" type="0">
       <toolsSet>
         <developmentServer>localhost</developmentServer>
-        <platform>3</platform>
+        <platform>5</platform>
       </toolsSet>
       <compile>
         <compiledirpicklist>
@@ -69,7 +67,7 @@
     <conf name="tests" type="0">
       <toolsSet>
         <developmentServer>localhost</developmentServer>
-        <platform>3</platform>
+        <platform>5</platform>
       </toolsSet>
       <compile>
         <compiledirpicklist>

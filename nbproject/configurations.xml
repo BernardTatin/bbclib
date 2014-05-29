@@ -15,7 +15,6 @@
                    displayName="Important Files"
                    projectFiles="false"
                    kind="IMPORTANT_FILES_FOLDER">
-      <itemPath>Makefile</itemPath>
     </logicalFolder>
   </logicalFolder>
   <sourceFolderFilter>^(nbproject)$</sourceFolderFilter>
@@ -51,20 +50,12 @@
         </makeTool>
       </makefileType>
       <item path="src/bb_printf.c" ex="false" tool="0" flavor2="10">
-        <cTool flags="0">
-        </cTool>
       </item>
       <item path="src/main.c" ex="false" tool="0" flavor2="10">
-        <cTool flags="0">
-        </cTool>
       </item>
       <item path="src/rbuffer.c" ex="false" tool="0" flavor2="10">
-        <cTool flags="0">
-        </cTool>
       </item>
       <item path="tests/test_bbprintf.c" ex="false" tool="0" flavor2="10">
-        <cTool flags="0">
-        </cTool>
       </item>
     </conf>
     <conf name="tests" type="0">
@@ -81,9 +72,9 @@
       <makefileType>
         <makeTool>
           <buildCommandWorkingDir>.</buildCommandWorkingDir>
-          <buildCommand>${MAKE} -f Makefile tests</buildCommand>
-          <cleanCommand>${MAKE} -f Makefile clean</cleanCommand>
-          <executablePath>bbclib-test.exe</executablePath>
+          <buildCommand>make -f Makefile.BSD tests</buildCommand>
+          <cleanCommand>make -f Makefile.BSD clean</cleanCommand>
+          <executablePath>bbclib-test</executablePath>
           <cTool>
             <incDir>
               <pElem>include</pElem>
@@ -94,20 +85,12 @@
         </makeTool>
       </makefileType>
       <item path="src/bb_printf.c" ex="false" tool="0" flavor2="10">
-        <cTool flags="0">
-        </cTool>
       </item>
       <item path="src/main.c" ex="false" tool="0" flavor2="10">
-        <cTool flags="0">
-        </cTool>
       </item>
       <item path="src/rbuffer.c" ex="false" tool="0" flavor2="10">
-        <cTool flags="0">
-        </cTool>
       </item>
       <item path="tests/test_bbprintf.c" ex="false" tool="0" flavor2="10">
-        <cTool flags="0">
-        </cTool>
       </item>
     </conf>
   </confs>

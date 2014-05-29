@@ -36,7 +36,7 @@ CFLAGS =  $(STD_INCLUDES) $(STD_WARNINGS)
 
 EXE = bbclib-test$(_exe)
 
-.SUFFIXES: .cpp .c .o .sh
+.SUFFIXES: .c .o
 
 $(SOBJS)         : src/$(.PREFIX).c
 	$(CC) $(CFLAGS) -c src/$(.PREFIX).c
@@ -47,11 +47,17 @@ $(TOBJS)         : tests/$(.PREFIX).c
 all: _odir $(EXE)
 
 clean:
-	-rm -fv $(OBJS) $(EXE) *.log
+	@echo "TOBJS <$(TOBJS)>"
+	@echo "SOBJS <$(SOBJS)>"
+	-rm -fv $(EXE) $(OBJS)
+
+	# -rm -fv $(OBJS) $(EXE) *.log
 
 _odir: $(ODIR)
 
 $(ODIR):
+	@echo "TOBJS <$(TOBJS)>"
+	@echo "SOBJS <$(SOBJS)>"
 	mkdir -p $@
 
 $(EXE): $(OBJS)
