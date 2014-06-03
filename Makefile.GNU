@@ -2,8 +2,12 @@
 
 
 
+ifeq ($(compiler), clang)
+include mk/clang.mk
+else
 CC = gcc
 LD = gcc
+endif
 
 ODIR = objs
 
@@ -31,7 +35,6 @@ $(ODIR)/%.o: tests/%.c
 	$(CC) $(STD_INCLUDES) $(STD_WARNINGS) -c $< -o $@
 
 all: _odir $(EXE)
-	@echo "_os $(_os) OS $(OS) EXE $(EXE)"
 
 clean:
 	rm -fv $(OBJS) $(EXE) *.log
@@ -42,6 +45,8 @@ $(ODIR):
 	mkdir -p $@
 
 $(EXE): $(OBJS)
+	@echo "_os $(_os) OS $(OS) EXE $(EXE)"
+	@$(CC) --version
 	$(LD) $(OBJS) -o $@
 
 tests: $(EXE)
