@@ -17,6 +17,7 @@
                    kind="IMPORTANT_FILES_FOLDER">
       <itemPath>Makefile</itemPath>
     </logicalFolder>
+    <itemPath>mk/clang.mk</itemPath>
   </logicalFolder>
   <sourceFolderFilter>^(nbproject)$</sourceFolderFilter>
   <sourceRootList>
@@ -30,9 +31,6 @@
         <dependencyChecking>false</dependencyChecking>
         <rebuildPropChanged>false</rebuildPropChanged>
       </toolsSet>
-      <flagsDictionary>
-        <element flagsID="0" commonFlags="-std=c11"/>
-      </flagsDictionary>
       <codeAssistance>
       </codeAssistance>
       <makefileType>
@@ -50,21 +48,15 @@
           </cTool>
         </makeTool>
       </makefileType>
+      <item path="mk/clang.mk" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="src/bb_printf.c" ex="false" tool="0" flavor2="10">
-        <cTool flags="0">
-        </cTool>
       </item>
       <item path="src/main.c" ex="false" tool="0" flavor2="10">
-        <cTool flags="0">
-        </cTool>
       </item>
       <item path="src/rbuffer.c" ex="false" tool="0" flavor2="10">
-        <cTool flags="0">
-        </cTool>
       </item>
       <item path="tests/test_bbprintf.c" ex="false" tool="0" flavor2="10">
-        <cTool flags="0">
-        </cTool>
       </item>
     </conf>
     <conf name="tests" type="0">
@@ -73,9 +65,6 @@
         <dependencyChecking>false</dependencyChecking>
         <rebuildPropChanged>false</rebuildPropChanged>
       </toolsSet>
-      <flagsDictionary>
-        <element flagsID="0" commonFlags="-std=c11"/>
-      </flagsDictionary>
       <codeAssistance>
       </codeAssistance>
       <makefileType>
@@ -93,21 +82,84 @@
           </cTool>
         </makeTool>
       </makefileType>
+      <item path="mk/clang.mk" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="src/bb_printf.c" ex="false" tool="0" flavor2="10">
-        <cTool flags="0">
-        </cTool>
       </item>
       <item path="src/main.c" ex="false" tool="0" flavor2="10">
-        <cTool flags="0">
-        </cTool>
       </item>
       <item path="src/rbuffer.c" ex="false" tool="0" flavor2="10">
-        <cTool flags="0">
-        </cTool>
       </item>
       <item path="tests/test_bbprintf.c" ex="false" tool="0" flavor2="10">
-        <cTool flags="0">
-        </cTool>
+      </item>
+    </conf>
+    <conf name="tests-32" type="0">
+      <toolsSet>
+        <compilerSet>MinGW32|MinGW</compilerSet>
+        <dependencyChecking>false</dependencyChecking>
+        <rebuildPropChanged>false</rebuildPropChanged>
+      </toolsSet>
+      <codeAssistance>
+      </codeAssistance>
+      <makefileType>
+        <makeTool>
+          <buildCommandWorkingDir>.</buildCommandWorkingDir>
+          <buildCommand>${MAKE} -f Makefile tests</buildCommand>
+          <cleanCommand>${MAKE} -f Makefile clean</cleanCommand>
+          <executablePath>bbclib-test.exe</executablePath>
+          <cTool>
+            <incDir>
+              <pElem>include</pElem>
+              <pElem>tests</pElem>
+              <pElem></pElem>
+            </incDir>
+          </cTool>
+        </makeTool>
+      </makefileType>
+      <item path="mk/clang.mk" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/bb_printf.c" ex="false" tool="0" flavor2="10">
+      </item>
+      <item path="src/main.c" ex="false" tool="0" flavor2="10">
+      </item>
+      <item path="src/rbuffer.c" ex="false" tool="0" flavor2="10">
+      </item>
+      <item path="tests/test_bbprintf.c" ex="false" tool="0" flavor2="10">
+      </item>
+    </conf>
+    <conf name="tests-llvm-32" type="0">
+      <toolsSet>
+        <compilerSet>CLang32|CLang</compilerSet>
+        <dependencyChecking>false</dependencyChecking>
+        <rebuildPropChanged>false</rebuildPropChanged>
+      </toolsSet>
+      <codeAssistance>
+      </codeAssistance>
+      <makefileType>
+        <makeTool>
+          <buildCommandWorkingDir>.</buildCommandWorkingDir>
+          <buildCommand>${MAKE} -f Makefile compiler=clang tests</buildCommand>
+          <cleanCommand>${MAKE} -f Makefile compiler=clang clean</cleanCommand>
+          <executablePath>bbclib-test.exe</executablePath>
+          <cTool>
+            <standard>10</standard>
+            <incDir>
+              <pElem>include</pElem>
+              <pElem>tests</pElem>
+              <pElem></pElem>
+            </incDir>
+          </cTool>
+        </makeTool>
+      </makefileType>
+      <item path="mk/clang.mk" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/bb_printf.c" ex="false" tool="0" flavor2="10">
+      </item>
+      <item path="src/main.c" ex="false" tool="0" flavor2="10">
+      </item>
+      <item path="src/rbuffer.c" ex="false" tool="0" flavor2="10">
+      </item>
+      <item path="tests/test_bbprintf.c" ex="false" tool="0" flavor2="10">
       </item>
     </conf>
   </confs>
