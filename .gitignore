@@ -3,3 +3,8 @@
 *.exe
 *.log
 *.gz
+.*.swp
+bbclib-test
+*.kdev*
+*.layout
+<*
