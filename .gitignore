@@ -8,3 +8,6 @@ bbclib-test
 *.kdev*
 *.layout
 <*
+nbprojet/
+nbprojet/**
+
