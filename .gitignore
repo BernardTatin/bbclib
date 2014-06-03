@@ -8,18 +8,13 @@ bbclib-test
 *.kdev*
 *.layout
 <*
-<<<<<<< HEAD
 *.plist
 .*project
 *.anjuta
 *.komodo*
 .*.prefs
-
-.settings/org.eclipse.core.runtime.prefs
-=======
 nbprojet/
 nbprojet/**
-
 nbproject/configurations.xml
 nbproject/private/configurations.xml
 nbproject/private/private.xml
@@ -27,4 +22,5 @@ nbproject/private/private.xml.BACKUP.5508.xml
 nbproject/private/private.xml.BASE.5508.xml
 nbproject/private/private.xml.LOCAL.5508.xml
 nbproject/private/private.xml.REMOTE.5508.xml
->>>>>>> origin/master
+
+.settings/org.eclipse.core.runtime.prefs
