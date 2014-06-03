@@ -71,7 +71,7 @@ static char *_to_str(const long t, const char filler, const int len, const int b
         }
     }
     if (len == -1) {
-	    return dst + 1;
+        return dst + 1;
     } else {
         return b + _prbuffer_len - len;
     }
@@ -99,47 +99,44 @@ void debug_printf(const char *fmt, ...) {
     uart_wait_end_of_tx();
     while ((symbol = *(fmt++)) != 0) {
         if (symbol == '%') {
-            symbol = *(fmt++);
+            // symbol = *(fmt++);
             inpct = true;
             has_value = false;
             filler = ' ';
             dlen = -1;
-        }
-        if (inpct) {
+        } else if (inpct) {
             switch (symbol) {
-                case 'S':
                 case 's':
-                {
-                    char *str = va_arg(ap, char*);
+                    {
+                        char *str = va_arg(ap, char*);
 
-					rbf_add_line(&uart_tx_buffer, str);
-                    inpct = false;
-                    break;
-                }
-                case 'L':
+                        rbf_add_line(&uart_tx_buffer, str);
+                        inpct = false;
+                        break;
+                    }
                 case 'l':
-                {
-                    value = va_arg(ap, long);
-                    has_value = true;
-                    break;
+                    {
+                        value = va_arg(ap, long);
+                        has_value = true;
+                        break;
 
-                }
+                    }
                 case 'D':
                 case 'd':
-                {
-                    if (!has_value) {
-                        value = (long) va_arg(ap, int) & 0xffffl;
+                    {
+                        if (!has_value) {
+                            value = (long) va_arg(ap, int) & 0xffffl;
+                        }
+                        rbf_add_line(&uart_tx_buffer, int_to_str(value, filler, dlen));
+                        inpct = false;
+                        break;
                     }
-					rbf_add_line(&uart_tx_buffer, int_to_str(value, filler, dlen));
-                    inpct = false;
-                    break;
-                }
                 case 'X':
                 case 'x':
                     if (!has_value) {
                         value = (long) va_arg(ap, int) & 0xffffl;
                     }
-					rbf_add_line(&uart_tx_buffer, hex_to_str(value, filler, dlen));
+                    rbf_add_line(&uart_tx_buffer, hex_to_str(value, filler, dlen));
                     inpct = false;
                     break;
                 case '0':
@@ -150,10 +147,10 @@ void debug_printf(const char *fmt, ...) {
                     break;
             }
         } else {
-			rbf_add_char(&uart_tx_buffer, symbol);
+            rbf_add_char(&uart_tx_buffer, symbol);
         }
     }
-	rbf_end_of_line(&uart_tx_buffer);
+    rbf_end_of_line(&uart_tx_buffer);
     va_end(ap);
     uart_start_printf();
 }

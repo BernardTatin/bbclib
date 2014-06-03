@@ -9,7 +9,7 @@ LD = $(base_cc)
 .if $(base_cc) == gcc48
 STD_WARNINGS = -Wall -Wextra -pedantic -std=c11
 .elif $(base_cc)
-STD_WARNINGS = -Wall -Wextra -pedantic -std=c11
+STD_WARNINGS = -ftrapv -Weverything -std=c11
 .endif
 
 STD_INCLUDES = -Iinclude -Itests
@@ -59,8 +59,6 @@ clean:
 	@echo "SOBJS <$(SOBJS)>"
 	-rm -fv $(EXE) $(OBJS)
 
-	# -rm -fv $(OBJS) $(EXE) *.log
-
 _odir: $(ODIR)
 
 $(ODIR):
@@ -69,7 +67,7 @@ $(ODIR):
 	mkdir -p $@
 
 $(EXE): $(OBJS)
-	$(LD)  -o $(.TARGET) $(.ALLSRC)
+	$(LD) -o $(.TARGET) $(.ALLSRC) $(LD_FLAGS)
 
 tests: $(EXE)
 		./$(EXE) --ref > ref.log

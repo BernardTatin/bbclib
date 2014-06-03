@@ -8,3 +8,10 @@ bbclib-test
 *.kdev*
 *.layout
 <*
+*.plist
+.*project
+*.anjuta
+*.komodo*
+.*.prefs
+
+.settings/org.eclipse.core.runtime.prefs
