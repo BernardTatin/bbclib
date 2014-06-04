@@ -7,4 +7,13 @@
         <activeConfTypeElem>0</activeConfTypeElem>
         <activeConfIndexElem>1</activeConfIndexElem>
     </data>
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/C:/cygwin64/home/TATIN_B/bbclib/src/bb_printf.c</file>
+            <file>file:/C:/cygwin64/home/TATIN_B/bbclib/src/main.c</file>
+            <file>file:/C:/cygwin64/home/TATIN_B/bbclib/tests/test_bbprintf.c</file>
+            <file>file:/C:/cygwin64/home/TATIN_B/bbclib/tests/tests.h</file>
+        </group>
+    </open-files>
 </project-private>
