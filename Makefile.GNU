@@ -52,6 +52,7 @@ $(EXE): $(OBJS)
 tests: $(EXE)
 		./$(EXE) --ref > ref.log
 		./$(EXE) --test > test.log
+		./$(EXE) --bin
 		diff test.log ref.log
 
 .PHONY: _odir all clean tests

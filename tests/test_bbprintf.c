@@ -12,6 +12,14 @@
 
 const int _nb_loops = 65540;
 
+void bbprintf_btest(void) {
+    debug_printf("debug_printf : Hey! Ca marche\n");
+	for (int i=0; i<256; i++) {
+        debug_printf("i = %d, %5d, %05d, %x, %5x, %05x, %08b\n",
+                     i, i, i, i, i, i, i);
+    }
+}
+
 void bbprintf_test(void) {
     debug_printf("debug_printf : Hey! Ca marche\n");
 	for (int i=0; i<_nb_loops; i++) {
