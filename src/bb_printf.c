@@ -24,9 +24,8 @@ void uart_start_printf(void) {
     }
 }
 
-static char *hex_to_str(const long t, const char filler, const int len) {
+static char *_to_str(const long t, const char filler, const int len, const int base) {
     static char b[_prbuffer_len + 1];
-    unsigned long x = (unsigned long) t;
     char *dst = &b[_prbuffer_len - 1];
     int idx = 0;
 
@@ -36,10 +35,10 @@ static char *hex_to_str(const long t, const char filler, const int len) {
     if (t == 0) {
         *(dst--) = '0';
     } else {
-        while (idx++ < _prbuffer_len) {
-            if (x == 0) {
-                break;
-            } else {
+        if (base == 16) {
+            unsigned long x = (unsigned long) t;
+
+            while (x != 0 && idx++ < _prbuffer_len) {
                 int r = (int)(x & 0xf);
                 x >>= 4;
                 if (r < 10) {
@@ -48,52 +47,42 @@ static char *hex_to_str(const long t, const char filler, const int len) {
                     *(dst--) = 'a' + r - 10;
                 }
             }
+        } else if (base == 10) {
+            bool neg = false;
+            long x = (long) t;
+
+            if (x < 0) {
+                x = -x;
+                neg = true;
+            }
+            while (x != 0 && idx++ < _prbuffer_len) {
+                if (x < 10) {
+                    *(dst--) = '0' + x;
+                    x = 0;
+                } else {
+                    long r = x % 10;
+                    x /= 10;
+                    *(dst--) = '0' + r;
+                }
+            }
+            if (neg) {
+                *dst = '-';
+            }
         }
     }
     if (len == -1) {
-	    return dst + 1;
+        return dst + 1;
     } else {
         return b + _prbuffer_len - len;
     }
 }
 
-static char *int_to_str(const long t, const char filler, const int len) {
-    static char b[_prbuffer_len + 1];
-    long x = t;
-    char *dst = &b[_prbuffer_len - 1];
-    int idx = 0;
-    bool neg = false;
+static inline char *hex_to_str(const long t, const char filler, const int len) {
+    return _to_str(t, filler, len, 16);
+}
 
-    memset(b, filler, _prbuffer_len);
-    b[_prbuffer_len] = 0;
-    if (x < 0) {
-        x = -x;
-        neg = true;
-    }
-    if (t == 0) {
-        *(dst--) = '0';
-    } else {
-        while (idx++ < _prbuffer_len) {
-            if (x == 0) {
-                break;
-            } else if (x < 10) {
-                *(dst--) = '0' + x;
-                break;
-            } else {
-                long r = x % 10;
-                x /= 10;
-                *(dst--) = '0' + r;
-            }
-        }
-    }
-    if (neg) {
-        *dst = '-';
-    }
-    if (len == -1) {
-	    return dst + 1;
-    } else {
-        return b + _prbuffer_len - len;
-    }
+static inline char *int_to_str(const long t, const char filler, const int len) {
+    return _to_str(t, filler, len, 10);
 }
 
 
@@ -110,47 +99,44 @@ void debug_printf(const char *fmt, ...) {
     uart_wait_end_of_tx();
     while ((symbol = *(fmt++)) != 0) {
         if (symbol == '%') {
-            symbol = *(fmt++);
+            // symbol = *(fmt++);
             inpct = true;
             has_value = false;
             filler = ' ';
             dlen = -1;
-        }
-        if (inpct) {
+        } else if (inpct) {
             switch (symbol) {
-                case 'S':
                 case 's':
-                {
-                    char *str = va_arg(ap, char*);
+                    {
+                        char *str = va_arg(ap, char*);
 
-					rbf_add_line(&uart_tx_buffer, str);
-                    inpct = false;
-                    break;
-                }
-                case 'L':
+                        rbf_add_line(&uart_tx_buffer, str);
+                        inpct = false;
+                        break;
+                    }
                 case 'l':
-                {
-                    value = va_arg(ap, long);
-                    has_value = true;
-                    break;
+                    {
+                        value = va_arg(ap, long);
+                        has_value = true;
+                        break;
 
-                }
+                    }
                 case 'D':
                 case 'd':
-                {
-                    if (!has_value) {
-                        value = (long) va_arg(ap, int) & 0xffffl;
+                    {
+                        if (!has_value) {
+                            value = (long) va_arg(ap, int) & 0xffffl;
+                        }
+                        rbf_add_line(&uart_tx_buffer, int_to_str(value, filler, dlen));
+                        inpct = false;
+                        break;
                     }
-					rbf_add_line(&uart_tx_buffer, int_to_str(value, filler, dlen));
-                    inpct = false;
-                    break;
-                }
                 case 'X':
                 case 'x':
                     if (!has_value) {
                         value = (long) va_arg(ap, int) & 0xffffl;
                     }
-					rbf_add_line(&uart_tx_buffer, hex_to_str(value, filler, dlen));
+                    rbf_add_line(&uart_tx_buffer, hex_to_str(value, filler, dlen));
                     inpct = false;
                     break;
                 case '0':
@@ -161,10 +147,10 @@ void debug_printf(const char *fmt, ...) {
                     break;
             }
         } else {
-			rbf_add_char(&uart_tx_buffer, symbol);
+            rbf_add_char(&uart_tx_buffer, symbol);
         }
     }
-	rbf_end_of_line(&uart_tx_buffer);
+    rbf_end_of_line(&uart_tx_buffer);
     va_end(ap);
     uart_start_printf();
 }

@@ -1,0 +1,76 @@
+# Makefile
+
+# base_cc = gcc48
+base_cc = clang
+
+CC = $(base_cc)
+LD = $(base_cc)
+
+.if $(base_cc) == gcc48
+STD_WARNINGS = -Wall -Wextra -pedantic -std=c11
+.elif $(base_cc)
+STD_WARNINGS = -ftrapv -Weverything -std=c11
+.endif
+
+STD_INCLUDES = -Iinclude -Itests
+
+ODIR = objs
+
+_os != uname
+.if $(_os) == Windows_NT
+	_exe = .exe
+.endif
+
+SOURCES != ls src/*.c
+TESTS != ls tests/*.c
+
+_SOBJS1 = ${SOURCES:T}
+SOBJS = ${_SOBJS1:S/c$/o/g}
+
+_TOBJS1 = ${TESTS:T}
+TOBJS = ${_TOBJS1:S/c$/o/g}
+
+OBJS = $(SOBJS) $(TOBJS)
+
+CFLAGS =  $(STD_INCLUDES) $(STD_WARNINGS)
+
+EXE = bbclib-test$(_exe)
+
+.SUFFIXES: .c .o
+
+$(SOBJS)         : src/$(.PREFIX).c
+	$(CC) $(CFLAGS) -c src/$(.PREFIX).c
+
+$(TOBJS)         : tests/$(.PREFIX).c
+	$(CC) $(CFLAGS) -c tests/$(.PREFIX).c
+
+Debug: all
+
+Release: all
+
+all: _odir $(EXE)
+
+cleanDebug: clean
+
+cleanRelease: clean
+
+clean:
+	@echo "TOBJS <$(TOBJS)>"
+	@echo "SOBJS <$(SOBJS)>"
+	-rm -fv $(EXE) $(OBJS)
+
+_odir: $(ODIR)
+
+$(ODIR):
+	@echo "TOBJS <$(TOBJS)>"
+	@echo "SOBJS <$(SOBJS)>"
+	mkdir -p $@
+
+$(EXE): $(OBJS)
+	$(LD) -o $(.TARGET) $(.ALLSRC) $(LD_FLAGS)
+
+tests: $(EXE)
+		./$(EXE) --ref > ref.log
+		./$(EXE) --test > test.log
+		diff test.log ref.log
+
