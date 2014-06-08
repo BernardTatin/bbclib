@@ -15,8 +15,8 @@
 #include <string.h>
 
 /**
- * @def _RBUBBER_BITS
- * La taille du tampon doit être une puissance de 2. _RBUBBER_BITS est ce nombre.
+ * @def _RBUFFER_BITS
+ * La taille du tampon doit être une puissance de 2. _RBUFFER_BITS est ce nombre.
  *
  * @def RBUFFER_SIZE
  * La taille du tampon.
@@ -24,8 +24,8 @@
  * @def RBUFFER_MASK
  * La taille du tampon décrémentée de 1.
  */
-#define _RBUBBER_BITS	8
-#define RBUFFER_SIZE	(1 << _RBUBBER_BITS)
+#define _RBUFFER_BITS	8
+#define RBUFFER_SIZE	(1 << _RBUFFER_BITS)
 #define RBUFFER_MASK	(RBUFFER_SIZE - 1)
 
 /**

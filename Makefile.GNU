@@ -12,7 +12,7 @@ endif
 ODIR = objs
 
 
-STD_WARNINGS = -Wall -Wextra -pedantic -std=c11
+STD_WARNINGS = -Wall -Wextra -pedantic -std=c99
 STD_INCLUDES = -Iinclude -Itests
 
 _os = $(shell uname)
@@ -26,7 +26,7 @@ SOURCES = $(wildcard src/*.c) $(wildcard tests/*.c)
 _OBJS = $(patsubst %.c,%.o,$(notdir $(SOURCES)))
 OBJS = $(addprefix $(ODIR)/, $(_OBJS))
 
-EXE = bbclib-test$(_exe)
+EXE = bbclib-test$(_exe).GNU
 
 $(ODIR)/%.o: src/%.c
 	$(CC) $(STD_INCLUDES) $(STD_WARNINGS) -c $< -o $@

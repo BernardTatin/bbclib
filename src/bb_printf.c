@@ -149,7 +149,11 @@ void debug_printf(const char *fmt, ...) {
                     filler = '0';
                     break;
                 case '1'...'9':
-                    dlen = symbol - '0';
+                    if (dlen == -1) {
+                        dlen = symbol - '0';
+                    } else {
+                        dlen = dlen * 10 + (symbol - '0');
+                    }
                     break;
             }
         } else {
