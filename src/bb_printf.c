@@ -16,13 +16,16 @@
 
 #define _prbuffer_len   64
 
-static char *_to_str(const uint32_t t, const char filler,
-        const int len, const int base) {
+// globals to spare stack usage.
+static char _format_filler = ' ';
+static int _format_len = -1;
+
+static char *_to_str(const uint32_t t, const int base) {
     static char b[_prbuffer_len + 1];
     char *dst = b + _prbuffer_len - 1;
     int idx = 0;
 
-    memset(b, filler, _prbuffer_len + 1);
+    memset(b, _format_filler, _prbuffer_len + 1);
     b[_prbuffer_len] = 0;
 
     if (t == 0) {
@@ -33,12 +36,12 @@ static char *_to_str(const uint32_t t, const char filler,
 			int dec = base == 16 ? 4 : 1;
 
             while (x != 0 && idx++ < _prbuffer_len) {
-                int32_t r = (int32_t)(x & (base - 1));
+                uint32_t r = x & ((uint32_t)base - 1);
                 x >>= dec;
                 if (r < 10) {
-                    *(dst--) = '0' + r;
+                    *(dst--) = '0' + (char)r;
                 } else {
-                    *(dst--) = 'a' + r - 10;
+                    *(dst--) = 'a' + (char)(r - 10);
                 }
             }
         } else {
@@ -51,12 +54,12 @@ static char *_to_str(const uint32_t t, const char filler,
             }
             while (x != 0 && idx++ < _prbuffer_len) {
                 if (x < base) {
-                    *(dst--) = '0' + x;
+                    *(dst--) = '0' + (char)x;
                     x = 0;
                 } else {
                     int32_t r = x % base;
                     x /= base;
-                    *(dst--) = '0' + r;
+                    *(dst--) = '0' + (char)r;
                 }
             }
             if (neg) {
@@ -64,32 +67,31 @@ static char *_to_str(const uint32_t t, const char filler,
             }
         }
     }
-    if (len == -1) {
+    if (_format_len == -1) {
 	    return dst + 1;
     } else {
-        return b + _prbuffer_len - len;
+        return b + _prbuffer_len - _format_len;
     }
 }
 
-static inline char *hex_to_str(const uint32_t t, const char filler,
-        const int len) {
-    return _to_str(t, filler, len, 16);
+static inline char *hex_to_str(const uint32_t t) {
+    return _to_str(t, 16);
 }
 
-static inline char *int_to_str(const uint32_t t, const char filler,
-        const int len) {
-    return _to_str(t, filler, len, 10);
+static inline char *int_to_str(const uint32_t t) {
+    return _to_str(t, 10);
 }
+
 
 void debug_printf(const char *fmt, ...) {
     va_list ap;
     va_start(ap, fmt);
     char symbol;
-    char filler = ' ';
-    int dlen = -1;
     bool inpct = false;
     uint32_t value = 0;
     bool has_value = false;
+
+#define _get_int16_value()    if (!has_value) value = (uint32_t) va_arg(ap, int) & 0xffffl
 
     uart_wait_end_of_tx();
     while ((symbol = *(fmt++)) != 0) {
@@ -97,8 +99,8 @@ void debug_printf(const char *fmt, ...) {
             symbol = *(fmt++);
             inpct = true;
             has_value = false;
-            filler = ' ';
-            dlen = -1;
+            _format_filler = ' ';
+            _format_len = -1;
         }
         if (inpct) {
             switch (symbol) {
@@ -119,35 +121,29 @@ void debug_printf(const char *fmt, ...) {
                 }
                 case 'd':
                 {
-                    if (!has_value) {
-                        value = (uint32_t) va_arg(ap, int) & 0xffffl;
-                    }
-					rbf_add_line(&uart_tx_buffer, int_to_str(value, filler, dlen));
+                    _get_int16_value();
+					rbf_add_line(&uart_tx_buffer, int_to_str(value));
                     inpct = false;
                     break;
                 }
                 case 'b':
-                    if (!has_value) {
-                        value = (uint32_t) va_arg(ap, int) & 0xffffl;
-                    }
-					rbf_add_line(&uart_tx_buffer, _to_str(value, filler, dlen, 2));
+                    _get_int16_value();
+					rbf_add_line(&uart_tx_buffer, _to_str(value, 2));
                     inpct = false;
                     break;
                 case 'x':
-                    if (!has_value) {
-                        value = (uint32_t) va_arg(ap, int) & 0xffffl;
-                    }
-					rbf_add_line(&uart_tx_buffer, hex_to_str(value, filler, dlen));
+                    _get_int16_value();
+					rbf_add_line(&uart_tx_buffer, hex_to_str(value));
                     inpct = false;
                     break;
                 case '0':
-                    filler = '0';
+                    _format_filler = '0';
                     break;
                 case '1'...'9':
-                    if (dlen == -1) {
-                        dlen = symbol - '0';
+                    if (_format_len == -1) {
+                        _format_len = symbol - '0';
                     } else {
-                        dlen = dlen * 10 + (symbol - '0');
+                        _format_len = _format_len * 10 + (symbol - '0');
                     }
                     break;
             }

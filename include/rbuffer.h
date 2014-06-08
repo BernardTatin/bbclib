@@ -33,10 +33,10 @@
  * La structure gérant le buffer tournant.
  */
 typedef struct {
-    volatile char buffer[RBUFFER_SIZE + 1];	/**< le tampon */
     volatile int in;						/**< index du caractère à ajouter */
     volatile int out;						/**< index du caractère à sortir */
     volatile int line_count;				/**< nombre de lignes contenues dans le tampon */
+    volatile char buffer[RBUFFER_SIZE + 1];	/**< le tampon */
 } TSrbuffer;
 
 /**

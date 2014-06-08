@@ -34,7 +34,7 @@ OBJS = $(SOBJS) $(TOBJS)
 
 CFLAGS =  $(STD_INCLUDES) $(STD_WARNINGS)
 
-EXE = bbclib-test$(_exe)
+EXE = bbclib-test$(_exe).BSD
 
 .SUFFIXES: .c .o
 
@@ -70,8 +70,8 @@ $(EXE): $(OBJS)
 	$(LD) -o $(.TARGET) $(.ALLSRC) $(LD_FLAGS)
 
 tests: $(EXE)
-		./$(EXE) --ref > ref.log
-		./$(EXE) --test > test.log
+		./$(EXE) --ref > bsd-ref.log
+		./$(EXE) --test > bsd-test.log
 		./$(EXE) --bin
-		diff test.log ref.log
+		diff bsd-test.log bsd-ref.log
 
