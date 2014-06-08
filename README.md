@@ -14,11 +14,14 @@ Usage is very similar to _printf_ with limitations.
 
 - %s : to print a string (all modifiers are ignored).
 - %c : to print a char (all modifiers are ignored).
-- %[0][_n_][l]d : to print integers in decimal. Modifiers are :
+- %[0][_n_][l]d : to print integers (_cf._ (1)) in decimal. Modifiers are :
     - [0] fill with 0 or spaces (default),
-    - [_n_] length of filling, must be at most 32,
-    - [l] long integer.
+    - [_n_] length of filling, must be at most 32 (_cf._ (2)),
+    - [l] long integer (_cf._ (1)).
 - %[0][_n_][l]x : to print integers in hexadecimal. Modifiers are as above.
 - %[0][_n_][l]b : to print integers in binary. Modifiers are as above.
 
-Integers are 16 bits wide and long integers are 32 bits wide.
+Notes:
+
+- (1) Integers are 16 bits wide and long integers are 32 bits wide.
+- (2) No control is done about field length.

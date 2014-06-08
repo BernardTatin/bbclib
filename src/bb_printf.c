@@ -5,7 +5,7 @@
  * @date 27 mai 2014
  */
 
-#include <stdio.h>
+#include <stdlib.h>
 #include <stdarg.h>
 #include <stdbool.h>
 #include <stdint.h>
@@ -14,19 +14,21 @@
 #include "bbclib.h"
 #include "uart-foo.h"
 
-#define _prbuffer_len   64
+#define _prbuffer_len   32
 
 // globals to spare stack usage.
 static char _format_filler = ' ';
 static int _format_len = -1;
+static char _int_buffer[_prbuffer_len + 1];
+static uint32_t _format_value = 0;
+static bool _format_has_value = false;
 
 static char *_to_str(const uint32_t t, const int base) {
-    static char b[_prbuffer_len + 1];
-    char *dst = b + _prbuffer_len - 1;
+    char *dst = _int_buffer + _prbuffer_len - 1;
     int idx = 0;
 
-    memset(b, _format_filler, _prbuffer_len + 1);
-    b[_prbuffer_len] = 0;
+    memset(_int_buffer, _format_filler, _prbuffer_len + 1);
+    _int_buffer[_prbuffer_len] = 0;
 
     if (t == 0) {
         *(dst--) = '0';
@@ -70,11 +72,15 @@ static char *_to_str(const uint32_t t, const int base) {
     if (_format_len == -1) {
 	    return dst + 1;
     } else {
-        return b + _prbuffer_len - _format_len;
+        return _int_buffer + _prbuffer_len - _format_len;
     }
 }
 
 static inline char *hex_to_str(const uint32_t t) {
+    return _to_str(t, 16);
+}
+
+static inline char *bin_to_str(const uint32_t t) {
     return _to_str(t, 16);
 }
 
@@ -88,17 +94,15 @@ void debug_printf(const char *fmt, ...) {
     va_start(ap, fmt);
     char symbol;
     bool inpct = false;
-    uint32_t value = 0;
-    bool has_value = false;
 
-#define _get_int16_value()    if (!has_value) value = (uint32_t) va_arg(ap, int) & 0xffffl
+#define _get_int16_value()    if (!_format_has_value) _format_value = (uint32_t) va_arg(ap, int) & 0xffffl
 
     uart_wait_end_of_tx();
     while ((symbol = *(fmt++)) != 0) {
         if (symbol == '%') {
             symbol = *(fmt++);
             inpct = true;
-            has_value = false;
+            _format_has_value = false;
             _format_filler = ' ';
             _format_len = -1;
         }
@@ -114,26 +118,26 @@ void debug_printf(const char *fmt, ...) {
                 }
                 case 'l':
                 {
-                    value = va_arg(ap, uint32_t);
-                    has_value = true;
+                    _format_value = va_arg(ap, uint32_t);
+                    _format_has_value = true;
                     break;
 
                 }
                 case 'd':
                 {
                     _get_int16_value();
-					rbf_add_line(&uart_tx_buffer, int_to_str(value));
+					rbf_add_line(&uart_tx_buffer, int_to_str(_format_value));
                     inpct = false;
                     break;
                 }
                 case 'b':
                     _get_int16_value();
-					rbf_add_line(&uart_tx_buffer, _to_str(value, 2));
+					rbf_add_line(&uart_tx_buffer, bin_to_str(_format_value));
                     inpct = false;
                     break;
                 case 'x':
                     _get_int16_value();
-					rbf_add_line(&uart_tx_buffer, hex_to_str(value));
+					rbf_add_line(&uart_tx_buffer, hex_to_str(_format_value));
                     inpct = false;
                     break;
                 case '0':

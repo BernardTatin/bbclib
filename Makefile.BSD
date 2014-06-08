@@ -1,7 +1,8 @@
 # Makefile
 
 # base_cc = gcc48
-base_cc = clang
+base_cc ?= clang
+debug ?= no
 
 CC = $(base_cc)
 LD = $(base_cc)
@@ -10,6 +11,13 @@ LD = $(base_cc)
 STD_WARNINGS = -Wall -Wextra -pedantic -std=c11
 .elif $(base_cc)
 STD_WARNINGS = -ftrapv -Weverything -std=c11
+.endif
+
+.if $(debug) == yes
+STD_WARNINGS += -g -O0
+VALGRIND_OPTIONS = --suppressions=/usr/pbi/valgrind-amd64/local/lib/valgrind/default.supp
+.else
+STD_WARNINGS += -g0 -O2
 .endif
 
 STD_INCLUDES = -Iinclude -Itests
@@ -70,8 +78,14 @@ $(EXE): $(OBJS)
 	$(LD) -o $(.TARGET) $(.ALLSRC) $(LD_FLAGS)
 
 tests: $(EXE)
+.if $(debug) == yes
+		valgrind $(VALGRIND_OPTIONS) --leak-check=full ./$(EXE) --bin > /dev/null
+		valgrind $(VALGRIND_OPTIONS) --tool=cachegrind ./$(EXE) --bin > /dev/null
+		valgrind $(VALGRIND_OPTIONS) --tool=exp-sgcheck ./$(EXE) --bin > /dev/null
+.elif
 		./$(EXE) --ref > bsd-ref.log
 		./$(EXE) --test > bsd-test.log
 		./$(EXE) --bin
 		diff bsd-test.log bsd-ref.log
+.endif
 
