@@ -20,3 +20,5 @@ Usage is very similar to _printf_ with limitations.
     - [l] long integer.
 - %[0][_n_][l]x : to print integers in hexadecimal. Modifiers are as above.
 - %[0][_n_][l]b : to print integers in binary. Modifiers are as above.
+
+Integers are 16 bits wide and long integers are 32 bits wide.

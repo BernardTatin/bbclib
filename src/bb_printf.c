@@ -7,24 +7,17 @@
 
 #include <stdio.h>
 #include <stdarg.h>
+#include <stdbool.h>
+#include <stdint.h>
+
 
 #include "bbclib.h"
+#include "uart-foo.h"
 
-TSrbuffer uart_tx_buffer;
 #define _prbuffer_len   64
 
-void uart_wait_end_of_tx(void) {
-}
-
-void uart_start_printf(void) {
-    char c;
-    while (rbf_has_chars(&uart_tx_buffer)) {
-        c = rbf_get_char(&uart_tx_buffer);
-        putchar(c);
-    }
-}
-
-static char *_to_str(const long t, const char filler, const int len, const int base) {
+static char *_to_str(const uint32_t t, const char filler,
+        const int len, const int base) {
     static char b[_prbuffer_len + 1];
     char *dst = b + _prbuffer_len - 1;
     int idx = 0;
@@ -36,11 +29,11 @@ static char *_to_str(const long t, const char filler, const int len, const int b
         *(dst--) = '0';
     } else {
         if (base == 16 || base == 2) {
-            unsigned long x = (unsigned long) t;
+            uint32_t x = (uint32_t) t;
 			int dec = base == 16 ? 4 : 1;
 
             while (x != 0 && idx++ < _prbuffer_len) {
-                int r = (int)(x & (base - 1));
+                int32_t r = (int32_t)(x & (base - 1));
                 x >>= dec;
                 if (r < 10) {
                     *(dst--) = '0' + r;
@@ -50,7 +43,7 @@ static char *_to_str(const long t, const char filler, const int len, const int b
             }
         } else {
             bool neg = false;
-            long x = (long) t;
+            int32_t x = (int32_t) t;
 
             if (x < 0) {
                 x = -x;
@@ -61,7 +54,7 @@ static char *_to_str(const long t, const char filler, const int len, const int b
                     *(dst--) = '0' + x;
                     x = 0;
                 } else {
-                    long r = x % base;
+                    int32_t r = x % base;
                     x /= base;
                     *(dst--) = '0' + r;
                 }
@@ -78,11 +71,13 @@ static char *_to_str(const long t, const char filler, const int len, const int b
     }
 }
 
-static inline char *hex_to_str(const long t, const char filler, const int len) {
+static inline char *hex_to_str(const uint32_t t, const char filler,
+        const int len) {
     return _to_str(t, filler, len, 16);
 }
 
-static inline char *int_to_str(const long t, const char filler, const int len) {
+static inline char *int_to_str(const uint32_t t, const char filler,
+        const int len) {
     return _to_str(t, filler, len, 10);
 }
 
@@ -93,7 +88,7 @@ void debug_printf(const char *fmt, ...) {
     char filler = ' ';
     int dlen = -1;
     bool inpct = false;
-    long value = 0;
+    uint32_t value = 0;
     bool has_value = false;
 
     uart_wait_end_of_tx();
@@ -117,7 +112,7 @@ void debug_printf(const char *fmt, ...) {
                 }
                 case 'l':
                 {
-                    value = va_arg(ap, long);
+                    value = va_arg(ap, uint32_t);
                     has_value = true;
                     break;
 
@@ -125,7 +120,7 @@ void debug_printf(const char *fmt, ...) {
                 case 'd':
                 {
                     if (!has_value) {
-                        value = (long) va_arg(ap, int) & 0xffffl;
+                        value = (uint32_t) va_arg(ap, int) & 0xffffl;
                     }
 					rbf_add_line(&uart_tx_buffer, int_to_str(value, filler, dlen));
                     inpct = false;
@@ -133,14 +128,14 @@ void debug_printf(const char *fmt, ...) {
                 }
                 case 'b':
                     if (!has_value) {
-                        value = (long) va_arg(ap, int) & 0xffffl;
+                        value = (uint32_t) va_arg(ap, int) & 0xffffl;
                     }
 					rbf_add_line(&uart_tx_buffer, _to_str(value, filler, dlen, 2));
                     inpct = false;
                     break;
                 case 'x':
                     if (!has_value) {
-                        value = (long) va_arg(ap, int) & 0xffffl;
+                        value = (uint32_t) va_arg(ap, int) & 0xffffl;
                     }
 					rbf_add_line(&uart_tx_buffer, hex_to_str(value, filler, dlen));
                     inpct = false;
