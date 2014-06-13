@@ -1,4 +1,10 @@
 *.o
+*.obj
+*.err
+*.sym
+*.map
+*.mbr
+*.lk*
 *~
 *.exe
 *.log
@@ -22,5 +28,7 @@ nbproject/private/private.xml.BACKUP.5508.xml
 nbproject/private/private.xml.BASE.5508.xml
 nbproject/private/private.xml.LOCAL.5508.xml
 nbproject/private/private.xml.REMOTE.5508.xml
+nbproject/private/Default.properties
 .settings/org.eclipse.core.runtime.prefs
-
+bbclib-test.BSD
+bbclib-test.GNU

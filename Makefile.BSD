@@ -79,13 +79,13 @@ $(EXE): $(OBJS)
 
 tests: $(EXE)
 .if $(debug) == yes
-		valgrind $(VALGRIND_OPTIONS) --leak-check=full ./$(EXE) --bin > /dev/null
-		valgrind $(VALGRIND_OPTIONS) --tool=cachegrind ./$(EXE) --bin > /dev/null
-		valgrind $(VALGRIND_OPTIONS) --tool=exp-sgcheck ./$(EXE) --bin > /dev/null
-.elif
-		./$(EXE) --ref > bsd-ref.log
-		./$(EXE) --test > bsd-test.log
-		./$(EXE) --bin
-		diff bsd-test.log bsd-ref.log
+	valgrind $(VALGRIND_OPTIONS) --leak-check=full ./$(EXE) --bin > /dev/null
+	valgrind $(VALGRIND_OPTIONS) --tool=cachegrind ./$(EXE) --bin > /dev/null
+	valgrind $(VALGRIND_OPTIONS) --tool=exp-sgcheck ./$(EXE) --bin > /dev/null
+.else
+	./$(EXE) --ref > bsd-ref.log
+	./$(EXE) --test > bsd-test.log
+	./$(EXE) --bin
+	diff bsd-test.log bsd-ref.log
 .endif
 
