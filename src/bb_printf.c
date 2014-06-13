@@ -5,11 +5,7 @@
  * @date 27 mai 2014
  */
 
-#include <stdlib.h>
-#include <stdarg.h>
-#include <stdbool.h>
-#include <stdint.h>
-
+#include "compat.h"
 
 #include "bbclib.h"
 #include "uart-foo.h"
@@ -35,7 +31,7 @@ static char *_to_str(const uint32_t t, const int base) {
     } else {
         if (base == 16 || base == 2) {
             uint32_t x = (uint32_t) t;
-			int dec = base == 16 ? 4 : 1;
+                        int dec = base == 16 ? 4 : 1;
 
             while (x != 0 && idx++ < _prbuffer_len) {
                 uint32_t r = x & ((uint32_t)base - 1);
@@ -70,7 +66,7 @@ static char *_to_str(const uint32_t t, const int base) {
         }
     }
     if (_format_len == -1) {
-	    return dst + 1;
+            return dst + 1;
     } else {
         return _int_buffer + _prbuffer_len - _format_len;
     }
@@ -91,12 +87,12 @@ static inline char *int_to_str(const uint32_t t) {
 
 void debug_printf(const char *fmt, ...) {
     va_list ap;
-    va_start(ap, fmt);
     char symbol;
     bool inpct = false;
 
 #define _get_int16_value()    if (!_format_has_value) _format_value = (uint32_t) va_arg(ap, int) & 0xffffl
 
+    va_start(ap, fmt);
     uart_wait_end_of_tx();
     while ((symbol = *(fmt++)) != 0) {
         if (symbol == '%') {
@@ -112,7 +108,7 @@ void debug_printf(const char *fmt, ...) {
                 {
                     char *str = va_arg(ap, char*);
 
-					rbf_add_line(&uart_tx_buffer, str);
+                                        rbf_add_line(&uart_tx_buffer, str);
                     inpct = false;
                     break;
                 }
@@ -126,24 +122,32 @@ void debug_printf(const char *fmt, ...) {
                 case 'd':
                 {
                     _get_int16_value();
-					rbf_add_line(&uart_tx_buffer, int_to_str(_format_value));
+                                        rbf_add_line(&uart_tx_buffer, int_to_str(_format_value));
                     inpct = false;
                     break;
                 }
                 case 'b':
                     _get_int16_value();
-					rbf_add_line(&uart_tx_buffer, bin_to_str(_format_value));
+                                        rbf_add_line(&uart_tx_buffer, bin_to_str(_format_value));
                     inpct = false;
                     break;
                 case 'x':
                     _get_int16_value();
-					rbf_add_line(&uart_tx_buffer, hex_to_str(_format_value));
+                                        rbf_add_line(&uart_tx_buffer, hex_to_str(_format_value));
                     inpct = false;
                     break;
                 case '0':
                     _format_filler = '0';
                     break;
-                case '1'...'9':
+                                case '1':
+                                case '2':
+                                case '3':
+                                case '4':
+                                case '5':
+                                case '6':
+                                case '7':
+                                case '8':
+                                case '9':
                     if (_format_len == -1) {
                         _format_len = symbol - '0';
                     } else {
@@ -152,10 +156,10 @@ void debug_printf(const char *fmt, ...) {
                     break;
             }
         } else {
-			rbf_add_char(&uart_tx_buffer, symbol);
+                        rbf_add_char(&uart_tx_buffer, symbol);
         }
     }
-	rbf_end_of_line(&uart_tx_buffer);
+        rbf_end_of_line(&uart_tx_buffer);
     va_end(ap);
     uart_start_printf();
 }

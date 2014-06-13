@@ -1,18 +1,16 @@
 # Makefile
 
-
-
 ifeq ($(compiler), clang)
 include mk/clang.mk
 else
-CC = gcc
-LD = gcc
+CC = gcc48
+LD = gcc48
 endif
 
 ODIR = objs
 
 
-STD_WARNINGS = -Wall -Wextra -pedantic -std=c99
+STD_WARNINGS = -Wall -Wextra -pedantic -std=c11
 STD_INCLUDES = -Iinclude -Itests
 
 _os = $(shell uname)

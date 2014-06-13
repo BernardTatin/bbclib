@@ -14,19 +14,7 @@
             </sourceRootList>
             <confList>
                 <confElem>
-                    <name>compile</name>
-                    <type>0</type>
-                </confElem>
-                <confElem>
-                    <name>tests</name>
-                    <type>0</type>
-                </confElem>
-                <confElem>
-                    <name>tests-32</name>
-                    <type>0</type>
-                </confElem>
-                <confElem>
-                    <name>tests-llvm-32</name>
+                    <name>Default</name>
                     <type>0</type>
                 </confElem>
             </confList>

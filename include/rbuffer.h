@@ -10,7 +10,7 @@
  */
 
 #ifndef RBUFFER_H
-#define	RBUFFER_H
+#define RBUFFER_H
 
 #include <string.h>
 
@@ -24,19 +24,19 @@
  * @def RBUFFER_MASK
  * La taille du tampon décrémentée de 1.
  */
-#define _RBUFFER_BITS	8
-#define RBUFFER_SIZE	(1 << _RBUFFER_BITS)
-#define RBUFFER_MASK	(RBUFFER_SIZE - 1)
+#define _RBUFFER_BITS   8
+#define RBUFFER_SIZE    (1 << _RBUFFER_BITS)
+#define RBUFFER_MASK    (RBUFFER_SIZE - 1)
 
 /**
  * @struct TSrbuffer
  * La structure gérant le buffer tournant.
  */
 typedef struct {
-    volatile int in;						/**< index du caractère à ajouter */
-    volatile int out;						/**< index du caractère à sortir */
-    volatile int line_count;				/**< nombre de lignes contenues dans le tampon */
-    volatile char buffer[RBUFFER_SIZE + 1];	/**< le tampon */
+    volatile int in;                                            /**< index du caractère à ajouter */
+    volatile int out;                                           /**< index du caractère à sortir */
+    volatile int line_count;                            /**< nombre de lignes contenues dans le tampon */
+    volatile char buffer[RBUFFER_SIZE + 1];     /**< le tampon */
 } TSrbuffer;
 
 /**
@@ -65,11 +65,8 @@ static inline bool rbf_has_lines(TSrbuffer *rb) {
  */
 static inline void rbf_add_char(TSrbuffer *rb, const char c) {
     if (c != '\r') {
-        int in = rb->in;
-
-        rb->buffer[in++] = c;
-        in &= RBUFFER_MASK;
-        rb->in = in;
+        rb->buffer[rb->in++] = c;
+        rb->in &= RBUFFER_MASK;
         if (c == '\n') {
             rb->line_count++;
         }
@@ -82,9 +79,7 @@ static inline void rbf_add_char(TSrbuffer *rb, const char c) {
  * @param rb le tampon à modifier.
  */
 static inline void rbf_end_of_line(TSrbuffer *rb) {
-    int in = rb->in;
-
-	rb->buffer[in] = 0;
+    rb->buffer[rb->in] = 0;
     rb->line_count++;
 }
 
@@ -121,7 +116,7 @@ static inline bool rbf_has_chars(TSrbuffer *rb) {
  * @param line la ligne à ajouter
  * @return le nombre de caractères ajoutés
  */
-int rbf_add_line(TSrbuffer *rb, char *line);
+void rbf_add_line(TSrbuffer *rb, char *line);
 
 /**
  * Lit une ligne dans le tampon.
@@ -130,6 +125,6 @@ int rbf_add_line(TSrbuffer *rb, char *line);
  * @return le nombre de caractères placés dans la ligne
  */
 int rbf_get_line(TSrbuffer *rb, char *line);
-#endif	/* RBUFFER_H */
+#endif  /* RBUFFER_H */
 
 

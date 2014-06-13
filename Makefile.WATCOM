@@ -1,0 +1,60 @@
+# 
+# Makefile.WATCOM
+#
+
+!define BLANK ""
+
+_EXE = bbclib-watcom
+EXE = $(_EXE).exe
+WATCOM_BASE = C:\WATCOM
+_INCLUDES = $(WATCOM_BASE)/h;$(WATCOM_BASE)/h/nt;./include;./tests
+_WARNS = -w4 -e25
+_DEBUGS = -od -d2 -db -en
+_MACHINE = -6r -bt=nt -fo=.obj -mf
+WCFLAGS = -i="$(_INCLUDES)" $(_WARNS) $(_DEBUGS) $(_MACHINE)
+
+_LIBDIRS = libp "$(WATCOM_BASE)\lib386;$(WATCOM_BASE)\lib386\nt"
+
+#.c.obj: .AUTODEPEND
+# *wcc386 $? $(WCFLAGS)
+
+bb_printf.obj : src\bb_printf.c .AUTODEPEND
+ *wcc386 $? $(WCFLAGS)
+
+main.obj : src\main.c .AUTODEPEND
+ *wcc386 $? $(WCFLAGS)
+
+rbuffer-add-line.obj : src\rbuffer-add-line.c .AUTODEPEND
+ *wcc386 $? $(WCFLAGS)
+
+rbuffer-get-line.obj : src\rbuffer-get-line.c .AUTODEPEND
+ *wcc386 $? $(WCFLAGS)
+
+uart-foo.obj : src\uart-foo.c .AUTODEPEND
+ *wcc386 $? $(WCFLAGS)
+
+test_bbprintf.obj : tests\test_bbprintf.c .AUTODEPEND
+ *wcc386 $? $(WCFLAGS)
+
+_osrc = bb_printf.obj rbuffer-add-line.obj main.obj rbuffer-get-line.obj uart-foo.obj
+_otests = test_bbprintf.obj
+
+osrc = src/bb_printf.obj src/rbuffer-add-line.obj src/main.obj src/rbuffer-get-line.obj src/uart-foo.obj
+otests = tests/test_bbprintf.obj
+
+all: $(EXE) .symbolic
+
+$(EXE) : $(_osrc) $(_otests) &
+include\bbclib.h include\compat.h &
+include\rbuffer.h include\uart-foo.h &
+include\version.h .AUTODEPEND
+ @%write $(_EXE).lk1 NAME $@
+ @%write $(_EXE).lk1 FILE {$(_osrc)}
+ @%write $(_EXE).lk1 FILE {$(_otests)}
+ @%append $(_EXE).lk1
+ @wlink d all sys nt op m $(_LIBDIRS) op maxe=25 op symf @$(_EXE).lk1
+
+# @%write $(_EXE).lk1 FILE bb_printf.obj,rbuffer-add-line.obj,main.obj,rbuffer-get-line.obj,uart-foo.obj,test_bbprintf.obj
+
+clean: .symbolic
+	rm -fv $(_osrc) $(_otests) $(EXE) $(_EXE).lk1

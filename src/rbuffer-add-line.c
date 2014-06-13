@@ -11,14 +11,11 @@
 
 #include "rbuffer.h"
 
-int rbf_add_line(TSrbuffer *rb, char *line) {
-	char c;
-	int r = 0;
+void rbf_add_line(TSrbuffer *rb, char *line) {
+        char c;
 
-	while ((c = *(line++)) != 0) {
-		rbf_add_char(rb, c);
-		r++;
-	}
-	rbf_end_of_line(rb);
-	return r;
+        while ((c = *(line++)) != 0) {
+                rbf_add_char(rb, c);
+        }
+        rbf_end_of_line(rb);
 }
