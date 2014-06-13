@@ -7,7 +7,7 @@
 _EXE = bbclib-watcom
 EXE = $(_EXE).exe
 WATCOM_BASE = C:\WATCOM
-_INCLUDES = $(WATCOM_BASE)/h;$(WATCOM_BASE)/h/nt;./include;./tests
+_INCLUDES = $(WATCOM_BASE)/h;$(WATCOM_BASE)/h/nt;./include;./tests;./structures
 _WARNS = -w4 -e25
 _DEBUGS = -od -d2 -db -en
 _MACHINE = -6r -bt=nt -fo=.obj -mf
@@ -21,23 +21,30 @@ WCFLAGS = -zq -i="$(_INCLUDES)" $(_WARNS) $(_DEBUGS) $(_MACHINE)
 .c.obj : .AUTODEPEND
 	*wcc386 $? $(WCFLAGS)
 
-osrc = src/bb_printf.obj src/rbuffer-add-line.obj src/main.obj src/rbuffer-get-line.obj src/uart-foo.obj
+.c : structures
+.c.obj : .AUTODEPEND
+	*wcc386 $? $(WCFLAGS)
+
+osrc = src/bb_printf.obj src/rbuffer-add-line.obj src/main.obj  src/uart-foo.obj
 otests = tests/test_bbprintf.obj
+ostruct = structures/rbuffer-get-line.obj
 
 _osrc = $(osrc:src/= )
 _otests = $(otests:tests/= )
+_ostruct = $(ostruct:structures/= )
 
 
 all: $(EXE) .symbolic
 
 $(EXE) : $(_osrc) $(_otests) &
 include\bbclib.h include\compat.h &
-include\rbuffer.h include\uart-foo.h &
+structures\rbuffer.h include\uart-foo.h &
 include\version.h .AUTODEPEND
 	@%write $(_EXE).lk1 NAME $@
 	@%write $(_EXE).lk1 SYSTEM nt
 	@%write $(_EXE).lk1 FILE {$(_osrc)}
 	@%write $(_EXE).lk1 FILE {$(_otests)}
+	@%write $(_EXE).lk1 FILE {$(_ostruct)}
 	@%append $(_EXE).lk1
 	@wlink d all op m op maxe=25 op symf @$(_EXE).lk1
 

@@ -20,7 +20,7 @@ VALGRIND_OPTIONS = --suppressions=/usr/pbi/valgrind-amd64/local/lib/valgrind/def
 STD_WARNINGS += -g0 -O2
 .endif
 
-STD_INCLUDES = -Iinclude -Itests
+STD_INCLUDES = -Iinclude -Itests -Istructures
 
 ODIR = objs
 
@@ -29,8 +29,12 @@ _os != uname
 	_exe = .exe
 .endif
 
+STRUCTURES != ls structures/*.c
 SOURCES != ls src/*.c
 TESTS != ls tests/*.c
+
+_STOBJS1 = ${STRUCTURES:T}
+STOBJS = ${_STOBJS1:S/c$/o/g}
 
 _SOBJS1 = ${SOURCES:T}
 SOBJS = ${_SOBJS1:S/c$/o/g}
@@ -38,13 +42,16 @@ SOBJS = ${_SOBJS1:S/c$/o/g}
 _TOBJS1 = ${TESTS:T}
 TOBJS = ${_TOBJS1:S/c$/o/g}
 
-OBJS = $(SOBJS) $(TOBJS)
+OBJS = $(SOBJS) $(TOBJS) $(STOBJS)
 
 CFLAGS =  $(STD_INCLUDES) $(STD_WARNINGS)
 
 EXE = bbclib-test$(_exe).BSD
 
 .SUFFIXES: .c .o
+
+$(STOBJS)        : structures/$(.PREFIX).c
+	$(CC) $(CFLAGS) -c structures/$(.PREFIX).c
 
 $(SOBJS)         : src/$(.PREFIX).c
 	$(CC) $(CFLAGS) -c src/$(.PREFIX).c

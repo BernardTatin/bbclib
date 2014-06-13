@@ -11,7 +11,7 @@ ODIR = objs
 
 
 STD_WARNINGS = -Wall -Wextra -pedantic -std=c11
-STD_INCLUDES = -Iinclude -Itests
+STD_INCLUDES = -Iinclude -Itests -Istructures
 
 _os = $(shell uname)
 ifeq ($(OS), Windows_NT)
@@ -20,7 +20,7 @@ else
 	_exe =
 endif
 
-SOURCES = $(wildcard src/*.c) $(wildcard tests/*.c)
+SOURCES = $(wildcard src/*.c) $(wildcard tests/*.c) $(wildcard structures/*.c)
 _OBJS = $(patsubst %.c,%.o,$(notdir $(SOURCES)))
 OBJS = $(addprefix $(ODIR)/, $(_OBJS))
 
@@ -30,6 +30,9 @@ $(ODIR)/%.o: src/%.c
 	$(CC) $(STD_INCLUDES) $(STD_WARNINGS) -c $< -o $@
 
 $(ODIR)/%.o: tests/%.c
+	$(CC) $(STD_INCLUDES) $(STD_WARNINGS) -c $< -o $@
+
+$(ODIR)/%.o: structures/%.c
 	$(CC) $(STD_INCLUDES) $(STD_WARNINGS) -c $< -o $@
 
 all: _odir $(EXE)
