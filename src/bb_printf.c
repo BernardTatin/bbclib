@@ -72,15 +72,15 @@ static char *_to_str(const uint32_t t, const int base) {
     }
 }
 
-static inline char *hex_to_str(const uint32_t t) {
+static INLINE char *hex_to_str(const uint32_t t) {
     return _to_str(t, 16);
 }
 
-static inline char *bin_to_str(const uint32_t t) {
+static INLINE char *bin_to_str(const uint32_t t) {
     return _to_str(t, 16);
 }
 
-static inline char *int_to_str(const uint32_t t) {
+static INLINE char *int_to_str(const uint32_t t) {
     return _to_str(t, 10);
 }
 

@@ -14,6 +14,8 @@
 
 #include <string.h>
 
+#include "compat.h"
+
 /**
  * @def _RBUFFER_BITS
  * La taille du tampon doit être une puissance de 2. _RBUFFER_BITS est ce nombre.
@@ -43,7 +45,7 @@ typedef struct {
  * Remet à 0 le tampon
  * @param rb le tampon à réinitialiser
  */
-static inline void rbf_reset(TSrbuffer *rb) {
+static INLINE void rbf_reset(TSrbuffer *rb) {
     memset(rb, 0, sizeof (TSrbuffer));
 }
 
@@ -53,7 +55,7 @@ static inline void rbf_reset(TSrbuffer *rb) {
  * @retval true il y a des lignes dans le tampon,
  * @retval false il n'y a pas de lignes dans le tampon.
  */
-static inline bool rbf_has_lines(TSrbuffer *rb) {
+static INLINE bool rbf_has_lines(TSrbuffer *rb) {
     int lc = rb->line_count;
     return lc != 0;
 }
@@ -63,7 +65,7 @@ static inline bool rbf_has_lines(TSrbuffer *rb) {
  * @param rb le tampon à modifier
  * @param c la caraactère à placer
  */
-static inline void rbf_add_char(TSrbuffer *rb, const char c) {
+static INLINE void rbf_add_char(TSrbuffer *rb, const char c) {
     if (c != '\r') {
         rb->buffer[rb->in++] = c;
         rb->in &= RBUFFER_MASK;
@@ -78,7 +80,7 @@ static inline void rbf_add_char(TSrbuffer *rb, const char c) {
  * et incrémente le numéro de ligne.
  * @param rb le tampon à modifier.
  */
-static inline void rbf_end_of_line(TSrbuffer *rb) {
+static INLINE void rbf_end_of_line(TSrbuffer *rb) {
     rb->buffer[rb->in] = 0;
     rb->line_count++;
 }
@@ -89,7 +91,7 @@ static inline void rbf_end_of_line(TSrbuffer *rb) {
  * @param rb le tampon à examiner
  * @return le caractère lu.
  */
-static inline char rbf_get_char(TSrbuffer *rb) {
+static INLINE char rbf_get_char(TSrbuffer *rb) {
     int out = rb->out;
     char c = rb->buffer[out++];
     out &= RBUFFER_MASK;
@@ -107,7 +109,7 @@ static inline char rbf_get_char(TSrbuffer *rb) {
  * @retval true il y a des caractères
  * @retval false il n'y a pas de caractères.
  */
-static inline bool rbf_has_chars(TSrbuffer *rb) {
+static INLINE bool rbf_has_chars(TSrbuffer *rb) {
     return rb->in != rb->out;
 }
 /**

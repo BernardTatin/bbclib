@@ -9,8 +9,10 @@
  #define __bbclib_h__
 
 #include <stdlib.h>
+#if !defined(_MSC_VER)
 #include <stdint.h>
 #include <stdbool.h>
+#endif
 #include <string.h>
 
 #include "rbuffer.h"

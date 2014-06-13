@@ -1,10 +1,20 @@
 *.o
+# watcom
 *.obj
 *.err
 *.sym
 *.map
 *.mbr
 *.lk*
+# vc98
+*.ncb
+*.plg
+*.opt
+*.pdb
+*.idb
+*.ilk
+*.pch
+*.sbr
 *~
 *.exe
 *.log

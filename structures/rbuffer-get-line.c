@@ -6,7 +6,9 @@
  */
 
 #include <string.h>
+#if !defined(_MSC_VER)
 #include <stdbool.h>
+#endif
 
 #include "rbuffer.h"
 
