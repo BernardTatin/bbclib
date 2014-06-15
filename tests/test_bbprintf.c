@@ -31,7 +31,7 @@ void bbprintf_test(void) {
   int i;
 
     debug_printf("debug_printf : Hey! Ca marche\n");
-        for (i=0; i<_nb_loops; i++) {
+    for (i=0; i<_nb_loops; i++) {
         debug_printf("i = %d, %5d, %05d, %x, %5x, %016x\n",
                      i, i, i, i, i, i);
     }
@@ -41,7 +41,7 @@ void bbprintf_reference(void) {
   int i;
 
     printf("printf : Hey! Ca marche\n");
-        for (i=0; i<_nb_loops; i++) {
+    for (i=0; i<_nb_loops; i++) {
         printf("i = %d, %5d, %05d, %x, %5x, %016x\n",
                      i, i, i, i, i, i);
     }

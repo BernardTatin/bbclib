@@ -15,20 +15,21 @@ WCFLAGS = -zq -i="$(_INCLUDES)" $(_WARNS) $(_DEBUGS) $(_MACHINE)
 
 .c : tests
 .c.obj : .AUTODEPEND
-	*wcc386 $? $(WCFLAGS)
+        *wcc386 $? $(WCFLAGS)
 
 .c : src
 .c.obj : .AUTODEPEND
-	*wcc386 $? $(WCFLAGS)
+        *wcc386 $? $(WCFLAGS)
 
 .c : structures
 .c.obj : .AUTODEPEND
-	*wcc386 $? $(WCFLAGS)
+        *wcc386 $? $(WCFLAGS)
 
 osrc = src/bb_printf.obj src/rbuffer-add-line.obj src/main.obj  src/uart-foo.obj
 otests = tests/test_bbprintf.obj
 ostruct = structures/rbuffer-get-line.obj
 
+# replace dirname+'/' by a single space
 _osrc = $(osrc:src/= )
 _otests = $(otests:tests/= )
 _ostruct = $(ostruct:structures/= )
@@ -36,19 +37,17 @@ _ostruct = $(ostruct:structures/= )
 
 all: $(EXE) .symbolic
 
-$(EXE) : $(_osrc) $(_otests) &
+$(EXE) : $(_osrc) $(_otests) $(_ostruct) &
 include\bbclib.h include\compat.h &
 structures\rbuffer.h include\uart-foo.h &
 include\version.h .AUTODEPEND
-	@%write $(_EXE).lk1 NAME $@
-	@%write $(_EXE).lk1 SYSTEM nt
-	@%write $(_EXE).lk1 FILE {$(_osrc)}
-	@%write $(_EXE).lk1 FILE {$(_otests)}
-	@%write $(_EXE).lk1 FILE {$(_ostruct)}
-	@%append $(_EXE).lk1
-	@wlink d all op m op maxe=25 op symf @$(_EXE).lk1
-
-# @%write $(_EXE).lk1 FILE bb_printf.obj,rbuffer-add-line.obj,main.obj,rbuffer-get-line.obj,uart-foo.obj,test_bbprintf.obj
+        @%write $(_EXE).lk1 NAME $@
+        @%write $(_EXE).lk1 SYSTEM nt
+        @%write $(_EXE).lk1 FILE {$(_osrc)}
+        @%write $(_EXE).lk1 FILE {$(_otests)}
+        @%write $(_EXE).lk1 FILE {$(_ostruct)}
+        @%append $(_EXE).lk1
+        @wlink d all op m op maxe=25 op symf @$(_EXE).lk1
 
 clean: .symbolic
-	rm -fv $(_osrc) $(_otests) $(EXE) $(_EXE).lk1 *.mbr *.err *.sym *.map
+        rm -fv $(_osrc) $(_otests) $(EXE) $(_EXE).lk1 *.mbr *.err *.sym *.map

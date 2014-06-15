@@ -42,3 +42,6 @@ nbproject/private/Default.properties
 .settings/org.eclipse.core.runtime.prefs
 bbclib-test.BSD
 bbclib-test.GNU
+*.cbr
+*.mk1
+bbclib.mk
