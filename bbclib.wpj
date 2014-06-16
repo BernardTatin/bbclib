@@ -4,9 +4,9 @@ projectIdent
 VpeMain
 1
 WRect
-6154
-320
-4033
+0
+0
+4025
 9200
 2
 MProject
@@ -30,7 +30,7 @@ VComponent
 WRect
 0
 0
-5682
+5674
 4280
 0
 0
@@ -39,5 +39,5 @@ WFileName
 10
 bbclib.tgt
 0
-11
+6
 7

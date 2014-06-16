@@ -133,8 +133,8 @@ n????Include directories:
 1
 35
 WString
-48
-"$(%watcom)/h;$(%watcom)/h/nt;./include;./tests"
+61
+"$(%watcom)/h;$(%watcom)/h/nt;./include;./tests;./structures"
 0
 36
 MCState
@@ -205,8 +205,8 @@ WVList
 0
 51
 MItem
-22
-src\rbuffer-add-line.c
+14
+src\uart-foo.c
 52
 WString
 4
@@ -223,8 +223,8 @@ WVList
 0
 55
 MItem
-22
-src\rbuffer-get-line.c
+29
+structures\rbuffer-add-line.c
 56
 WString
 4
@@ -241,8 +241,8 @@ WVList
 0
 59
 MItem
-14
-src\uart-foo.c
+29
+structures\rbuffer-get-line.c
 60
 WString
 4
@@ -331,8 +331,8 @@ WVList
 0
 79
 MItem
-17
-include\rbuffer.h
+18
+include\uart-foo.h
 80
 WString
 3
@@ -349,8 +349,8 @@ WVList
 0
 83
 MItem
-18
-include\uart-foo.h
+17
+include\version.h
 84
 WString
 3
@@ -367,8 +367,8 @@ WVList
 0
 87
 MItem
-17
-include\version.h
+20
+structures\rbuffer.h
 88
 WString
 3

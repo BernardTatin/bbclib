@@ -45,3 +45,4 @@ bbclib-test.GNU
 *.cbr
 *.mk1
 bbclib.mk
+*.smp
