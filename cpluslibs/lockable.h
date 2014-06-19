@@ -12,19 +12,11 @@
 #define __lockable_h__
 
 #if defined(__with_threads)
-#if defined(__WATCOMC__) || defined(_MSC_VER)
-#include <windows.h>
-#else
-#include <mutex>
-#endif
+#include "common-defines.h"
 
 class Lockable {
 	private:
-#if defined(__WATCOMC__) || defined(_MSC_VER)
-		HANDLE _mtx;
-#else
-        std::mutex *_mtx;
-#endif
+		hMutex _mtx;
 	public:
 		Lockable(): 
 #if defined(__WATCOMC__) || defined(_MSC_VER)
@@ -34,7 +26,7 @@ class Lockable {
 #endif
 			{ }
 
-		void lock() {
+		inline void lock() {
 #if defined(__WATCOMC__) || defined(_MSC_VER)
 			WaitForSingleObject(_mtx, INFINITE);
 #else
@@ -42,7 +34,7 @@ class Lockable {
 #endif
 		}
 
-		void unlock() {
+		inline void unlock() {
 #if defined(__WATCOMC__) || defined(_MSC_VER)
 			ReleaseMutex(_mtx);
 #else
