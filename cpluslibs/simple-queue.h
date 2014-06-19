@@ -12,8 +12,9 @@
 #define __simple_queue_h__
 
 #if defined(__with_threads)
-#include <mutex>
+#include "lockable.h"
 #endif
+
 
 template <class T>
 class Element {
@@ -101,41 +102,31 @@ class SimpleQueue {
 
 #if defined(__with_threads)
 template<class T>
-class SimpleQueueMT : public SimpleQueue<T> {
-    private:
-        std::mutex *_mtx;
+class SimpleQueueMT : public SimpleQueue<T>, Lockable {
     public:
-        SimpleQueueMT() : SimpleQueue(), _mtx(new std::mutex()) {
+        SimpleQueueMT() : SimpleQueue(), Lockable() {
         }
 
         bool is_empty(void) {
             bool r;
-            lock_liste();
+            lock();
             r = SimpleQueue::is_empty();
-            unlock_liste();
+            unlock();
             return r;
         }
 
         void push(T *prt) {
-            lock_liste();
+            lock();
             SimpleQueue::push(prt);
-            unlock_liste();
+            unlock();
         }
 
         T *pop(void) {
             T *prt;
-            lock_liste();
+            lock();
             prt = SimpleQueue::pop();
-            unlock_liste();
+            unlock();
             return prt;
-        }
-
-        inline void lock_liste(void) {
-            _mtx->lock();
-        }
-
-        inline void unlock_liste(void) {
-            _mtx->unlock();
         }
 }
 #endif

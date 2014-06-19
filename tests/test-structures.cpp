@@ -13,6 +13,8 @@
 #include <stdio.h>
 
 #include "simple-queue.h"
+#define __with_threads
+#include "lockable.h"
 
 using namespace std;
 

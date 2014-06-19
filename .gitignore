@@ -46,3 +46,5 @@ bbclib-test.GNU
 *.mk1
 bbclib.mk
 *.smp
+/.plastic/
+/objs/
