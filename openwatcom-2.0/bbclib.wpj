@@ -4,9 +4,9 @@ projectIdent
 VpeMain
 1
 WRect
-4152
-253
-5967
+4137
+240
+5959
 9440
 2
 MProject
@@ -34,7 +34,7 @@ VComponent
 WRect
 0
 0
-5667
+5659
 4280
 0
 0
@@ -48,9 +48,9 @@ bbclib.tgt
 VComponent
 12
 WRect
-0
-0
-5659
+-14
+1413
+5652
 4160
 0
 0
