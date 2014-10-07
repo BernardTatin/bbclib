@@ -14,7 +14,7 @@
 
 #include <string.h>
 
-#include "compat.h"
+#include "include/compat.h"
 
 /**
  * @def _RBUFFER_BITS

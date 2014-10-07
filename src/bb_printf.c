@@ -5,14 +5,14 @@
  * @date 27 mai 2014
  */
 
-#include "compat.h"
+#include "include/compat.h"
 
-#include "bbclib.h"
-#include "uart-foo.h"
+#include "include/bbclib.h"
+#include "include/uart-foo.h"
 
 #define _prbuffer_len   32
 
-// globals to spare stack usage.
+/* globals to spare stack usage. */
 static char _format_filler = ' ';
 static int _format_len = -1;
 static char _int_buffer[_prbuffer_len + 1];

@@ -17,5 +17,5 @@ static INLINE void uart_wait_end_of_tx(void) {
 
 void uart_start_printf(void);
 
-#endif // __uart_foo_h__
+#endif /* __uart_foo_h__ */
 

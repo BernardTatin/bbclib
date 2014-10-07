@@ -8,8 +8,8 @@
 #include <stdio.h>
 #include <stdarg.h>
 
-#include "bbclib.h"
-#include "uart-foo.h"
+#include "include/bbclib.h"
+#include "include/uart-foo.h"
 
 TSrbuffer uart_tx_buffer;
 

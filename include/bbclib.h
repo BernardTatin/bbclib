@@ -15,8 +15,8 @@
 #endif
 #include <string.h>
 
-#include "rbuffer.h"
+#include "structures/rbuffer.h"
 
 void debug_printf(const char *fmt, ...);
 
- #endif // __bbclib_h__
+ #endif /* __bbclib_h__ */
