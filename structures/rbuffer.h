@@ -5,8 +5,8 @@
  * @date 19 mai 2014, 11:56
  *
  * @section description description
- * Implémentation d'un buffer tournant capable de gérer des lignes
- * délimitées par le caractère LF ('\\n'). CR ('\\r') n'est pas pris en compte.
+ * Implï¿½mentation d'un buffer tournant capable de gï¿½rer des lignes
+ * dï¿½limitï¿½es par le caractï¿½re LF ('\\n'). CR ('\\r') n'est pas pris en compte.
  */
 
 #ifndef RBUFFER_H
@@ -14,17 +14,17 @@
 
 #include <string.h>
 
-#include "include/compat.h"
+#include "compat.h"
 
 /**
  * @def _RBUFFER_BITS
- * La taille du tampon doit être une puissance de 2. _RBUFFER_BITS est ce nombre.
+ * La taille du tampon doit ï¿½tre une puissance de 2. _RBUFFER_BITS est ce nombre.
  *
  * @def RBUFFER_SIZE
  * La taille du tampon.
  *
  * @def RBUFFER_MASK
- * La taille du tampon décrémentée de 1.
+ * La taille du tampon dï¿½crï¿½mentï¿½e de 1.
  */
 #define _RBUFFER_BITS   8
 #define RBUFFER_SIZE    (1 << _RBUFFER_BITS)
@@ -32,26 +32,26 @@
 
 /**
  * @struct TSrbuffer
- * La structure gérant le buffer tournant.
+ * La structure gï¿½rant le buffer tournant.
  */
 typedef struct {
-    volatile int in;                                            /**< index du caractère à ajouter */
-    volatile int out;                                           /**< index du caractère à sortir */
+    volatile int in;                                            /**< index du caractï¿½re ï¿½ ajouter */
+    volatile int out;                                           /**< index du caractï¿½re ï¿½ sortir */
     volatile int line_count;                            /**< nombre de lignes contenues dans le tampon */
     volatile char buffer[RBUFFER_SIZE + 1];     /**< le tampon */
 } TSrbuffer;
 
 /**
- * Remet à 0 le tampon
- * @param rb le tampon à réinitialiser
+ * Remet ï¿½ 0 le tampon
+ * @param rb le tampon ï¿½ rï¿½initialiser
  */
 static INLINE void rbf_reset(TSrbuffer *rb) {
     memset(rb, 0, sizeof (TSrbuffer));
 }
 
 /**
- * Détermine si le tampon contient des lignes
- * @param rb le tampon à tester
+ * Dï¿½termine si le tampon contient des lignes
+ * @param rb le tampon ï¿½ tester
  * @retval true il y a des lignes dans le tampon,
  * @retval false il n'y a pas de lignes dans le tampon.
  */
@@ -61,9 +61,9 @@ static INLINE bool rbf_has_lines(TSrbuffer *rb) {
 }
 
 /**
- * Ajoute un caractère au tampon si ce caractère est différent de CR ('\\r')
- * @param rb le tampon à modifier
- * @param c la caraactère à placer
+ * Ajoute un caractï¿½re au tampon si ce caractï¿½re est diffï¿½rent de CR ('\\r')
+ * @param rb le tampon ï¿½ modifier
+ * @param c la caraactï¿½re ï¿½ placer
  */
 static INLINE void rbf_add_char(TSrbuffer *rb, const char c) {
     if (c != '\r') {
@@ -76,9 +76,9 @@ static INLINE void rbf_add_char(TSrbuffer *rb, const char c) {
 }
 
 /**
- * Crée une fin de ligne au tampon, <em>i.e.</em> place un '\0' dans le tampon
- * et incrémente le numéro de ligne.
- * @param rb le tampon à modifier.
+ * Crï¿½e une fin de ligne au tampon, <em>i.e.</em> place un '\0' dans le tampon
+ * et incrï¿½mente le numï¿½ro de ligne.
+ * @param rb le tampon ï¿½ modifier.
  */
 static INLINE void rbf_end_of_line(TSrbuffer *rb) {
     rb->buffer[rb->in] = 0;
@@ -86,10 +86,10 @@ static INLINE void rbf_end_of_line(TSrbuffer *rb) {
 }
 
 /**
- * Lit un caractère dans le tampon, <em>i.e.</em> retourne le caractère pointé par
+ * Lit un caractï¿½re dans le tampon, <em>i.e.</em> retourne le caractï¿½re pointï¿½ par
  * <code>rb->out</code>.
- * @param rb le tampon à examiner
- * @return le caractère lu.
+ * @param rb le tampon ï¿½ examiner
+ * @return le caractï¿½re lu.
  */
 static INLINE char rbf_get_char(TSrbuffer *rb) {
     int out = rb->out;
@@ -103,28 +103,28 @@ static INLINE char rbf_get_char(TSrbuffer *rb) {
 }
 
 /**
- * Y a t-il des caractères disponibles dans le tampon.
+ * Y a t-il des caractï¿½res disponibles dans le tampon.
  *
- * @param rb le tampon à examiner,
- * @retval true il y a des caractères
- * @retval false il n'y a pas de caractères.
+ * @param rb le tampon ï¿½ examiner,
+ * @retval true il y a des caractï¿½res
+ * @retval false il n'y a pas de caractï¿½res.
  */
 static INLINE bool rbf_has_chars(TSrbuffer *rb) {
     return rb->in != rb->out;
 }
 /**
- * A joute une ligne au tampon, <em>i.e.</em> une chaîne C.
- * @param rb le tampon à modifier,
- * @param line la ligne à ajouter
- * @return le nombre de caractères ajoutés
+ * A joute une ligne au tampon, <em>i.e.</em> une chaï¿½ne C.
+ * @param rb le tampon ï¿½ modifier,
+ * @param line la ligne ï¿½ ajouter
+ * @return le nombre de caractï¿½res ajoutï¿½s
  */
 void rbf_add_line(TSrbuffer *rb, char *line);
 
 /**
  * Lit une ligne dans le tampon.
- * @param rb le tampon à examiner et modifier
- * @param line la chaîne à remplir
- * @return le nombre de caractères placés dans la ligne
+ * @param rb le tampon ï¿½ examiner et modifier
+ * @param line la chaï¿½ne ï¿½ remplir
+ * @return le nombre de caractï¿½res placï¿½s dans la ligne
  */
 int rbf_get_line(TSrbuffer *rb, char *line);
 #endif  /* RBUFFER_H */

@@ -5,10 +5,10 @@
  * @date 27 mai 2014
  */
 
-#include "include/compat.h"
+#include "compat.h"
 
-#include "include/bbclib.h"
-#include "include/uart-foo.h"
+#include "bbclib.h"
+#include "uart-foo.h"
 
 #define _prbuffer_len   32
 

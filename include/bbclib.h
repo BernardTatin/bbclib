@@ -15,7 +15,7 @@
 #endif
 #include <string.h>
 
-#include "structures/rbuffer.h"
+#include "rbuffer.h"
 
 void debug_printf(const char *fmt, ...);
 
