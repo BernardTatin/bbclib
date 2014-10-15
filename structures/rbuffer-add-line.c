@@ -6,12 +6,8 @@
  */
 
 
-#include <string.h>
-#if !defined(_MSC_VER)
-#include <stdbool.h>
-#endif
 
-#include "rbuffer.h"
+#include "bbclib.h"
 
 void rbf_add_line(TSrbuffer *rb, char *line) {
         char c;

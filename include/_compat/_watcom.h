@@ -8,11 +8,6 @@
 #ifndef INCLUDE__COMPAT__WATCOM_H_
 #define INCLUDE__COMPAT__WATCOM_H_
 
-#include <stdlib.h>
-#include <stdarg.h>
-#include <stdbool.h>
-#include <stdint.h>
-
-#define INLINE inline
+#include "_standard.h"
 
 #endif /* INCLUDE__COMPAT__WATCOM_H_ */

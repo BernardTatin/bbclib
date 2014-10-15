@@ -12,9 +12,6 @@
 #ifndef RBUFFER_H
 #define RBUFFER_H
 
-#include <string.h>
-
-#include "compat.h"
 
 /**
  * @def _RBUFFER_BITS

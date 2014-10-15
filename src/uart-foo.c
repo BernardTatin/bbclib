@@ -6,7 +6,6 @@
  */
 
 #include <stdio.h>
-#include <stdarg.h>
 
 #include "bbclib.h"
 #include "uart-foo.h"

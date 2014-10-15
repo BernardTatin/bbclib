@@ -8,6 +8,10 @@
 #ifndef INCLUDE__COMPAT__MSC_H_
 #define INCLUDE__COMPAT__MSC_H_
 
+#include <stdlib.h>
+#include <stdarg.h>
+#include <string.h>
+
 typedef enum {false = 0, true = 1 } bool;
 typedef char int8_t;
 typedef unsigned char uint8_t;

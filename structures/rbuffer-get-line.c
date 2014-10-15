@@ -5,10 +5,7 @@
  * @date 4 juin 2014, 11:10
  */
 
-#include <string.h>
-#if !defined(_MSC_VER)
-#include <stdbool.h>
-#endif
+#include "compat.h"
 
 #include "rbuffer.h"
 
