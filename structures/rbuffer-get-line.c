@@ -5,9 +5,7 @@
  * @date 4 juin 2014, 11:10
  */
 
-#include "compat.h"
-
-#include "rbuffer.h"
+#include "bbclib.h"
 
 int rbf_get_line(TSrbuffer *rb, char *line) {
 	char c;

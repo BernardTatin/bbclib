@@ -5,8 +5,6 @@
  * @date 27 mai 2014
  */
 
-#include "compat.h"
-
 #include "bbclib.h"
 #include "uart-foo.h"
 

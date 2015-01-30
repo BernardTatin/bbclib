@@ -8,8 +8,6 @@
 #if !defined(__uart_foo_h__)
 #define __uart_foo_h__
 
-#include "compat.h"
-
 extern TSrbuffer uart_tx_buffer;
 
 static INLINE void uart_wait_end_of_tx(void) {
