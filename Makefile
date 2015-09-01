@@ -67,11 +67,11 @@ $(EXE): $(OBJS)
 	$(LD) $(LFLAGS) $(OBJS) -o $@
 
 ref: all
-		./$(EXE) --ref > ref.log
+	./$(EXE) --ref > ref.log
 
 tests: all
-		./$(EXE) --test > test.log
-		diff test.log ref.log
+	./$(EXE) --test > test.log
+	diff test.log ref.log
 
 analyze: _odir
 	scan-build -analyze-headers -enable-checker alpha.security.ArrayBoundV2 -analyzer-config  stable-report-filename=true  -o analyze -stats --use-cc $(which clang)  --use-analyzer $(which clang) -v -v -v make compiler=clang clean all
