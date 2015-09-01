@@ -48,3 +48,4 @@ bbclib.mk
 *.smp
 /.plastic/
 /objs/
+/bbclib-test.GNU.*
