@@ -29,7 +29,7 @@ ODIR = objs-$(CCNAME)
 
 
 STD_WARNINGS = -std=c11
-STD_INCLUDES = -Iinclude -Itests -Istructures
+STD_INCLUDES = -Iinclude -Istructures -Itests
 STD_DEFINES = -Dcompiler=$(CCNAME)
 
 ifeq ($(OS), Windows_NT)
