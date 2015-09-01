@@ -1,4 +1,5 @@
 *.o
+*.a
 # watcom
 *.obj
 *.err

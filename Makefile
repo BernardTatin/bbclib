@@ -11,20 +11,24 @@ ifeq ($(compiler), clang)
     endif
     LD = $(CC)
     CCNAME = clang
-    FLAGS = 
+    FLAGS = -Weverything
     LFLAGS = -v
+    AR = ar
+    ARFLAGS = rcs
 else
     CC = gcc
     LD = gcc
     CCNAME = gcc
-    FLAGS = 
+    FLAGS = -Wall -Wextra -pedantic  
     LFLAGS = 
+    AR = ar
+    ARFLAGS = rcs
 endif
 
 ODIR = objs-$(CCNAME)
 
 
-STD_WARNINGS = -Wall -Wextra -pedantic -std=c11
+STD_WARNINGS = -std=c11
 STD_INCLUDES = -Iinclude -Itests -Istructures
 STD_DEFINES = -Dcompiler=$(CCNAME)
 
@@ -34,16 +38,21 @@ else
 	_exe =
 endif
 
-SOURCES = $(wildcard src/*.c) $(wildcard tests/*.c) $(wildcard structures/*.c)
+LSOURCES = $(wildcard src/*.c) $(wildcard structures/*.c)
+_LOBJS = $(patsubst %.c,%.o,$(notdir $(LSOURCES)))
+LOBJS = $(addprefix $(ODIR)/, $(_LOBJS))
+
+SOURCES = $(wildcard tests/*.c)
 _OBJS = $(patsubst %.c,%.o,$(notdir $(SOURCES)))
 OBJS = $(addprefix $(ODIR)/, $(_OBJS))
 
 EXE = bbclib-test.GNU.$(CCNAME)$(_exe)
+_LIB = bbclib.GNU.$(CCNAME)
+LIB = lib$(_LIB).a
 
 _odir: $(ODIR)
 
 $(ODIR):
-	@echo "ODIR $(ODIR)"
 	mkdir -p $@
 
 
@@ -56,15 +65,16 @@ $(ODIR)/%.o: tests/%.c
 $(ODIR)/%.o: structures/%.c
 	$(CC) $(STD_INCLUDES) $(STD_WARNINGS)  $(FLAGS) -c $< -o $@
 
-all: _odir $(EXE)
-	@echo "ODIR $(ODIR) _os $(_os) OS $(OS) EXE $(EXE)"
+all: _odir $(LIB) $(EXE)
 
 clean:
-	rm -fv $(OBJS) $(EXE)
+	rm -fv $(LOBJS) $(OBJS) $(EXE)
 
+$(LIB): $(LOBJS)
+	$(AR) $(ARFLAGS) $@ $(LOBJS)
+	
 $(EXE): $(OBJS)
-	@echo "_os $(_os) OS $(OS) EXE $(EXE)"
-	$(LD) $(LFLAGS) $(OBJS) -o $@
+	$(LD) $(LFLAGS) $(OBJS) -L. -l$(_LIB) -o $@
 
 ref: all
 	./$(EXE) --ref > ref.log
@@ -74,6 +84,6 @@ tests: all
 	diff test.log ref.log
 
 analyze: _odir
-	scan-build -analyze-headers -enable-checker alpha.security.ArrayBoundV2 -analyzer-config  stable-report-filename=true  -o analyze -stats --use-cc $(which clang)  --use-analyzer $(which clang) -v -v -v make compiler=clang clean all
+	scan-build -analyze-headers -enable-checker alpha.security.ArrayBoundV2 -analyzer-config  stable-report-filename=true  -o analyze -stats --use-cc $(which clang)  --use-analyzer $(which clang) -v -v -v $(MAKE) compiler=clang clean all
 
 .PHONY: _odir all clean tests analyze
