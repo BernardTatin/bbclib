@@ -80,6 +80,7 @@ ref: all
 	./$(EXE) --ref > ref.log
 
 tests: all
+	./$(EXE) --queue
 	./$(EXE) --test > test.log
 	diff test.log ref.log
 

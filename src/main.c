@@ -20,6 +20,10 @@ int main(int argc, char **argv) {
 		bbprintf_test();
     } else if (strcmp(argv[1], "--ref") == 0) {
         bbprintf_reference();
+    } else if (strcmp(argv[1], "--queue") == 0) {
+    	if (test_queue() != 0) {
+    		return EXIT_FAILURE;
+    	}
     } else {
         fprintf(stderr, "%s --test|--ref\n", argv[0]);
         return EXIT_FAILURE;
