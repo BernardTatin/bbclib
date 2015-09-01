@@ -1,5 +1,6 @@
 # Makefile
 
+_os = $(shell uname)
 ifeq ($(compiler), clang)
 include mk/clang.mk
 else
@@ -13,7 +14,6 @@ ODIR = objs
 STD_WARNINGS = -Wall -Wextra -pedantic -std=c11
 STD_INCLUDES = -Iinclude -Itests -Istructures
 
-_os = $(shell uname)
 ifeq ($(OS), Windows_NT)
 	_exe = .exe
 else

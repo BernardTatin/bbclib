@@ -3,6 +3,13 @@ bbclib
 
 An experimental clib. Code is taken from some of my (very) old applications. 
 
+make
+====
+
+On Linux or Cygwin, you can choose the compiler between _gcc_ or _clang_. A simple _make clean all_ will use _gcc_. If you want to use _clang_, just do :
+
+    make compiler=clang clean all
+
 
 debug_printf
 ------------
