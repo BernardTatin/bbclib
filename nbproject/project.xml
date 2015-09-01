@@ -14,7 +14,11 @@
             </sourceRootList>
             <confList>
                 <confElem>
-                    <name>Default</name>
+                    <name>Linux_GCC</name>
+                    <type>0</type>
+                </confElem>
+                <confElem>
+                    <name>Linux_Clang</name>
                     <type>0</type>
                 </confElem>
             </confList>

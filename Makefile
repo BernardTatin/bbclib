@@ -6,6 +6,7 @@ include mk/clang.mk
 else
 CC = gcc
 LD = gcc
+CCNAME = gcc
 endif
 
 ODIR = objs
@@ -13,6 +14,7 @@ ODIR = objs
 
 STD_WARNINGS = -Wall -Wextra -pedantic -std=c11
 STD_INCLUDES = -Iinclude -Itests -Istructures
+STD_DEFINES = -Dcompiler=$(CCNAME)
 
 ifeq ($(OS), Windows_NT)
 	_exe = .exe
@@ -24,7 +26,7 @@ SOURCES = $(wildcard src/*.c) $(wildcard tests/*.c) $(wildcard structures/*.c)
 _OBJS = $(patsubst %.c,%.o,$(notdir $(SOURCES)))
 OBJS = $(addprefix $(ODIR)/, $(_OBJS))
 
-EXE = bbclib-test$(_exe).GNU
+EXE = bbclib-test.GNU.$(CCNAME)$(_exe)
 
 $(ODIR)/%.o: src/%.c
 	$(CC) $(STD_INCLUDES) $(STD_WARNINGS) -c $< -o $@

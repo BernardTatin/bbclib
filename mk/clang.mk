@@ -10,3 +10,5 @@ else
 CC = clang
 endif
 LD = $(CC)
+
+CCNAME = clang
