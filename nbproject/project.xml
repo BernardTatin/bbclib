@@ -21,6 +21,18 @@
                     <name>Linux_Clang</name>
                     <type>0</type>
                 </confElem>
+                <confElem>
+                    <name>Test_Linux_GCC</name>
+                    <type>0</type>
+                </confElem>
+                <confElem>
+                    <name>Test_Linux_Clang</name>
+                    <type>0</type>
+                </confElem>
+                <confElem>
+                    <name>Analyze_Linux</name>
+                    <type>0</type>
+                </confElem>
             </confList>
             <formatting>
                 <project-formatting-style>false</project-formatting-style>

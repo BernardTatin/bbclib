@@ -49,3 +49,4 @@ bbclib.mk
 /.plastic/
 /objs/
 /bbclib-test.GNU.*
+/analyze/
