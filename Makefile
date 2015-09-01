@@ -50,11 +50,7 @@ EXE = bbclib-test.GNU.$(CCNAME)$(_exe)
 _LIB = bbclib.GNU.$(CCNAME)
 LIB = lib$(_LIB).a
 
-_odir: $(ODIR)
-
-$(ODIR):
-	mkdir -p $@
-
+all: _odir $(LIB) $(EXE)
 
 $(ODIR)/%.o: src/%.c
 	$(CC) $(STD_INCLUDES) $(STD_WARNINGS) $(FLAGS) -c $< -o $@
@@ -65,7 +61,11 @@ $(ODIR)/%.o: tests/%.c
 $(ODIR)/%.o: structures/%.c
 	$(CC) $(STD_INCLUDES) $(STD_WARNINGS)  $(FLAGS) -c $< -o $@
 
-all: _odir $(LIB) $(EXE)
+_odir: $(ODIR)
+
+$(ODIR):
+	mkdir -p $@
+
 
 clean:
 	rm -fv $(LOBJS) $(OBJS) $(EXE)
