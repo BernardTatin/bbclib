@@ -12,7 +12,8 @@
 #include <stdarg.h>
 #include <string.h>
 
-typedef enum {false = 0, true = 1 } bool;
+typedef enum {
+false = 0, true = 1}bool;
 typedef char int8_t;
 typedef unsigned char uint8_t;
 typedef short int16_t;

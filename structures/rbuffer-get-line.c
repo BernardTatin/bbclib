@@ -8,20 +8,20 @@
 #include "bbclib.h"
 
 int rbf_get_line(TSrbuffer *rb, char *line) {
-	char c;
-	int r = 0;
+    char c;
+    int r = 0;
 
-	while (rbf_has_chars(rb)) {
-		c = rbf_get_char(rb);
+    while (rbf_has_chars(rb)) {
+        c = rbf_get_char(rb);
 
-		if (c == '\n') {
-			break;
-		}
+        if (c == '\n') {
+            break;
+        }
         if (c != 0) {
             *(line++) = c;
         }
-		r++;
-	}
-	*line = 0;
-	return r;
+        r++;
+    }
+    *line = 0;
+    return r;
 }

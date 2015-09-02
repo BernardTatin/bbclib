@@ -28,10 +28,10 @@ void add_string(void) {
     queue.push(new string(buffer));
 }
 
-int main (int argc, char **argv) {
-    queue =  SimpleQueue<string>();
+int main(int argc, char **argv) {
+    queue = SimpleQueue<string>();
 
-    for (int i=0; i<256; i++) {
+    for (int i = 0; i < 256; i++) {
         add_string();
     }
     string *str = queue.pop();

@@ -1,59 +1,90 @@
 # Makefile
 
+_os = $(shell uname)
+
 ifeq ($(compiler), clang)
-include mk/clang.mk
+    ifeq ($(OS), Windows_NT)
+        CLANG_BASE = C:/Program Files (x86)/LLVM/bin
+        CC = "$(CLANG_BASE)/clang.exe"
+    else
+        CC = clang
+    endif
+    LD = $(CC)
+    CCNAME = clang
+    FLAGS = -Weverything
+    LFLAGS = -v
+    AR = ar
+    ARFLAGS = rcs
 else
-CC = gcc
-LD = gcc
+    CC = gcc
+    LD = gcc
+    CCNAME = gcc
+    FLAGS = -Wall -Wextra -pedantic  
+    LFLAGS = 
+    AR = ar
+    ARFLAGS = rcs
 endif
 
-ODIR = objs
+ODIR = objs-$(CCNAME)
 
 
-STD_WARNINGS = -Wall -Wextra -pedantic -std=c11
-STD_INCLUDES = -Iinclude -Itests -Istructures
+STD_WARNINGS = -std=c11
+STD_INCLUDES = -Iinclude -Istructures -Itests
+STD_DEFINES = -Dcompiler=$(CCNAME)
 
-_os = $(shell uname)
 ifeq ($(OS), Windows_NT)
 	_exe = .exe
 else
 	_exe =
 endif
 
-SOURCES = $(wildcard src/*.c) $(wildcard tests/*.c) $(wildcard structures/*.c)
+LSOURCES = $(wildcard src/*.c) $(wildcard structures/*.c)
+_LOBJS = $(patsubst %.c,%.o,$(notdir $(LSOURCES)))
+LOBJS = $(addprefix $(ODIR)/, $(_LOBJS))
+
+SOURCES = $(wildcard tests/*.c)
 _OBJS = $(patsubst %.c,%.o,$(notdir $(SOURCES)))
 OBJS = $(addprefix $(ODIR)/, $(_OBJS))
 
-EXE = bbclib-test$(_exe).GNU
+EXE = bbclib-test.GNU.$(CCNAME)$(_exe)
+_LIB = bbclib.GNU.$(CCNAME)
+LIB = lib$(_LIB).a
+
+all: _odir $(LIB) $(EXE)
 
 $(ODIR)/%.o: src/%.c
-	$(CC) $(STD_INCLUDES) $(STD_WARNINGS) -c $< -o $@
+	$(CC) $(STD_INCLUDES) $(STD_WARNINGS) $(FLAGS) -c $< -o $@
 
 $(ODIR)/%.o: tests/%.c
-	$(CC) $(STD_INCLUDES) $(STD_WARNINGS) -c $< -o $@
+	$(CC) $(STD_INCLUDES) $(STD_WARNINGS)  $(FLAGS) -c $< -o $@
 
 $(ODIR)/%.o: structures/%.c
-	$(CC) $(STD_INCLUDES) $(STD_WARNINGS) -c $< -o $@
-
-all: _odir $(EXE)
-
-clean:
-	rm -fv $(OBJS) $(EXE) *.log
+	$(CC) $(STD_INCLUDES) $(STD_WARNINGS)  $(FLAGS) -c $< -o $@
 
 _odir: $(ODIR)
 
 $(ODIR):
 	mkdir -p $@
 
+
+clean:
+	rm -fv $(LOBJS) $(OBJS) $(EXE)
+
+$(LIB): $(LOBJS)
+	$(AR) $(ARFLAGS) $@ $(LOBJS)
+	
 $(EXE): $(OBJS)
-	@echo "_os $(_os) OS $(OS) EXE $(EXE)"
-	@$(CC) --version
-	$(LD) $(OBJS) -o $@
+	$(LD) $(LFLAGS) $(OBJS) -L. -l$(_LIB) -o $@
 
-tests: $(EXE)
-		./$(EXE) --ref > ref.log
-		./$(EXE) --test > test.log
-		./$(EXE) --bin
-		diff test.log ref.log
+ref: all
+	./$(EXE) --ref > ref.log
 
-.PHONY: _odir all clean tests
+tests: all
+	./$(EXE) --queue
+	./$(EXE) --test > test.log
+	diff test.log ref.log
+
+analyze: _odir
+	scan-build -analyze-headers -enable-checker alpha.security.ArrayBoundV2 -analyzer-config  stable-report-filename=true  -o analyze -stats --use-cc $(which clang)  --use-analyzer $(which clang) -v -v -v $(MAKE) compiler=clang clean all
+
+.PHONY: _odir all clean tests analyze

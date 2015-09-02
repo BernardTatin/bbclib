@@ -14,7 +14,6 @@
 #if defined(__with_threads)
 #include "common-defines.h"
 
-
 class SimpleThread {
 };
 #endif /* __with_threads */

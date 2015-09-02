@@ -12,33 +12,33 @@
 #include <stdbool.h>
 
 typedef struct _sq_element {
-	void *value;
-	struct _sq_element *next;
+    void *value;
+    struct _sq_element *next;
 } sq_element;
 
 static inline sq_element *sq_new_element(void *value) {
-	sq_element *elt = (sq_element *)calloc(1, sizeof(sq_element));
-	elt->value = value;
-	return elt;
+    sq_element *elt = (sq_element *) calloc(1, sizeof(sq_element));
+    elt->value = value;
+    return elt;
 }
 
 static inline void sq_delete_element(sq_element *elt) {
-	if (elt != NULL) {
-		free (elt);
-	}
+    if (elt != NULL) {
+        free(elt);
+    }
 }
 
 static inline void sq_set_next(sq_element *elt, sq_element *next) {
-	elt->next = next;
+    elt->next = next;
 }
 
 typedef struct _sq_queue {
-	sq_element *_input;
-	sq_element *_output;
+    sq_element *_input;
+    sq_element *_output;
 } sq_queue;
 
 static inline sq_queue *sq_new_queue(void) {
-	return (sq_queue *)calloc(1, sizeof(sq_queue));
+    return (sq_queue *) calloc(1, sizeof(sq_queue));
 }
 
 static inline bool sq_isempty(sq_queue *queue) {
@@ -49,17 +49,17 @@ void sq_inner_push(sq_queue *queue, sq_element *elt);
 sq_element *sq_inner_pop(sq_queue *queue);
 
 static inline void sq_push(sq_queue *queue, void *value) {
-	sq_inner_push(queue, sq_new_element(value));
+    sq_inner_push(queue, sq_new_element(value));
 }
 
 static inline void *sq_pop(sq_queue *queue) {
-	sq_element *elt = sq_inner_pop(queue);
-	if (elt != NULL) {
+    sq_element *elt = sq_inner_pop(queue);
+    if (elt != NULL) {
         void *r = elt->value;
         sq_delete_element(elt);
         return r;
-	} else {
-		return NULL;
-	}
+    } else {
+        return NULL;
+    }
 }
 #endif /* STRUCTURES_SQUEUE_H_ */

@@ -12,7 +12,6 @@
 #ifndef RBUFFER_H
 #define RBUFFER_H
 
-
 /**
  * @def _RBUFFER_BITS
  * La taille du tampon doit �tre une puissance de 2. _RBUFFER_BITS est ce nombre.
@@ -32,10 +31,10 @@
  * La structure g�rant le buffer tournant.
  */
 typedef struct {
-    volatile int in;                                            /**< index du caract�re � ajouter */
-    volatile int out;                                           /**< index du caract�re � sortir */
-    volatile int line_count;                            /**< nombre de lignes contenues dans le tampon */
-    volatile char buffer[RBUFFER_SIZE + 1];     /**< le tampon */
+    volatile int in; /**< index du caract�re � ajouter */
+    volatile int out; /**< index du caract�re � sortir */
+    volatile int line_count; /**< nombre de lignes contenues dans le tampon */
+    volatile char buffer[RBUFFER_SIZE + 1]; /**< le tampon */
 } TSrbuffer;
 
 /**
@@ -125,5 +124,4 @@ void rbf_add_line(TSrbuffer *rb, char *line);
  */
 int rbf_get_line(TSrbuffer *rb, char *line);
 #endif  /* RBUFFER_H */
-
 

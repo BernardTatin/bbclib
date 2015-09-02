@@ -29,15 +29,15 @@ static char *_to_str(const uint32_t t, const int base) {
     } else {
         if (base == 16 || base == 2) {
             uint32_t x = (uint32_t) t;
-                        int dec = base == 16 ? 4 : 1;
+            int dec = base == 16 ? 4 : 1;
 
             while (x != 0 && idx++ < _prbuffer_len) {
-                uint32_t r = x & ((uint32_t)base - 1);
+                uint32_t r = x & ((uint32_t) base - 1);
                 x >>= dec;
                 if (r < 10) {
-                    *(dst--) = '0' + (char)r;
+                    *(dst--) = '0' + (char) r;
                 } else {
-                    *(dst--) = 'a' + (char)(r - 10);
+                    *(dst--) = 'a' + (char) (r - 10);
                 }
             }
         } else {
@@ -50,12 +50,12 @@ static char *_to_str(const uint32_t t, const int base) {
             }
             while (x != 0 && idx++ < _prbuffer_len) {
                 if (x < base) {
-                    *(dst--) = '0' + (char)x;
+                    *(dst--) = '0' + (char) x;
                     x = 0;
                 } else {
                     int32_t r = x % base;
                     x /= base;
-                    *(dst--) = '0' + (char)r;
+                    *(dst--) = '0' + (char) r;
                 }
             }
             if (neg) {
@@ -64,7 +64,7 @@ static char *_to_str(const uint32_t t, const int base) {
         }
     }
     if (_format_len == -1) {
-            return dst + 1;
+        return dst + 1;
     } else {
         return _int_buffer + _prbuffer_len - _format_len;
     }
@@ -81,7 +81,6 @@ static INLINE char *bin_to_str(const uint32_t t) {
 static INLINE char *int_to_str(const uint32_t t) {
     return _to_str(t, 10);
 }
-
 
 void debug_printf(const char *fmt, ...) {
     va_list ap;
@@ -102,50 +101,47 @@ void debug_printf(const char *fmt, ...) {
         }
         if (inpct) {
             switch (symbol) {
-                case 's':
-                {
+                case 's': {
                     char *str = va_arg(ap, char*);
 
-                                        rbf_add_line(&uart_tx_buffer, str);
+                    rbf_add_line(&uart_tx_buffer, str);
                     inpct = false;
                     break;
                 }
-                case 'l':
-                {
+                case 'l': {
                     _format_value = va_arg(ap, uint32_t);
                     _format_has_value = true;
                     break;
 
                 }
-                case 'd':
-                {
+                case 'd': {
                     _get_int16_value();
-                                        rbf_add_line(&uart_tx_buffer, int_to_str(_format_value));
+                    rbf_add_line(&uart_tx_buffer, int_to_str(_format_value));
                     inpct = false;
                     break;
                 }
                 case 'b':
                     _get_int16_value();
-                                        rbf_add_line(&uart_tx_buffer, bin_to_str(_format_value));
+                    rbf_add_line(&uart_tx_buffer, bin_to_str(_format_value));
                     inpct = false;
                     break;
                 case 'x':
                     _get_int16_value();
-                                        rbf_add_line(&uart_tx_buffer, hex_to_str(_format_value));
+                    rbf_add_line(&uart_tx_buffer, hex_to_str(_format_value));
                     inpct = false;
                     break;
                 case '0':
                     _format_filler = '0';
                     break;
-                                case '1':
-                                case '2':
-                                case '3':
-                                case '4':
-                                case '5':
-                                case '6':
-                                case '7':
-                                case '8':
-                                case '9':
+                case '1':
+                case '2':
+                case '3':
+                case '4':
+                case '5':
+                case '6':
+                case '7':
+                case '8':
+                case '9':
                     if (_format_len == -1) {
                         _format_len = symbol - '0';
                     } else {
@@ -154,10 +150,10 @@ void debug_printf(const char *fmt, ...) {
                     break;
             }
         } else {
-                        rbf_add_char(&uart_tx_buffer, symbol);
+            rbf_add_char(&uart_tx_buffer, symbol);
         }
     }
-        rbf_end_of_line(&uart_tx_buffer);
+    rbf_end_of_line(&uart_tx_buffer);
     va_end(ap);
     uart_start_printf();
 }
