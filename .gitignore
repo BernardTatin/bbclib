@@ -1,5 +1,7 @@
 *.o
 *.a
+*.bak
+*.lib
 # watcom
 *.obj
 *.err

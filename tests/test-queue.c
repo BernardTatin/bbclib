@@ -16,9 +16,13 @@ static const int NUMBER_OF_VALUES = 256;
 int test_queue(void) {
     int i;
     int errors = 0;
+    /*
+     * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+     * Open Watcom 1.9 n'aime pas la déclaration de queue APRES le fprintf
+     */
+    sq_queue *queue = sq_new_queue();
 
     fprintf(stdout, "Test QUEUE ...\n");
-    sq_queue *queue = sq_new_queue();
     for (i = 0; i < NUMBER_OF_VALUES; i++) {
         int *iptr = (int *) malloc(sizeof(int));
         *iptr = i;

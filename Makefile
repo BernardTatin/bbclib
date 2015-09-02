@@ -19,11 +19,16 @@ ifeq ($(compiler), clang)
 endif  
 
 ifeq ($(compiler), watcom)
-    WATCOM_BASE = ~/.wine/drive_c/WATCOM/binnt
-    CC = wine $(WATCOM_BASE)/wcc386.exe
-    LD = wine $(WATCOM_BASE)/wlink.exe
+    WATCOM_BASE = ~/.wine/drive_c/WATCOM
+    WIN_WATCOM_BASE = C:\WATCOM
+    CC = wine $(WATCOM_BASE)/binnt/wcc386.exe
+    LD = wine $(WATCOM_BASE)/binnt/wlink.exe
+    CC = wine wcc386.exe
+    LD = wine wlink.exe
     CCNAME = watcom
-    FLAGS = -w4 -e25 -od -d2 -db -en -6r -bt=nt -fo=.obj -mf
+    DEBUG = -od -d2 -db -en
+    MACHINE = -6r -bt=nt -mf
+    AR = wine wlib.exe
 endif
 
 ifeq ($(compiler), gcc)
@@ -42,18 +47,25 @@ ODIR = objs-$(CCNAME)
 
 ifneq ($(compiler), watcom)
 STD_WARNINGS = -std=c11
-STD_INCLUDES = -Iinclude -Istructures -Itests
+STD_INCLUDE = -Iinclude -Istructures -Itests
 STD_DEFINES = -Dcompiler=$(CCNAME)
+ALLFLAGS = $(FLAGS) $(STD_WARNINGS) $(STD_INCLUDE) $(STD_DEFINES)
 else
-STD_WARNINGS = 
-STD_INCLUDE = $(WATCOM_BASE)/h;$(WATCOM_BASE)/h/nt;./include;./tests;./structures
-STD_DEFINES =
+STD_WARNINGS = -w4 -e25
+STD_INCLUDE = -zq -i="$(WIN_WATCOM_BASE)/h;$(WIN_WATCOM_BASE)/h/nt;./include;./tests;./structures"
+STD_DEFINES = -dcompiler=$(CCNAME)
+ALLFLAGS = $(subst /,\,$(STD_INCLUDE)) $(STD_WARNINGS) $(DEBUG) $(MACHINE) $(STD_DEFINES)
 endif
+
 
 ifeq ($(OS), Windows_NT)
 	_exe = .exe
 else
+ifneq ($(compiler), watcom)
 	_exe =
+else
+	_exe = .exe
+endif	
 endif
 
 LSOURCES = $(wildcard src/*.c) $(wildcard structures/*.c)
@@ -66,18 +78,34 @@ OBJS = $(addprefix $(ODIR)/, $(_OBJS))
 
 EXE = bbclib-test.GNU.$(CCNAME)$(_exe)
 _LIB = bbclib.GNU.$(CCNAME)
+ifneq ($(compiler), watcom)
 LIB = lib$(_LIB).a
+else
+LIB = $(_LIB).lib
+endif
 
 all: _odir $(LIB) $(EXE)
-https://youtu.be/KisHhIRihMY
+
 $(ODIR)/%.o: src/%.c
-	$(CC) $(STD_INCLUDES) $(STD_WARNINGS) $(FLAGS) -c $< -o $@
+ifneq ($(compiler), watcom)
+	$(CC) $(ALLFLAGS) -c $< -o $@
+else
+	$(CC) $(subst /,\\,$<) $(ALLFLAGS) -fo=$(subst /,\\,$@)
+endif
 
 $(ODIR)/%.o: tests/%.c
-	$(CC) $(STD_INCLUDES) $(STD_WARNINGS)  $(FLAGS) -c $< -o $@
+ifneq ($(compiler), watcom)
+	$(CC) $(ALLFLAGS) -c $< -o $@
+else
+	$(CC) $(subst /,\\,$<) $(ALLFLAGS) -fo=$(subst /,\\,$@)
+endif
 
 $(ODIR)/%.o: structures/%.c
-	$(CC) $(STD_INCLUDES) $(STD_WARNINGS)  $(FLAGS) -c $< -o $@
+ifneq ($(compiler), watcom)
+	$(CC) $(ALLFLAGS) -c $< -o $@
+else
+	$(CC) $(subst /,\\,$<) $(ALLFLAGS) -fo=$(subst /,\\,$@)
+endif
 
 _odir: $(ODIR)
 
@@ -89,10 +117,22 @@ clean:
 	rm -fv $(LOBJS) $(OBJS) $(EXE)
 
 $(LIB): $(LOBJS)
+ifneq ($(compiler), watcom)
 	$(AR) $(ARFLAGS) $@ $(LOBJS)
+else
+	$(AR) $@ $(subst $(ODIR)/,-+$(ODIR)\\,$(LOBJS))
+endif
 	
 $(EXE): $(OBJS)
+ifneq ($(compiler), watcom)
 	$(LD) $(LFLAGS) $(OBJS) -L. -l$(_LIB) -o $@
+else
+	echo "NAME $@" > watcom.lk1
+	echo "SYSTEM nt" >> watcom.lk1
+	echo "FILE {$(OBJS)}" >> watcom.lk1
+	echo "LIBFILE $(LIB)" >> watcom.lk1
+	$(LD) d all op m op maxe=25 op symf @watcom.lk1
+endif
 
 ref: all
 	./$(EXE) --ref > ref.log

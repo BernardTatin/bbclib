@@ -26,8 +26,8 @@ WCFLAGS = -zq -i="$(_INCLUDES)" $(_WARNS) $(_DEBUGS) $(_MACHINE)
         *wcc386 $? $(WCFLAGS)
 
 osrc = src/bb_printf.obj src/rbuffer-add-line.obj src/main.obj  src/uart-foo.obj
-otests = tests/test_bbprintf.obj
-ostruct = structures/rbuffer-get-line.obj
+otests = tests/test_bbprintf.obj tests/test-queue.obj
+ostruct = structures/rbuffer-get-line.obj structures/squeue-inner-pop.obj structures/squeue-inner-push.obj
 
 # replace dirname+'/' by a single space
 _osrc = $(osrc:src/= )
