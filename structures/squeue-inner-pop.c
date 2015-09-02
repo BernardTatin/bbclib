@@ -5,6 +5,7 @@
  *      Author: bernard
  */
 
+#include "bbclib.h"
 #include "squeue.h"
 
 sq_element *sq_inner_pop(sq_queue *queue) {

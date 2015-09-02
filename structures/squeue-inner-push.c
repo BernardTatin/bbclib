@@ -5,6 +5,7 @@
  *      Author: bernard
  */
 
+#include "bbclib.h"
 #include "squeue.h"
 
 void sq_inner_push(sq_queue *queue, sq_element *elt) {

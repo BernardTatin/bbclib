@@ -6,6 +6,8 @@
  */
 
 #include <stdio.h>
+
+#include "bbclib.h"
 #include "squeue.h"
 #include "tests.h"
 
