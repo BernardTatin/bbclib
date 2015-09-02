@@ -34,7 +34,7 @@ typedef struct {
     volatile int in; /**< index du caract�re � ajouter */
     volatile int out; /**< index du caract�re � sortir */
     volatile int line_count; /**< nombre de lignes contenues dans le tampon */
-    volatile char buffer[RBUFFER_SIZE + 1]; /**< le tampon */
+    volatile char buffer[RBUFFER_SIZE]; /**< le tampon */
 } TSrbuffer;
 
 /**
@@ -48,8 +48,8 @@ static INLINE void rbf_reset(TSrbuffer *rb) {
 /**
  * D�termine si le tampon contient des lignes
  * @param rb le tampon � tester
- * @retval true il y a des lignes dans le tampon,
- * @retval false il n'y a pas de lignes dans le tampon.
+ * @return true il y a des lignes dans le tampon,
+ * @return false il n'y a pas de lignes dans le tampon.
  */
 static INLINE bool rbf_has_lines(TSrbuffer *rb) {
     int lc = rb->line_count;
@@ -102,8 +102,8 @@ static INLINE char rbf_get_char(TSrbuffer *rb) {
  * Y a t-il des caract�res disponibles dans le tampon.
  *
  * @param rb le tampon � examiner,
- * @retval true il y a des caract�res
- * @retval false il n'y a pas de caract�res.
+ * @return true il y a des caract�res
+ * @return false il n'y a pas de caract�res.
  */
 static INLINE bool rbf_has_chars(TSrbuffer *rb) {
     return rb->in != rb->out;
@@ -112,7 +112,6 @@ static INLINE bool rbf_has_chars(TSrbuffer *rb) {
  * A joute une ligne au tampon, <em>i.e.</em> une cha�ne C.
  * @param rb le tampon � modifier,
  * @param line la ligne � ajouter
- * @return le nombre de caract�res ajout�s
  */
 void rbf_add_line(TSrbuffer *rb, char *line);
 

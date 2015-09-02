@@ -13,7 +13,7 @@
 #include "bbclib.h"
 #include "tests.h"
 
-const int _nb_loops = 65540;
+static const int _nb_loops = 65540;
 
 void bbprintf_btest(void) {
     int i, j;

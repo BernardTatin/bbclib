@@ -7,8 +7,9 @@
 
 #include <stdio.h>
 #include "squeue.h"
+#include "tests.h"
 
-const int NUMBER_OF_VALUES = 256;
+static const int NUMBER_OF_VALUES = 256;
 
 int test_queue(void) {
     int i;

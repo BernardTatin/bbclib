@@ -12,7 +12,7 @@ ifeq ($(compiler), clang)
     LD = $(CC)
     CCNAME = clang
     FLAGS = -Weverything
-    LFLAGS = -v
+    LFLAGS = 
     AR = ar
     ARFLAGS = rcs
 else
@@ -51,7 +51,7 @@ _LIB = bbclib.GNU.$(CCNAME)
 LIB = lib$(_LIB).a
 
 all: _odir $(LIB) $(EXE)
-
+https://youtu.be/KisHhIRihMY
 $(ODIR)/%.o: src/%.c
 	$(CC) $(STD_INCLUDES) $(STD_WARNINGS) $(FLAGS) -c $< -o $@
 
