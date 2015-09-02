@@ -1,6 +1,7 @@
 # Makefile
 
 _os = $(shell uname)
+compiler ?= gcc
 
 ifeq ($(compiler), clang)
     ifeq ($(OS), Windows_NT)
@@ -15,7 +16,17 @@ ifeq ($(compiler), clang)
     LFLAGS = 
     AR = ar
     ARFLAGS = rcs
-else
+endif  
+
+ifeq ($(compiler), watcom)
+    WATCOM_BASE = ~/.wine/drive_c/WATCOM/binnt
+    CC = wine $(WATCOM_BASE)/wcc386.exe
+    LD = wine $(WATCOM_BASE)/wlink.exe
+    CCNAME = watcom
+    FLAGS = -w4 -e25 -od -d2 -db -en -6r -bt=nt -fo=.obj -mf
+endif
+
+ifeq ($(compiler), gcc)
     CC = gcc
     LD = gcc
     CCNAME = gcc
@@ -28,9 +39,16 @@ endif
 ODIR = objs-$(CCNAME)
 
 
+
+ifneq ($(compiler), watcom)
 STD_WARNINGS = -std=c11
 STD_INCLUDES = -Iinclude -Istructures -Itests
 STD_DEFINES = -Dcompiler=$(CCNAME)
+else
+STD_WARNINGS = 
+STD_INCLUDE = $(WATCOM_BASE)/h;$(WATCOM_BASE)/h/nt;./include;./tests;./structures
+STD_DEFINES =
+endif
 
 ifeq ($(OS), Windows_NT)
 	_exe = .exe
