@@ -14,6 +14,6 @@ AR = wine $(BC5_BASE)/bin/tlib.exe
 
 STD_WARNINGS = 
 STD_INCLUDE = -Iinclude -Iinclude\_compat -Itests -Istructures -I$(WIN_BC5_BASE)\include
-STD_DEFINES = -Dcompiler=$(CCNAME)
+STD_DEFINES = -Dcompiler=$(CCNAME) -Dno_c11 -Dno_inline
 ALLFLAGS = $(subst /,\,$(STD_INCLUDE)) $(STD_WARNINGS) $(DEBUG) $(MACHINE) $(STD_DEFINES)
 

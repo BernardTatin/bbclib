@@ -5,13 +5,13 @@
 LIB = $(_LIB).lib
 
 $(ODIR)/%.o: src/%.c
-	$(CC) $(ALLFLAGS) -o$(subst /,\\,$@) $(subst /,\\,$<)
+	$(CC) $(ALLFLAGS) -c -o$(subst /,\\,$@) $(subst /,\\,$<)
 
 $(ODIR)/%.o: tests/%.c
-	$(CC) $(ALLFLAGS) -o$(subst /,\\,$@) $(subst /,\\,$<)
+	$(CC) $(ALLFLAGS) -c -o$(subst /,\\,$@) $(subst /,\\,$<)
 
 $(ODIR)/%.o: structures/%.c
-	$(CC) $(subst /,\\,$<) $(ALLFLAGS) -fo=$(subst /,\\,$@)
+	$(CC) $(ALLFLAGS) -c -o$(subst /,\\,$@) $(subst /,\\,$<)
 
 $(LIB): $(LOBJS)
 	$(AR) $@ $(subst $(ODIR)/,-+$(ODIR)\\,$(LOBJS))
