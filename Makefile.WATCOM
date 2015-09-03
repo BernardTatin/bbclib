@@ -6,6 +6,7 @@
 
 _EXE = bbclib-watcom
 EXE = $(_EXE).exe
+LIB = $(_EXE).lib
 WATCOM_BASE = C:\WATCOM
 _INCLUDES = $(WATCOM_BASE)/h;$(WATCOM_BASE)/h/nt;./include;./tests;./structures
 _WARNS = -w4 -e25
@@ -13,17 +14,12 @@ _DEBUGS = -od -d2 -db -en
 _MACHINE = -6r -bt=nt -fo=.obj -mf
 WCFLAGS = -zq -i="$(_INCLUDES)" $(_WARNS) $(_DEBUGS) $(_MACHINE)
 
-.c : tests
+ODIR = wobjs
+
+.c : tests;src;structures
 .c.obj : .AUTODEPEND
         *wcc386 $? $(WCFLAGS)
 
-.c : src
-.c.obj : .AUTODEPEND
-        *wcc386 $? $(WCFLAGS)
-
-.c : structures
-.c.obj : .AUTODEPEND
-        *wcc386 $? $(WCFLAGS)
 
 osrc = src/bb_printf.obj src/rbuffer-add-line.obj src/main.obj  src/uart-foo.obj
 otests = tests/test_bbprintf.obj tests/test-queue.obj
@@ -34,20 +30,30 @@ _osrc = $(osrc:src/= )
 _otests = $(otests:tests/= )
 _ostruct = $(ostruct:structures/= )
 
+# replace dirname+'/' by a $(ODIR)
+#_osrc = $(osrc:src/=$(ODIR)\)
+#_otests = $(otests:tests/=$(ODIR)\)
+#_ostruct = $(ostruct:structures/=$(ODIR)\)
 
-all: $(EXE) .symbolic
 
-$(EXE) : $(_osrc) $(_otests) $(_ostruct) &
-include\bbclib.h include\compat.h &
-structures\rbuffer.h include\uart-foo.h &
-include\version.h .AUTODEPEND
+LOBJS = $(_osrc) $(_ostruct)
+XOBJS = $(_otests)
+
+
+HDEPS = include\bbclib.h include\compat.h structures\rbuffer.h include\uart-foo.h include\version.h
+
+all: $(LIB) $(EXE) .symbolic
+
+$(LIB) : $(LOBJS) $(HDEPS) .AUTODEPEND
+	*wlib $(LIB) $(LOBJS:^=-+) 
+
+$(EXE) : $(XOBJS) $(HDEPS) .AUTODEPEND
         @%write $(_EXE).lk1 NAME $@
         @%write $(_EXE).lk1 SYSTEM nt
-        @%write $(_EXE).lk1 FILE {$(_osrc)}
-        @%write $(_EXE).lk1 FILE {$(_otests)}
-        @%write $(_EXE).lk1 FILE {$(_ostruct)}
+        @%write $(_EXE).lk1 FILE {$(XOBJS)}
+        @%write $(_EXE).lk1 LIBFILE $(LIB)
         @%append $(_EXE).lk1
         @wlink d all op m op maxe=25 op symf @$(_EXE).lk1
 
 clean: .symbolic
-        rm -fv $(_osrc) $(_otests) $(EXE) $(_EXE).lk1 *.mbr *.err *.sym *.map
+        rm -fv $(_osrc) $(_otests) $(EXE) $(LIB) $(_EXE).lk1 *.mbr *.err *.sym *.map
