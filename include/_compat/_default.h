@@ -8,6 +8,6 @@
 #ifndef INCLUDE__COMPAT__DEFAULT_H_
 #define INCLUDE__COMPAT__DEFAULT_H_
 
-#include "_standard.h"
+#include "_compat/_standard.h"
 
 #endif /* INCLUDE__COMPAT__DEFAULT_H_ */
