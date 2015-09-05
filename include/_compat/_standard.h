@@ -14,14 +14,11 @@
 #include <stdbool.h>
 #include <stdint.h>
 #else
-typedef enum {
-        false = 0, true = 1} bool;
-typedef char int8_t;
-typedef unsigned char uint8_t;
-typedef short int16_t;
-typedef unsigned short uint16_t;
-typedef long int32_t;
-typedef unsigned long uint32_t;
+#include "_compat/_stdbool.h"
+#include "_compat/_stdint.h"
+#ifndef no_inline
+#define no_inline
+#endif
 #endif
 #include <string.h>
 

@@ -6,9 +6,13 @@
 #define __compat_h__
 
 #if defined(__WATCOMC__)
-#include "_compat/_watcom.h"
+#define no_c11
+#include "_compat/_default.h"
 #elif defined(_MSC_VER)
 #include "_compat/_msc.h"
+#elif defined(__TURBOC__)
+#define no_c11
+#include "_compat/_default.h"
 #else
 #include "_compat/_default.h"
 #endif

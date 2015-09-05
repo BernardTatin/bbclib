@@ -17,8 +17,10 @@ $(LIB): $(LOBJS)
 	$(AR) $@ $(subst $(ODIR)/,-+$(ODIR)\\,$(LOBJS))
 	
 $(EXE): $(OBJS)
-	echo "NAME $@" > watcom.lk1
-	echo "SYSTEM nt" >> watcom.lk1
-	echo "FILE {$(OBJS)}" >> watcom.lk1
-	echo "LIBFILE $(LIB)" >> watcom.lk1
-	$(LD) d all op m op maxe=25 op symf @watcom.lk1
+	echo "/Lc:\\Borland\\bc5\\lib;. /c c0ws +" > bc5.lk1
+	echo "$(OBJS),$(EXE) +" >> bc5.lk1
+	echo "$(EXE).map +" >> bc5.lk1
+	echo "$(LIB) cws" >> bc5.lk1
+	$(LD) @bc5.lk1
+
+#	$(LD) Lc:\\Borland\\bc5\\lib;. -Twe $(OBJS),, $(LIB)

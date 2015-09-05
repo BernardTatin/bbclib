@@ -16,6 +16,6 @@ AR = wine wlib.exe
 
 STD_WARNINGS = -w4 -e25
 STD_INCLUDE = -zq -i="$(WIN_WATCOM_BASE)/h;$(WIN_WATCOM_BASE)/h/nt;./include;./tests;./structures"
-STD_DEFINES = -dcompiler=$(CCNAME)
+STD_DEFINES = -dcompiler=$(CCNAME) -dno_c11
 ALLFLAGS = $(subst /,\,$(STD_INCLUDE)) $(STD_WARNINGS) $(DEBUG) $(MACHINE) $(STD_DEFINES)
 

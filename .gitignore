@@ -53,3 +53,9 @@ bbclib.mk
 /objs*/
 /bbclib-test.GNU.*
 /analyze/
+bc5f/
+bc5o/
+*.\$*
+*.~*
+*.m[br]t
+*.DSW
