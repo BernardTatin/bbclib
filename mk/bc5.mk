@@ -6,10 +6,11 @@ BC5_BASE = ~/.wine/drive_c/Borland/bc5
 WIN_BC5_BASE = C:\Borland\bc5
 CC = wine $(BC5_BASE)/bin/bcc32.exe
 LD = wine $(BC5_BASE)/bin/tlink32.exe
-CCNAME = borlandc5
+CCNAME = bc5
 DEBUG = 
 MACHINE = -4
 AR = wine $(BC5_BASE)/bin/tlib.exe
+_exe = .exe
 
 
 STD_WARNINGS = 

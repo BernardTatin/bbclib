@@ -7,12 +7,6 @@ include mk/$(compiler).mk
 
 ifeq ($(OS), Windows_NT)
 	_exe = .exe
-else
-ifneq ($(compiler), watcom)
-	_exe =
-else
-	_exe = .exe
-endif	
 endif
 
 
