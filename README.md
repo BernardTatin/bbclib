@@ -6,9 +6,15 @@ An experimental clib. Code is taken from some of my (very) old applications.
 make
 ====
 
-On Linux or Cygwin, you can choose the compiler between _gcc_ or _clang_. A simple _make clean all_ will use _gcc_. If you want to use _clang_, just do :
+On Linux or Cygwin, you can choose the compiler. A simple _make clean all_ will use _gcc_. If you want to use _clang_, or any other compiler, just do :
 
     make compiler=clang clean all
+    
+This is the list of available compilers :
+ - _gcc_, defailt,
+ - _clang_,
+ - _watcom_, for Open Watcom, version 1.9, with _Wine_ on _Linux_,
+ - _bc5_, for Borlandc, version 5, with _Wine_ on _Linux_.
 
 
 debug_printf
