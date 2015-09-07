@@ -7,14 +7,12 @@
 
 #if defined(__WATCOMC__)
 #define no_c11
-#include "_compat/_default.h"
 #elif defined(_MSC_VER)
-#include "_compat/_msc.h"
+#define no_c11
 #elif defined(__TURBOC__)
 #define no_c11
-#include "_compat/_default.h"
-#else
-#include "_compat/_default.h"
 #endif
+
+#include "_compat/_standard.h"
 
 #endif
