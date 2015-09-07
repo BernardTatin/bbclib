@@ -13,6 +13,7 @@ DEBUG = -od -d2 -db -en
 MACHINE = -6r -bt=nt -mf
 AR = wine wlib.exe
 _exe = .exe
+toclean = *.map *.err $(compiler).lk1 *.sym
 
 
 STD_WARNINGS = -w4 -e25

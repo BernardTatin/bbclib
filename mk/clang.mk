@@ -14,5 +14,6 @@ FLAGS = -Weverything
 LFLAGS = 
 AR = ar
 ARFLAGS = rcs
+toclean =
 
 include mk/unix-standard.mk

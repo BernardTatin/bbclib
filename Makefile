@@ -28,7 +28,12 @@ all: _all
 
 include mk/$(compiler)-rules.mk
 
-_all: _odir $(LIB) $(EXE)
+lib: _odir $(LIB)
+
+exe: lib $(EXE)
+
+
+_all: _odir lib exe
 
 _odir: $(ODIR)
 
@@ -37,7 +42,7 @@ $(ODIR):
 
 
 clean:
-	rm -fv $(LOBJS) $(OBJS) $(EXE)
+	rm -fv $(LOBJS) $(OBJS) $(EXE) $(toclean) $(LIB)
 
 
 ref: all
@@ -51,4 +56,4 @@ tests: all
 analyze: _odir
 	scan-build -analyze-headers -enable-checker alpha.security.ArrayBoundV2 -analyzer-config  stable-report-filename=true  -o analyze -stats --use-cc /usr/bin/clang  --use-analyzer /usr/bin/clang -v -v -v $(MAKE) compiler=clang clean all
 
-.PHONY: _odir all _all clean tests analyze
+.PHONY: _odir all _all clean tests analyze lib exe

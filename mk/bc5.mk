@@ -11,7 +11,7 @@ DEBUG =
 MACHINE = -4
 AR = wine $(BC5_BASE)/bin/tlib.exe
 _exe = .exe
-
+toclean = *.map $(compiler).lk1 *.BAK
 
 STD_WARNINGS = 
 STD_INCLUDE = -Iinclude -Iinclude\_compat -Itests -Istructures -I$(WIN_BC5_BASE)\include
