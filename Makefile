@@ -49,9 +49,9 @@ ref: all
 	./$(EXE) --ref > ref.log
 
 tests: all
-	./$(EXE) --queue
-	./$(EXE) --test > test.log
-	diff test.log ref.log
+	$(RUNNER) ./$(EXE) --queue
+	$(RUNNER) ./$(EXE) --test > $(compiler).log
+	diff $(compiler).log ref.log
 
 analyze: _odir
 	scan-build -analyze-headers -enable-checker alpha.security.ArrayBoundV2 -analyzer-config  stable-report-filename=true  -o analyze -stats --use-cc /usr/bin/clang  --use-analyzer /usr/bin/clang -v -v -v $(MAKE) compiler=clang clean all
