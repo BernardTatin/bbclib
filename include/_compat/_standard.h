@@ -24,7 +24,9 @@
 
 #include <string.h>
 
-#ifndef no_inline
+#if defined(with_watcominline)
+        #define INLINE __inline
+#elif !defined(no_inline)
         #define INLINE inline
 #else
         #define INLINE

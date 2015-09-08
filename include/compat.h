@@ -7,6 +7,7 @@
 
 #if defined(__WATCOMC__)
 #define no_c11
+#define with_watcominline
 #elif defined(_MSC_VER)
 #define no_c11
 #elif defined(__TURBOC__)

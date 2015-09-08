@@ -10,7 +10,7 @@ CC = wine wcc386.exe
 LD = wine wlink.exe
 CCNAME = watcom
 DEBUG = -od -d2 -db -en
-MACHINE = -6r -bt=nt -mf
+MACHINE = -6r -bt=nt -mf -ze
 AR = wine wlib.exe
 _exe = .exe
 toclean = *.map *.err $(compiler).lk1 *.sym
