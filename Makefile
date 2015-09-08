@@ -50,8 +50,8 @@ ref: all
 
 tests: all
 	$(RUNNER) ./$(EXE) --queue
-	$(RUNNER) ./$(EXE) --test > $(compiler).log
-	diff $(compiler).log ref.log
+	$(RUNNER) ./$(EXE) --test | tr -d '\r' > $(compiler).log
+	diff  --suppress-common-lines -syW 132 $(compiler).log ref.log
 
 analyze: _odir
 	scan-build -analyze-headers -enable-checker alpha.security.ArrayBoundV2 -analyzer-config  stable-report-filename=true  -o analyze -stats --use-cc /usr/bin/clang  --use-analyzer /usr/bin/clang -v -v -v $(MAKE) compiler=clang clean all

@@ -25,7 +25,7 @@ int main(int argc, char **argv) {
             return EXIT_FAILURE;
         }
     } else {
-        fprintf(stderr, "%s --test|--ref\n", argv[0]);
+        fprintf(stderr, "%s --test|--ref|--queue\n", argv[0]);
         return EXIT_FAILURE;
     }
     return EXIT_SUCCESS;

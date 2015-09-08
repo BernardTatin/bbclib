@@ -13,12 +13,11 @@
 #include "bbclib.h"
 #include "tests.h"
 
-static const int _nb_loops = 65540;
+static const int32_t _nb_loops = 65536;
 
 void bbprintf_btest(void) {
-    int i, j;
+    int32_t i, j;
 
-    debug_printf("debug_printf : Hey! Ca marche\n");
     for (j = 0; j < 0x0100; j++) {
         for (i = 0; i < 256; i++) {
             debug_printf("i = %d, %5d, %05d, %x, %5x, %05x, %016b\n", i, i, i,
@@ -28,18 +27,16 @@ void bbprintf_btest(void) {
 }
 
 void bbprintf_test(void) {
-    int i;
+    int32_t i;
 
-    debug_printf("debug_printf : Hey! Ca marche\n");
     for (i = 0; i < _nb_loops; i++) {
         debug_printf("i = %d, %5d, %05d, %x, %5x, %016x\n", i, i, i, i, i, i);
     }
 }
 
 void bbprintf_reference(void) {
-    int i;
+    int32_t i;
 
-    printf("printf : Hey! Ca marche\n");
     for (i = 0; i < _nb_loops; i++) {
         printf("i = %d, %5d, %05d, %x, %5x, %016x\n", i, i, i, i, i, i);
     }
