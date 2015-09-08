@@ -10,7 +10,7 @@ ifeq ($(OS), Windows_NT)
 endif
 
 
-ODIR = objs-$(CCNAME)
+ODIR = objs$(CCNAME)
 
 
 LSOURCES = $(wildcard src/*.c) $(wildcard structures/*.c)

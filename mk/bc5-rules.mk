@@ -2,7 +2,8 @@
 # bc5-rules.mk
 #
 
-LIB = $(_LIB).lib
+# LIB = $(_LIB).lib
+LIB = bc5.lib
 
 $(ODIR)/%.o: src/%.c
 	$(CC) $(ALLFLAGS) -c -o$(subst /,\\,$@) $(subst /,\\,$<)
@@ -13,11 +14,15 @@ $(ODIR)/%.o: tests/%.c
 $(ODIR)/%.o: structures/%.c
 	$(CC) $(ALLFLAGS) -c -o$(subst /,\\,$@) $(subst /,\\,$<)
 
+#NLOBJS = $(subst /,\\, $(shell echo $(subst $(ODIR),+-$(ODIR),$(LOBJS)) | tr [a-z] [A-Z]))
+NLOBJS = $(subst /,\\, $(subst $(ODIR),+-$(ODIR),$(LOBJS)))
 $(LIB): $(LOBJS)
-	$(AR) $@ /C $(shell echo $(subst $(ODIR),+-$(ODIR),$(LOBJS)) | tr [a-z/] [A-Z\\\\])
+	$(AR) $@ $(NLOBJS)
+	$(TDUMP) $@
 	
 BLIB = $(subst /,\,c:/Borland/Bc5/lib)
-NOBJS = $(subst t,T,$(subst /,\,$(OBJS)))
+NOBJS = $(shell echo $(OBJS) | tr [a-z/] [A-Z\\\\])
+#$(subst t,T,$(subst /,\,$(OBJS)))
 
 $(EXE): $(OBJS)
 	echo "-v -L$(BLIB) -c -w-dpl -went -wdup -w-def -wimt -wbdl -wsrf -wmsk  -Tpe -ap $(BLIB)\\C0x32.obj+" > $(compiler).lk1
