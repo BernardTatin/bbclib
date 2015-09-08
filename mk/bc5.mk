@@ -15,6 +15,7 @@ AR = wine $(BC5_BASE)/bin/tlib.exe
 _exe = .exe
 toclean = *.map $(compiler).lk1 *.BAK
 
+RUNNER = wine
 STD_WARNINGS = 
 STD_INCLUDE = -Iinclude -Iinclude\_compat -Itests -Istructures -Isrc -I$(WIN_BC5_BASE)\include
 STD_DEFINES = -Dcompiler=$(CCNAME) -Dno_c11

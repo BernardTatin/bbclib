@@ -2,6 +2,7 @@
 # unix-standard.mk
 #
 
+RUNNER =
 STD_WARNINGS = -std=c11
 STD_INCLUDE = -Iinclude -Istructures -Itests
 STD_DEFINES = -Dcompiler=$(CCNAME)
