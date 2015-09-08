@@ -15,5 +15,6 @@ typedef unsigned short uint16_t;
 typedef long int32_t;
 typedef unsigned long uint32_t;
 
+typedef unsigned int size_t;
 
 #endif /* INCLUDE__COMPAT__STDINT_H_ */

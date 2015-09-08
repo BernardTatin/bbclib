@@ -50,6 +50,7 @@ ref: all
 
 tests: all
 	$(RUNNER) ./$(EXE) --queue
+	$(RUNNER) ./$(EXE) --stack
 	$(RUNNER) ./$(EXE) --test | tr -d '\r' > $(compiler).log
 	diff  --suppress-common-lines -syW 132 $(compiler).log ref.log
 

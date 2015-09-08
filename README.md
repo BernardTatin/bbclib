@@ -1,7 +1,7 @@
 bbclib
 ======
 
-An experimental clib. Code is taken from some of my (very) old applications. 
+An experimental clib. Code is taken from some of my (sometimes very) old applications. 
 
 make
 ====

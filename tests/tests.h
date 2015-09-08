@@ -13,5 +13,6 @@ void bbprintf_reference(void);
 void bbprintf_btest(void);
 
 int test_queue(void);
+int test_stack(void);
 
 #endif // __tests_h__
