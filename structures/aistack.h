@@ -17,10 +17,10 @@ typedef struct _TSStack {
 } TSStack;
 
 static inline TSStack *new_stack(size_t size) {
-    TSStack *stack = (TSStack *)calloc(1, sizeof(TSStack));
+    TSStack *stack = (TSStack *) calloc(1, sizeof(TSStack));
     stack->size = size;
     stack->stack_ptr = 0;
-    stack->stack = (int_stack *)calloc(size, sizeof(int_stack));
+    stack->stack = (int_stack *) calloc(size, sizeof(int_stack));
     return stack;
 }
 
@@ -47,7 +47,7 @@ static inline int_stack ais_pop(TSStack *stack) {
         stack->stack_ptr--;
         return stack->stack[stack->stack_ptr];
     } else {
-        return (int_stack)-1;
+        return (int_stack) -1;
     }
 }
 
