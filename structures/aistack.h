@@ -16,7 +16,7 @@ typedef struct _TSStack {
     int_stack *stack;
 } TSStack;
 
-static inline TSStack *new_stack(size_t size) {
+static INLINE TSStack *new_stack(size_t size) {
     TSStack *stack = (TSStack *) calloc(1, sizeof(TSStack));
     stack->size = size;
     stack->stack_ptr = 0;
@@ -24,15 +24,15 @@ static inline TSStack *new_stack(size_t size) {
     return stack;
 }
 
-static inline bool is_stack_empty(TSStack *stack) {
+static INLINE bool is_stack_empty(TSStack *stack) {
     return stack->stack_ptr == 0;
 }
 
-static inline bool is_stack_full(TSStack *stack) {
+static INLINE bool is_stack_full(TSStack *stack) {
     return stack->stack_ptr >= stack->size;
 }
 
-static inline bool ais_push(TSStack *stack, int_stack value) {
+static INLINE bool ais_push(TSStack *stack, int_stack value) {
     if (!is_stack_full(stack)) {
         stack->stack[stack->stack_ptr] = value;
         stack->stack_ptr++;
@@ -42,7 +42,7 @@ static inline bool ais_push(TSStack *stack, int_stack value) {
     }
 }
 
-static inline int_stack ais_pop(TSStack *stack) {
+static INLINE int_stack ais_pop(TSStack *stack) {
     if (!is_stack_empty(stack)) {
         stack->stack_ptr--;
         return stack->stack[stack->stack_ptr];

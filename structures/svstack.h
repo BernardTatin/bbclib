@@ -16,7 +16,7 @@ typedef struct _SVStack {
     pSVariant *stack;
 } SVStack;
 
-static inline SVStack *new_svstack(size_t size) {
+static INLINE SVStack *new_svstack(size_t size) {
     SVStack *stack = (SVStack *) calloc(1, sizeof(SVStack));
     stack->size = size;
     stack->stack_ptr = 0;
@@ -24,15 +24,15 @@ static inline SVStack *new_svstack(size_t size) {
     return stack;
 }
 
-static inline bool is_svstack_empty(SVStack *stack) {
+static INLINE bool is_svstack_empty(SVStack *stack) {
     return stack->stack_ptr == 0;
 }
 
-static inline bool is_svstack_full(SVStack *stack) {
+static INLINE bool is_svstack_full(SVStack *stack) {
     return stack->stack_ptr >= stack->size;
 }
 
-static inline bool sv_push(SVStack *stack, SVariant *value) {
+static INLINE bool sv_push(SVStack *stack, SVariant *value) {
     if (!is_svstack_full(stack)) {
         stack->stack[stack->stack_ptr] = value;
         stack->stack_ptr++;
@@ -42,7 +42,7 @@ static inline bool sv_push(SVStack *stack, SVariant *value) {
     }
 }
 
-static inline SVariant *sv_pop(SVStack *stack) {
+static INLINE SVariant *sv_pop(SVStack *stack) {
     if (!is_svstack_empty(stack)) {
         stack->stack_ptr--;
         return stack->stack[stack->stack_ptr];

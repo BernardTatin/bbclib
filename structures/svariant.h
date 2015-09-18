@@ -24,12 +24,12 @@ typedef struct _SVariant {
 
 typedef SVariant *pSVariant;
 
-static inline SVariant *_sv_new(void) {
+static INLINE SVariant *_sv_new(void) {
     return (SVariant *)calloc(1, sizeof(SVariant));
 }
 
 #define _SVMAKER(vtype, value) \
-static inline SVariant *sv_new_ ## vtype(vtype value) { \
+static INLINE SVariant *sv_new_ ## vtype(vtype value) { \
     SVariant *sv = _sv_new(); \
     vtype *nvalue = (vtype *)malloc(sizeof(vtype)); \
  \
