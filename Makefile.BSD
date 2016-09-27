@@ -64,7 +64,6 @@ Debug: all
 Release: all
 
 all: _odir $(EXE)
-        @echo "OS : $(_os)"
 
 cleanDebug: clean
 
@@ -83,6 +82,7 @@ $(ODIR):
 	mkdir -p $@
 
 $(EXE): $(OBJS)
+	@echo "OS : $(_os)"
 	$(LD) -o $(.TARGET) $(.ALLSRC) $(LD_FLAGS)
 
 tests: $(EXE)
