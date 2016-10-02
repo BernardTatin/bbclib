@@ -20,7 +20,7 @@ $(LIB): $(LOBJS)
 	$(AR) $@ $(NLOBJS)
 	$(TDUMP) $@
 	
-BLIB = $(subst /,\,c:/Borland/Bc5/lib)
+BLIB = $(subst /,\,c:/BC5/lib)
 NOBJS = $(shell echo $(OBJS) | tr [a-z/] [A-Z\\\\])
 #$(subst t,T,$(subst /,\,$(OBJS)))
 
