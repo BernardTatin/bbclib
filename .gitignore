@@ -21,6 +21,13 @@
 *.sbr
 *~
 *.exe
+# visual studio
+*.sln
+*.suo
+*.vcproj*
+Release/
+Debug/
+
 *.log
 *.gz
 .*.swp
