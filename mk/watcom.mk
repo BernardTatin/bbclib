@@ -18,7 +18,7 @@ toclean = *.map *.err $(compiler).lk1 *.sym
 
 RUNNER = wine
 STD_WARNINGS = -w4 -e25
-STD_INCLUDE = -zq -i="$(WIN_WATCOM_BASE)/h;$(WIN_WATCOM_BASE)/h/nt;./include;./tests;./src/structures"
+STD_INCLUDE = -zq -i="$(WIN_WATCOM_BASE)/h;$(WIN_WATCOM_BASE)/h/nt;./include;./src/tests;./src/structures"
 STD_DEFINES = -dcompiler=$(CCNAME)
 ALLFLAGS = $(subst /,\,$(STD_INCLUDE)) $(STD_WARNINGS) $(DEBUG) $(MACHINE) $(STD_DEFINES)
 

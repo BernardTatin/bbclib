@@ -7,7 +7,7 @@ LIB = lib$(_LIB).a
 $(ODIR)/%.o: src/%.c
 	$(CC) $(ALLFLAGS) -c $< -o $@
 
-$(ODIR)/%.o: tests/%.c
+$(ODIR)/%.o: src/tests/%.c
 	$(CC) $(ALLFLAGS) -c $< -o $@
 
 $(ODIR)/%.o: src/structures/%.c

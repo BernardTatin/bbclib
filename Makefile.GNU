@@ -17,7 +17,7 @@ LSOURCES = $(wildcard src/*.c) $(wildcard src/structures/*.c)
 _LOBJS = $(patsubst %.c,%.o,$(notdir $(LSOURCES)))
 LOBJS = $(addprefix $(ODIR)/, $(_LOBJS))
 
-SOURCES = $(wildcard tests/*.c)
+SOURCES = $(wildcard src/tests/*.c)
 _OBJS = $(patsubst %.c,%.o,$(notdir $(SOURCES)))
 OBJS = $(addprefix $(ODIR)/, $(_OBJS))
 

@@ -7,7 +7,7 @@ LIB = $(_LIB).lib
 $(ODIR)/%.o: src/%.c
 	$(CC) $(subst /,\\,$<) $(ALLFLAGS) -fo=$(subst /,\\,$@)
 
-$(ODIR)/%.o: tests/%.c
+$(ODIR)/%.o: src/tests/%.c
 	$(CC) $(subst /,\\,$<) $(ALLFLAGS) -fo=$(subst /,\\,$@)
 
 $(ODIR)/%.o: src/structures/%.c

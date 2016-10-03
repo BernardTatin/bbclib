@@ -8,7 +8,7 @@ LIB = bc5.lib
 $(ODIR)/%.o: src/%.c
 	$(CC) $(ALLFLAGS) -c -o$(subst /,\\,$@) $(subst /,\\,$<)
 
-$(ODIR)/%.o: tests/%.c
+$(ODIR)/%.o: src/tests/%.c
 	$(CC) $(ALLFLAGS) -c -o$(subst /,\\,$@) $(subst /,\\,$<)
 
 $(ODIR)/%.o: src/structures/%.c

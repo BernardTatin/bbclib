@@ -17,7 +17,7 @@ toclean = *.map $(compiler).lk1 *.BAK
 
 RUNNER = wine
 STD_WARNINGS = 
-STD_INCLUDE = -Iinclude -Iinclude/_compat -Itests -Isrc/structures -Isrc -I$(WIN_BC5_BASE)/include
+STD_INCLUDE = -Iinclude -Iinclude/_compat -Isrc/tests -Isrc/structures -Isrc -I$(WIN_BC5_BASE)/include
 STD_DEFINES = -Dcompiler=$(CCNAME) -Dno_c11
 ALLFLAGS = $(subst /,\\,$(STD_INCLUDE)) $(STD_WARNINGS) $(DEBUG) $(MACHINE) $(STD_DEFINES)
 
