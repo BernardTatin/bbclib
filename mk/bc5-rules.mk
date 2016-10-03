@@ -14,13 +14,12 @@ $(ODIR)/%.o: tests/%.c
 $(ODIR)/%.o: structures/%.c
 	$(CC) $(ALLFLAGS) -c -o$(subst /,\\,$@) $(subst /,\\,$<)
 
-#NLOBJS = $(subst /,\\, $(shell echo $(subst $(ODIR),+-$(ODIR),$(LOBJS)) | tr [a-z] [A-Z]))
 NLOBJS = $(subst /,\\, $(subst $(ODIR),+-$(ODIR),$(LOBJS)))
 $(LIB): $(LOBJS)
 	$(AR) $@ $(NLOBJS)
 	$(TDUMP) $@
 	
-BLIB = $(subst /,\,c:/BC5/lib)
+BLIB = $(subst /,\,$(WIN_BC5_BASE)/lib)
 NOBJS = $(shell echo $(OBJS) | tr [a-z/] [A-Z\\\\])
 #$(subst t,T,$(subst /,\,$(OBJS)))
 
@@ -30,5 +29,3 @@ $(EXE): $(OBJS)
 	echo "$(EXE), $(EXE).map" >> $(compiler).lk1
 	echo "$(LIB) $(BLIB)\\IMPORT32.lib $(BLIB)\\Cw32.lib" >> $(compiler).lk1
 	$(LD) @$(compiler).lk1
-
-#	$(LD) Lc:\\Borland\\bc5\\lib;. -Twe $(OBJS),, $(LIB)
