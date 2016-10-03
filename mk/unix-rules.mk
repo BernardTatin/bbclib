@@ -10,7 +10,7 @@ $(ODIR)/%.o: src/%.c
 $(ODIR)/%.o: tests/%.c
 	$(CC) $(ALLFLAGS) -c $< -o $@
 
-$(ODIR)/%.o: structures/%.c
+$(ODIR)/%.o: src/structures/%.c
 	$(CC) $(ALLFLAGS) -c $< -o $@
 
 $(LIB): $(LOBJS)

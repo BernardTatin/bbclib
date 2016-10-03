@@ -10,7 +10,7 @@ $(ODIR)/%.o: src/%.c
 $(ODIR)/%.o: tests/%.c
 	$(CC) $(subst /,\\,$<) $(ALLFLAGS) -fo=$(subst /,\\,$@)
 
-$(ODIR)/%.o: structures/%.c
+$(ODIR)/%.o: src/structures/%.c
 	$(CC) $(subst /,\\,$<) $(ALLFLAGS) -fo=$(subst /,\\,$@)
 
 $(LIB): $(LOBJS)

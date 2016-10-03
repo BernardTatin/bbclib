@@ -11,7 +11,7 @@ $(ODIR)/%.o: src/%.c
 $(ODIR)/%.o: tests/%.c
 	$(CC) $(ALLFLAGS) -c -o$(subst /,\\,$@) $(subst /,\\,$<)
 
-$(ODIR)/%.o: structures/%.c
+$(ODIR)/%.o: src/structures/%.c
 	$(CC) $(ALLFLAGS) -c -o$(subst /,\\,$@) $(subst /,\\,$<)
 
 NLOBJS = $(subst /,\\, $(subst $(ODIR),+-$(ODIR),$(LOBJS)))

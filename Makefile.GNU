@@ -13,7 +13,7 @@ endif
 ODIR = objs$(CCNAME)
 
 
-LSOURCES = $(wildcard src/*.c) $(wildcard structures/*.c)
+LSOURCES = $(wildcard src/*.c) $(wildcard src/structures/*.c)
 _LOBJS = $(patsubst %.c,%.o,$(notdir $(LSOURCES)))
 LOBJS = $(addprefix $(ODIR)/, $(_LOBJS))
 
@@ -46,9 +46,9 @@ clean:
 
 
 ref: all
-	./$(EXE) --ref > ref.log
+	$(RUNNER) ./$(EXE) --ref | tr -d '\r' > ref.log
 
-tests: all
+tests: ref
 	$(RUNNER) ./$(EXE) --queue
 	$(RUNNER) ./$(EXE) --stack
 	$(RUNNER) ./$(EXE) --test | tr -d '\r' > $(compiler).log
