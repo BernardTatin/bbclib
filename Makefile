@@ -1,1 +1,1 @@
-Makefile.BSD
+Makefile.GNU
