@@ -1,21 +1,19 @@
-bbclib
-======
+# bbclib
 
-An experimental clib. Code is taken from some of my (sometimes very) old applications. 
+An experimental clib. Code is taken from some of my (sometimes very) old applications.
 
-make
-====
+## make
 
 On Linux or Cygwin, you can choose the compiler. A simple _make clean all_ will use _gcc_. If you want to use _clang_, or any other compiler, just do :
 
     make compiler=clang clean all
-    
+
 This is the list of available compilers :
  - _gcc_, default,
  - _clang_,
  - _watcom_, for Open Watcom, version 1.9, with _Wine_ on _Linux_,
  - _bc5_, for Borlandc, version 5, with _Wine_ on _Linux_.
- 
+
 This is the list of available target:
  - _lib_, create the library,
  - _exe_, create the library and the test program,
@@ -23,16 +21,15 @@ This is the list of available target:
  - _clean_, remove all the results of compilation,
  - _tests_, build and run the tests,
  - _analyze_, static analysis of the code.
-    
 
 
-debug_printf
-------------
 
-This _printf_ was done to get formatted output on RS232, from embedded software. 
+## debug_printf
+
+This _printf_ was done to get formatted output on RS232, from embedded software.
 I try to get a nice version which does not use too much memory and which is safe to use.
 
-Usage is very similar to _printf_ with limitations. 
+Usage is very similar to _printf_ with limitations.
 
 - %s : to print a string (all modifiers are ignored).
 - %c : to print a char (all modifiers are ignored).
