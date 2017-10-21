@@ -40,6 +40,8 @@ Usage is very similar to _printf_ with limitations.
 - %[0][_n_][l]x : to print integers in hexadecimal. Modifiers are as above.
 - %[0][_n_][l]b : to print integers in binary. Modifiers are as above.
 
+I did not find bugs... well , it's not a great guaranty.
+
 Notes:
 
 - (1) Integers are 16 bits wide and long integers are 32 bits wide.
