@@ -17,13 +17,13 @@ d'où la définition du nombre de bits qui ouvre le bal :
 <<intro-bits>>=
 /**
  * @def _RBUFFER_BITS
- * La taille du tampon doit �tre une puissance de 2. _RBUFFER_BITS est ce nombre.
+ * La taille du tampon doit être une puissance de 2. _RBUFFER_BITS est ce nombre.
  *
  * @def RBUFFER_SIZE
  * La taille du tampon.
  *
  * @def RBUFFER_MASK
- * La taille du tampon d�cr�ment�e de 1.
+ * La taille du tampon décrémentée de 1.
  */
 #define _RBUFFER_BITS   8
 #define RBUFFER_SIZE    (1 << _RBUFFER_BITS)
@@ -33,13 +33,14 @@ d'où la définition du nombre de bits qui ouvre le bal :
 Il reste encore du travail...
 
 <<*>>=
+<<intro-bits>>
 /**
  * @struct TSrbuffer
- * La structure g�rant le buffer tournant.
+ * La structure gérant le buffer tournant.
  */
 typedef struct {
-    volatile int in; /**< index du caract�re � ajouter */
-    volatile int out; /**< index du caract�re � sortir */
+    volatile int in; /**< index du caractère à ajouter */
+    volatile int out; /**< index du caractère à sortir */
     volatile int line_count; /**< nombre de lignes contenues dans le tampon */
     volatile char buffer[RBUFFER_SIZE]; /**< le tampon */
 } TSrbuffer;
