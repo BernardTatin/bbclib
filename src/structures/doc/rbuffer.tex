@@ -32,10 +32,9 @@ d'où la définition du nombre de bits qui ouvre le bal :
 \nwenddocs{}\nwbegindocs{3}\nwdocspar
 Il reste encore du travail...
 
-\nwenddocs{}\nwbegincode{4}\sublabel{NW3ofwFz-1p0Y9w-1}\nwmargintag{{\nwtagstyle{}\subpageref{NW3ofwFz-1p0Y9w-1}}}\moddef{*~{\nwtagstyle{}\subpageref{NW3ofwFz-1p0Y9w-1}}}\endmoddef\nwstartdeflinemarkup\nwenddeflinemarkup
-\LA{}intro-bits~{\nwtagstyle{}\subpageref{NW3ofwFz-2Sh6y8-1}}\RA{}
+\nwenddocs{}\nwbegincode{4}\sublabel{NW3ofwFz-35IAXm-1}\nwmargintag{{\nwtagstyle{}\subpageref{NW3ofwFz-35IAXm-1}}}\moddef{tsrbuffer~{\nwtagstyle{}\subpageref{NW3ofwFz-35IAXm-1}}}\endmoddef\nwstartdeflinemarkup\nwusesondefline{\\{NW3ofwFz-1p0Y9w-1}}\nwenddeflinemarkup
 /**
- * @struct TSrbuffer
+ * @struct \nwlinkedidentc{TSrbuffer}{NW3ofwFz-35IAXm-1}
  * La structure gérant le buffer tournant.
  */
 typedef struct \{
@@ -43,16 +42,25 @@ typedef struct \{
     volatile int out; /**< index du caractère à sortir */
     volatile int line_count; /**< nombre de lignes contenues dans le tampon */
     volatile char buffer[\nwlinkedidentc{RBUFFER_SIZE}{NW3ofwFz-2Sh6y8-1}]; /**< le tampon */
-\} TSrbuffer;
+\} \nwlinkedidentc{TSrbuffer}{NW3ofwFz-35IAXm-1};
+\nwindexdefn{\nwixident{TSrbuffer}}{TSrbuffer}{NW3ofwFz-35IAXm-1}\eatline
+\nwused{\\{NW3ofwFz-1p0Y9w-1}}\nwidentdefs{\\{{\nwixident{TSrbuffer}}{TSrbuffer}}}\nwidentuses{\\{{\nwixident{RBUFFER{\_}SIZE}}{RBUFFER:unSIZE}}}\nwindexuse{\nwixident{RBUFFER{\_}SIZE}}{RBUFFER:unSIZE}{NW3ofwFz-35IAXm-1}\nwendcode{}\nwbegindocs{5}\nwdocspar
+\subsection{le code final}
 
-\nwnotused{*}\nwidentuses{\\{{\nwixident{RBUFFER{\_}SIZE}}{RBUFFER:unSIZE}}}\nwindexuse{\nwixident{RBUFFER{\_}SIZE}}{RBUFFER:unSIZE}{NW3ofwFz-1p0Y9w-1}\nwendcode{}
+\nwenddocs{}\nwbegincode{6}\sublabel{NW3ofwFz-1p0Y9w-1}\nwmargintag{{\nwtagstyle{}\subpageref{NW3ofwFz-1p0Y9w-1}}}\moddef{*~{\nwtagstyle{}\subpageref{NW3ofwFz-1p0Y9w-1}}}\endmoddef\nwstartdeflinemarkup\nwenddeflinemarkup
+\LA{}intro-bits~{\nwtagstyle{}\subpageref{NW3ofwFz-2Sh6y8-1}}\RA{}
+\LA{}tsrbuffer~{\nwtagstyle{}\subpageref{NW3ofwFz-35IAXm-1}}\RA{}
+
+\nwnotused{*}\nwendcode{}
 
 \nwixlogsorted{c}{{*}{NW3ofwFz-1p0Y9w-1}{\nwixd{NW3ofwFz-1p0Y9w-1}}}%
 \nwixlogsorted{c}{{intro-bits}{NW3ofwFz-2Sh6y8-1}{\nwixd{NW3ofwFz-2Sh6y8-1}\nwixu{NW3ofwFz-1p0Y9w-1}}}%
+\nwixlogsorted{c}{{tsrbuffer}{NW3ofwFz-35IAXm-1}{\nwixd{NW3ofwFz-35IAXm-1}\nwixu{NW3ofwFz-1p0Y9w-1}}}%
 \nwixlogsorted{i}{{\nwixident{{\_}RBUFFER{\_}BITS}}{:unRBUFFER:unBITS}}%
 \nwixlogsorted{i}{{\nwixident{RBUFFER{\_}MASK}}{RBUFFER:unMASK}}%
 \nwixlogsorted{i}{{\nwixident{RBUFFER{\_}SIZE}}{RBUFFER:unSIZE}}%
-\nwbegindocs{5}\nwdocspar
+\nwixlogsorted{i}{{\nwixident{TSrbuffer}}{TSrbuffer}}%
+\nwbegindocs{7}\nwdocspar
 \paragraph{Defined Chunks}\par\noindent
 
 \nowebchunks

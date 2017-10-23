@@ -30,10 +30,11 @@ d'où la définition du nombre de bits qui ouvre le bal :
 @ %def _RBUFFER_BITS RBUFFER_SIZE RBUFFER_MASK
 
 @
-Il reste encore du travail...
+\subsection{la structure}
 
-<<*>>=
-<<intro-bits>>
+On note que tous les membres de la structure sont définis comme [[volatile]]. C'est important dans un système embarqué avec des interruptions pouvant manipuler le buffer, cela empêche des boucles d'être optimisées au point de ne plus lire la valeur contenue dans la structure pour la stocker dans un registre.
+
+<<tsrbuffer>>=
 /**
  * @struct TSrbuffer
  * La structure gérant le buffer tournant.
@@ -44,6 +45,13 @@ typedef struct {
     volatile int line_count; /**< nombre de lignes contenues dans le tampon */
     volatile char buffer[RBUFFER_SIZE]; /**< le tampon */
 } TSrbuffer;
+@ %def TSrbuffer
+
+\subsection{le code final}
+
+<<*>>=
+<<intro-bits>>
+<<tsrbuffer>>
 
 @
 \paragraph{Defined Chunks}\par\noindent
