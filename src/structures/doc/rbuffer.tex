@@ -1,0 +1,65 @@
+\documentclass[10pt]{article}% ===> this file was generated automatically by noweave --- better not edit it
+\usepackage{noweb}
+\noweboptions{smallcode,longchunks}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+% \usepackage[french]{babel}
+
+\author{Bernard Tatin}
+\date{2013/2017}
+\title{rbuffer.h, un buffer tournant}
+
+
+\begin{document}
+\pagestyle{noweb}
+\maketitle
+\tableofcontents
+\section{rbuffer}
+
+C'est un {\Tt{}buffer\ tournant\nwendquote} le plus simple possible, capable de gérer des lignes
+délimitées par \emph{LF} (\texttt{'$\backslash$n'}) mais \emph{CR} (\texttt{'$\backslash$r'}) n'est pas pris en compte.
+
+\subsection{premières définitions}
+Pour limiter les calculs, le code..., la taille du buffer est une puissance de 2
+d'où la définition du nombre de bits qui ouvre le bal :
+
+\nwfilename{../rbuffer.nw}\nwbegincode{1}\sublabel{NW3ofwFz-2Sh6y8-1}\nwmargintag{{\nwtagstyle{}\subpageref{NW3ofwFz-2Sh6y8-1}}}\moddef{intro-bits~{\nwtagstyle{}\subpageref{NW3ofwFz-2Sh6y8-1}}}\endmoddef\nwstartdeflinemarkup\nwusesondefline{\\{NW3ofwFz-1p0Y9w-1}}\nwenddeflinemarkup
+#define \nwlinkedidentc{_RBUFFER_BITS}{NW3ofwFz-2Sh6y8-1}   8
+#define \nwlinkedidentc{RBUFFER_SIZE}{NW3ofwFz-2Sh6y8-1}    (1 << \nwlinkedidentc{_RBUFFER_BITS}{NW3ofwFz-2Sh6y8-1})
+#define \nwlinkedidentc{RBUFFER_MASK}{NW3ofwFz-2Sh6y8-1}    (\nwlinkedidentc{RBUFFER_SIZE}{NW3ofwFz-2Sh6y8-1} - 1)
+\nwindexdefn{\nwixident{{\_}RBUFFER{\_}BITS}}{:unRBUFFER:unBITS}{NW3ofwFz-2Sh6y8-1}\nwindexdefn{\nwixident{RBUFFER{\_}SIZE}}{RBUFFER:unSIZE}{NW3ofwFz-2Sh6y8-1}\nwindexdefn{\nwixident{RBUFFER{\_}MASK}}{RBUFFER:unMASK}{NW3ofwFz-2Sh6y8-1}\eatline
+\nwused{\\{NW3ofwFz-1p0Y9w-1}}\nwidentdefs{\\{{\nwixident{{\_}RBUFFER{\_}BITS}}{:unRBUFFER:unBITS}}\\{{\nwixident{RBUFFER{\_}MASK}}{RBUFFER:unMASK}}\\{{\nwixident{RBUFFER{\_}SIZE}}{RBUFFER:unSIZE}}}\nwendcode{}\nwbegindocs{2}\nwdocspar
+\nwenddocs{}\nwbegindocs{3}\nwdocspar
+Il reste encore du travail...
+
+\nwenddocs{}\nwbegincode{4}\sublabel{NW3ofwFz-1p0Y9w-1}\nwmargintag{{\nwtagstyle{}\subpageref{NW3ofwFz-1p0Y9w-1}}}\moddef{*~{\nwtagstyle{}\subpageref{NW3ofwFz-1p0Y9w-1}}}\endmoddef\nwstartdeflinemarkup\nwenddeflinemarkup
+\LA{}intro-bits~{\nwtagstyle{}\subpageref{NW3ofwFz-2Sh6y8-1}}\RA{}
+/**
+ * @struct TSrbuffer
+ * La structure gérant le buffer tournant.
+ */
+typedef struct \{
+    volatile int in; /**< index du caractère à ajouter */
+    volatile int out; /**< index du caractère à sortir */
+    volatile int line_count; /**< nombre de lignes contenues dans le tampon */
+    volatile char buffer[\nwlinkedidentc{RBUFFER_SIZE}{NW3ofwFz-2Sh6y8-1}]; /**< le tampon */
+\} TSrbuffer;
+
+\nwnotused{*}\nwidentuses{\\{{\nwixident{RBUFFER{\_}SIZE}}{RBUFFER:unSIZE}}}\nwindexuse{\nwixident{RBUFFER{\_}SIZE}}{RBUFFER:unSIZE}{NW3ofwFz-1p0Y9w-1}\nwendcode{}
+
+\nwixlogsorted{c}{{*}{NW3ofwFz-1p0Y9w-1}{\nwixd{NW3ofwFz-1p0Y9w-1}}}%
+\nwixlogsorted{c}{{intro-bits}{NW3ofwFz-2Sh6y8-1}{\nwixd{NW3ofwFz-2Sh6y8-1}\nwixu{NW3ofwFz-1p0Y9w-1}}}%
+\nwixlogsorted{i}{{\nwixident{{\_}RBUFFER{\_}BITS}}{:unRBUFFER:unBITS}}%
+\nwixlogsorted{i}{{\nwixident{RBUFFER{\_}MASK}}{RBUFFER:unMASK}}%
+\nwixlogsorted{i}{{\nwixident{RBUFFER{\_}SIZE}}{RBUFFER:unSIZE}}%
+\nwbegindocs{5}\nwdocspar
+\paragraph{Defined Chunks}\par\noindent
+
+\nowebchunks
+
+\paragraph{Index}\par\noindent
+
+\nowebindex
+
+\end{document}
+\nwenddocs{}

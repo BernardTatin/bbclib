@@ -1,33 +1,33 @@
 \documentclass[10pt]{article}
 \usepackage{noweb}
 \noweboptions{smallcode,longchunks}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+% \usepackage[french]{babel}
+
+\author{Bernard Tatin}
+\date{2013/2017}
+\title{rbuffer.h, un buffer tournant}
+
 
 \begin{document}
 \pagestyle{noweb}
-
+\maketitle
+\tableofcontents
 \section{rbuffer}
 
-C'est un buffer tournant le plus simple possible, capable de gérer des lignes
-délimitées par \emph{LF} (\texttt{'\\n'}) mais \emph{CR} (\texttt{'\\r'}) n'est pas pris en compte.
+C'est un [[buffer tournant]] le plus simple possible, capable de gérer des lignes
+délimitées par \emph{LF} (\texttt{'$\backslash$n'}) mais \emph{CR} (\texttt{'$\backslash$r'}) n'est pas pris en compte.
 
 \subsection{premières définitions}
-Pour limiter les calcus, le code..., la taille du buffer est une puissance de 2
+Pour limiter les calculs, le code..., la taille du buffer est une puissance de 2
 d'où la définition du nombre de bits qui ouvre le bal :
 
 <<intro-bits>>=
-/**
- * @def _RBUFFER_BITS
- * La taille du tampon doit être une puissance de 2. _RBUFFER_BITS est ce nombre.
- *
- * @def RBUFFER_SIZE
- * La taille du tampon.
- *
- * @def RBUFFER_MASK
- * La taille du tampon décrémentée de 1.
- */
 #define _RBUFFER_BITS   8
 #define RBUFFER_SIZE    (1 << _RBUFFER_BITS)
 #define RBUFFER_MASK    (RBUFFER_SIZE - 1)
+@ %def _RBUFFER_BITS RBUFFER_SIZE RBUFFER_MASK
 
 @
 Il reste encore du travail...
@@ -44,3 +44,14 @@ typedef struct {
     volatile int line_count; /**< nombre de lignes contenues dans le tampon */
     volatile char buffer[RBUFFER_SIZE]; /**< le tampon */
 } TSrbuffer;
+
+@
+\paragraph{Defined Chunks}\par\noindent
+
+\nowebchunks
+
+\paragraph{Index}\par\noindent
+
+\nowebindex
+
+\end{document}

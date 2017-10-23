@@ -1,0 +1,4 @@
+\contentsline {section}{\numberline {1}rbuffer}{1}
+\contentsline {subsection}{\numberline {1.1}premi\IeC {\`e}res d\IeC {\'e}finitions}{1}
+\contentsline {paragraph}{Defined Chunks}{2}
+\contentsline {paragraph}{Index}{2}
