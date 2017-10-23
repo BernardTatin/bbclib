@@ -2,6 +2,8 @@
 
 An experimental clib. Code is taken from some of my (sometimes very) old applications.
 
+A big work is done to use _literate programming_ with `notangle` and `noweave` from the __noweb__ package.
+
 ## make
 
 On Linux or Cygwin, you can choose the compiler. A simple _make clean all_ will use _gcc_. If you want to use _clang_, or any other compiler, just do :
