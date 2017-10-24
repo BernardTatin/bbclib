@@ -1,9 +1,33 @@
 \documentclass[10pt]{article}
 \usepackage{noweb}
 \noweboptions{smallcode,longchunks}
+\usepackage{imfellEnglish}
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 % \usepackage[french]{babel}
+
+\usepackage{FiraMono}
+\usepackage{color}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\usepackage[bookmarks,backref=page,linkcolor=black]{hyperref} %,colorlinks
+\hypersetup{%
+  pdfauthor = {},
+  pdftitle = {},
+  pdfsubject = {},
+  pdfkeywords = {},
+  colorlinks=true,
+  linkcolor= mygray,
+  citecolor= black,
+  pageanchor=true,
+  urlcolor = mygray,
+  plainpages = false,
+  linktocpage
+}
+
+%% format des paragraphes
+\setlength{\parindent}{0cm}
+\setlength{\parskip}{4mm}
+% \linespread{1.2}
 
 \author{Bernard Tatin}
 \date{2013/2017}
@@ -16,12 +40,10 @@
 \tableofcontents
 \section{rbuffer}
 
-C'est un [[buffer tournant]] le plus simple possible, capable de gérer des lignes
-délimitées par \emph{LF} (\texttt{'$\backslash$n'}) mais \emph{CR} (\texttt{'$\backslash$r'}) n'est pas pris en compte.
+C'est un buffer tournant le plus simple possible, capable de gérer des lignes délimitées par \emph{LF} (\texttt{'$\backslash$n'}) mais \emph{CR} (\texttt{'$\backslash$r'}) n'est pas pris en compte.
 
 \subsection{premières définitions}
-Pour limiter les calculs, le code..., la taille du buffer est une puissance de 2
-d'où la définition du nombre de bits qui ouvre le bal :
+Pour limiter les calculs, le code..., la taille du buffer est une puissance de 2 d'où la définition du nombre de bits qui ouvre le bal :
 
 <<intro-bits>>=
 #define _RBUFFER_BITS   8
@@ -32,7 +54,8 @@ d'où la définition du nombre de bits qui ouvre le bal :
 @
 \subsection{la structure}
 
-On note que tous les membres de la structure sont définis comme [[volatile]]. C'est important dans un système embarqué avec des interruptions pouvant manipuler le buffer, cela empêche des boucles d'être optimisées au point de ne plus lire la valeur contenue dans la structure pour la stocker dans un registre.
+On note que tous les membres de la structure sont définis comme [[volatile]]. C'est important dans un système embarqué avec des interruptions pouvant manipuler le buffer, cela empêche des boucles d'être optimisées au point de ne plus lire la valeur contenue dans la structure pour la stocker dans un registre. Si une interruption modifie une de ces valeurs, une optimisation trop agressive ne permettra pas d'en tenir compte.
+
 
 <<tsrbuffer>>=
 /**
@@ -40,13 +63,39 @@ On note que tous les membres de la structure sont définis comme [[volatile]]. C
  * La structure gérant le buffer tournant.
  */
 typedef struct {
-    volatile int in; /**< index du caractère à ajouter */
-    volatile int out; /**< index du caractère à sortir */
-    volatile int line_count; /**< nombre de lignes contenues dans le tampon */
-    volatile char buffer[RBUFFER_SIZE]; /**< le tampon */
+    volatile int in;
+    volatile int out;
+    volatile int line_count;
+    volatile char buffer[RBUFFER_SIZE];
 } TSrbuffer;
 @ %def TSrbuffer
 
+@
+\subsubsection{les champs}
+
+\subsubsection{le fonctionnement}
+Le fonctionnement est le suivant pour l'ajout d'un caractère :
+
+\begin{itemize}
+  \item on place le caractère dans le buffer à la position [[in]],
+  \item on incrémente [[in]],
+  \item si on atteint la limite du buffer, on positionne [[in]] à 0,
+  \item si le caractère est '$\backslash$n', on incrémente [[line_count]].
+\end{itemize}
+
+Pour lire un caractère, c'est un peu plus compliqué, il faut s'assurer qu'il y en a au moins un de présent.
+
+\subsubsection{remarques diverses}
+On pourrait définir un [[VOLATILE]] en fonction de l'architecture du type :
+
+<<define-volatile>>=
+#if defined(__with_irqs)
+  #define VOLATILE volatile
+#else
+  #define VOLATILE
+#endif
+
+@
 \subsection{le code final}
 
 <<*>>=
@@ -54,11 +103,11 @@ typedef struct {
 <<tsrbuffer>>
 
 @
-\paragraph{Defined Chunks}\par\noindent
+\subsection{Defined Chunks}
 
 \nowebchunks
 
-\paragraph{Index}\par\noindent
+\subsection{Index}
 
 \nowebindex
 

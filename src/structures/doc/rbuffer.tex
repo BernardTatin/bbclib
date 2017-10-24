@@ -1,9 +1,33 @@
 \documentclass[10pt]{article}% ===> this file was generated automatically by noweave --- better not edit it
 \usepackage{noweb}
 \noweboptions{smallcode,longchunks}
+\usepackage{imfellEnglish}
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 % \usepackage[french]{babel}
+
+\usepackage{FiraMono}
+\usepackage{color}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\usepackage[bookmarks,backref=page,linkcolor=black]{hyperref} %,colorlinks
+\hypersetup{%
+  pdfauthor = {},
+  pdftitle = {},
+  pdfsubject = {},
+  pdfkeywords = {},
+  colorlinks=true,
+  linkcolor= mygray,
+  citecolor= black,
+  pageanchor=true,
+  urlcolor = mygray,
+  plainpages = false,
+  linktocpage
+}
+
+%% format des paragraphes
+\setlength{\parindent}{0cm}
+\setlength{\parskip}{4mm}
+% \linespread{1.2}
 
 \author{Bernard Tatin}
 \date{2013/2017}
@@ -16,12 +40,10 @@
 \tableofcontents
 \section{rbuffer}
 
-C'est un {\Tt{}buffer\ tournant\nwendquote} le plus simple possible, capable de gérer des lignes
-délimitées par \emph{LF} (\texttt{'$\backslash$n'}) mais \emph{CR} (\texttt{'$\backslash$r'}) n'est pas pris en compte.
+C'est un buffer tournant le plus simple possible, capable de gérer des lignes délimitées par \emph{LF} (\texttt{'$\backslash$n'}) mais \emph{CR} (\texttt{'$\backslash$r'}) n'est pas pris en compte.
 
 \subsection{premières définitions}
-Pour limiter les calculs, le code..., la taille du buffer est une puissance de 2
-d'où la définition du nombre de bits qui ouvre le bal :
+Pour limiter les calculs, le code..., la taille du buffer est une puissance de 2 d'où la définition du nombre de bits qui ouvre le bal :
 
 \nwfilename{../rbuffer.nw}\nwbegincode{1}\sublabel{NW3ofwFz-2Sh6y8-1}\nwmargintag{{\nwtagstyle{}\subpageref{NW3ofwFz-2Sh6y8-1}}}\moddef{intro-bits~{\nwtagstyle{}\subpageref{NW3ofwFz-2Sh6y8-1}}}\endmoddef\nwstartdeflinemarkup\nwusesondefline{\\{NW3ofwFz-1p0Y9w-1}}\nwenddeflinemarkup
 #define \nwlinkedidentc{_RBUFFER_BITS}{NW3ofwFz-2Sh6y8-1}   8
@@ -30,7 +52,10 @@ d'où la définition du nombre de bits qui ouvre le bal :
 \nwindexdefn{\nwixident{{\_}RBUFFER{\_}BITS}}{:unRBUFFER:unBITS}{NW3ofwFz-2Sh6y8-1}\nwindexdefn{\nwixident{RBUFFER{\_}SIZE}}{RBUFFER:unSIZE}{NW3ofwFz-2Sh6y8-1}\nwindexdefn{\nwixident{RBUFFER{\_}MASK}}{RBUFFER:unMASK}{NW3ofwFz-2Sh6y8-1}\eatline
 \nwused{\\{NW3ofwFz-1p0Y9w-1}}\nwidentdefs{\\{{\nwixident{{\_}RBUFFER{\_}BITS}}{:unRBUFFER:unBITS}}\\{{\nwixident{RBUFFER{\_}MASK}}{RBUFFER:unMASK}}\\{{\nwixident{RBUFFER{\_}SIZE}}{RBUFFER:unSIZE}}}\nwendcode{}\nwbegindocs{2}\nwdocspar
 \nwenddocs{}\nwbegindocs{3}\nwdocspar
-Il reste encore du travail...
+\subsection{la structure}
+
+On note que tous les membres de la structure sont définis comme {\Tt{}volatile\nwendquote}. C'est important dans un système embarqué avec des interruptions pouvant manipuler le buffer, cela empêche des boucles d'être optimisées au point de ne plus lire la valeur contenue dans la structure pour la stocker dans un registre. Si une interruption modifie une de ces valeurs, une optimisation trop agressive ne permettra pas d'en tenir compte.
+
 
 \nwenddocs{}\nwbegincode{4}\sublabel{NW3ofwFz-35IAXm-1}\nwmargintag{{\nwtagstyle{}\subpageref{NW3ofwFz-35IAXm-1}}}\moddef{tsrbuffer~{\nwtagstyle{}\subpageref{NW3ofwFz-35IAXm-1}}}\endmoddef\nwstartdeflinemarkup\nwusesondefline{\\{NW3ofwFz-1p0Y9w-1}}\nwenddeflinemarkup
 /**
@@ -38,34 +63,61 @@ Il reste encore du travail...
  * La structure gérant le buffer tournant.
  */
 typedef struct \{
-    volatile int in; /**< index du caractère à ajouter */
-    volatile int out; /**< index du caractère à sortir */
-    volatile int line_count; /**< nombre de lignes contenues dans le tampon */
-    volatile char buffer[\nwlinkedidentc{RBUFFER_SIZE}{NW3ofwFz-2Sh6y8-1}]; /**< le tampon */
+    volatile int in;
+    volatile int out;
+    volatile int line_count;
+    volatile char buffer[\nwlinkedidentc{RBUFFER_SIZE}{NW3ofwFz-2Sh6y8-1}];
 \} \nwlinkedidentc{TSrbuffer}{NW3ofwFz-35IAXm-1};
 \nwindexdefn{\nwixident{TSrbuffer}}{TSrbuffer}{NW3ofwFz-35IAXm-1}\eatline
 \nwused{\\{NW3ofwFz-1p0Y9w-1}}\nwidentdefs{\\{{\nwixident{TSrbuffer}}{TSrbuffer}}}\nwidentuses{\\{{\nwixident{RBUFFER{\_}SIZE}}{RBUFFER:unSIZE}}}\nwindexuse{\nwixident{RBUFFER{\_}SIZE}}{RBUFFER:unSIZE}{NW3ofwFz-35IAXm-1}\nwendcode{}\nwbegindocs{5}\nwdocspar
+\nwenddocs{}\nwbegindocs{6}\nwdocspar
+\subsubsection{les champs}
+
+\subsubsection{le fonctionnement}
+Le fonctionnement est le suivant pour l'ajout d'un caractère :
+
+\begin{itemize}
+  \item on place le caractère dans le buffer à la position {\Tt{}in\nwendquote},
+  \item on incrémente {\Tt{}in\nwendquote},
+  \item si on atteint la limite du buffer, on positionne {\Tt{}in\nwendquote} à 0,
+  \item si le caractère est '$\backslash$n', on incrémente {\Tt{}line{\_}count\nwendquote}.
+\end{itemize}
+
+Pour lire un caractère, c'est un peu plus compliqué, il faut s'assurer qu'il y en a au moins un de présent.
+
+\subsubsection{remarques diverses}
+On pourrait définir un {\Tt{}VOLATILE\nwendquote} en fonction de l'architecture du type :
+
+\nwenddocs{}\nwbegincode{7}\sublabel{NW3ofwFz-43E2er-1}\nwmargintag{{\nwtagstyle{}\subpageref{NW3ofwFz-43E2er-1}}}\moddef{define-volatile~{\nwtagstyle{}\subpageref{NW3ofwFz-43E2er-1}}}\endmoddef\nwstartdeflinemarkup\nwenddeflinemarkup
+#if defined(__with_irqs)
+  #define VOLATILE volatile
+#else
+  #define VOLATILE
+#endif
+
+\nwnotused{define-volatile}\nwendcode{}\nwbegindocs{8}\nwdocspar
 \subsection{le code final}
 
-\nwenddocs{}\nwbegincode{6}\sublabel{NW3ofwFz-1p0Y9w-1}\nwmargintag{{\nwtagstyle{}\subpageref{NW3ofwFz-1p0Y9w-1}}}\moddef{*~{\nwtagstyle{}\subpageref{NW3ofwFz-1p0Y9w-1}}}\endmoddef\nwstartdeflinemarkup\nwenddeflinemarkup
+\nwenddocs{}\nwbegincode{9}\sublabel{NW3ofwFz-1p0Y9w-1}\nwmargintag{{\nwtagstyle{}\subpageref{NW3ofwFz-1p0Y9w-1}}}\moddef{*~{\nwtagstyle{}\subpageref{NW3ofwFz-1p0Y9w-1}}}\endmoddef\nwstartdeflinemarkup\nwenddeflinemarkup
 \LA{}intro-bits~{\nwtagstyle{}\subpageref{NW3ofwFz-2Sh6y8-1}}\RA{}
 \LA{}tsrbuffer~{\nwtagstyle{}\subpageref{NW3ofwFz-35IAXm-1}}\RA{}
 
 \nwnotused{*}\nwendcode{}
 
 \nwixlogsorted{c}{{*}{NW3ofwFz-1p0Y9w-1}{\nwixd{NW3ofwFz-1p0Y9w-1}}}%
+\nwixlogsorted{c}{{define-volatile}{NW3ofwFz-43E2er-1}{\nwixd{NW3ofwFz-43E2er-1}}}%
 \nwixlogsorted{c}{{intro-bits}{NW3ofwFz-2Sh6y8-1}{\nwixd{NW3ofwFz-2Sh6y8-1}\nwixu{NW3ofwFz-1p0Y9w-1}}}%
 \nwixlogsorted{c}{{tsrbuffer}{NW3ofwFz-35IAXm-1}{\nwixd{NW3ofwFz-35IAXm-1}\nwixu{NW3ofwFz-1p0Y9w-1}}}%
 \nwixlogsorted{i}{{\nwixident{{\_}RBUFFER{\_}BITS}}{:unRBUFFER:unBITS}}%
 \nwixlogsorted{i}{{\nwixident{RBUFFER{\_}MASK}}{RBUFFER:unMASK}}%
 \nwixlogsorted{i}{{\nwixident{RBUFFER{\_}SIZE}}{RBUFFER:unSIZE}}%
 \nwixlogsorted{i}{{\nwixident{TSrbuffer}}{TSrbuffer}}%
-\nwbegindocs{7}\nwdocspar
-\paragraph{Defined Chunks}\par\noindent
+\nwbegindocs{10}\nwdocspar
+\subsection{Defined Chunks}
 
 \nowebchunks
 
-\paragraph{Index}\par\noindent
+\subsection{Index}
 
 \nowebindex
 
