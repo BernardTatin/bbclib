@@ -1,33 +1,6 @@
 \documentclass[10pt]{article}
-\usepackage{noweb}
-\noweboptions{smallcode,longchunks}
-\usepackage{imfellEnglish}
-\usepackage[T1]{fontenc}
-\usepackage[utf8]{inputenc}
-% \usepackage[french]{babel}
 
-\usepackage{FiraMono}
-\usepackage{color}
-\definecolor{mygray}{rgb}{0.5,0.5,0.5}
-\usepackage[bookmarks,backref=page,linkcolor=black]{hyperref} %,colorlinks
-\hypersetup{%
-  pdfauthor = {},
-  pdftitle = {},
-  pdfsubject = {},
-  pdfkeywords = {},
-  colorlinks=true,
-  linkcolor= mygray,
-  citecolor= black,
-  pageanchor=true,
-  urlcolor = mygray,
-  plainpages = false,
-  linktocpage
-}
-
-%% format des paragraphes
-\setlength{\parindent}{0cm}
-\setlength{\parskip}{4mm}
-% \linespread{1.2}
+\input{prelude.tex}
 
 \author{Bernard Tatin}
 \date{2013/2017}
@@ -103,11 +76,11 @@ On pourrait définir un [[VOLATILE]] en fonction de l'architecture du type :
 <<tsrbuffer>>
 
 @
-\subsection{Defined Chunks}
+\subsection{extraits de code}
 
 \nowebchunks
 
-\subsection{Index}
+\subsection{index}
 
 \nowebindex
 
