@@ -1,13 +1,17 @@
 \usepackage{noweb}
-\noweboptions{smallcode,longchunks}
-\usepackage{imfellEnglish}
+\noweboptions{smallcode,longchunks,longxref}
+
 \usepackage[T1]{fontenc}
+%\usepackage{imfellEnglish}
+\usepackage[default]{gillius}
+\usepackage[zerostyle=d]{newtxtt}
+%\usepackage{FiraMono}
+
 \usepackage[utf8]{inputenc}
 % \usepackage[french]{babel}
 
-\usepackage{FiraMono}
 \usepackage{color}
-\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mygray}{rgb}{0.4,0.4,0.4}
 \usepackage[bookmarks,backref=page,linkcolor=mygray]{hyperref} %,colorlinks
 \hypersetup{%
   pdfauthor = {Bernard Tatin},
@@ -26,4 +30,12 @@
 %% format des paragraphes
 \setlength{\parindent}{0cm}
 \setlength{\parskip}{4mm}
-\linespread{1.2}
+\linespread{1.1}
+\let\nwdocspar=\smallbreak
+
+\newenvironment{packed_enum}{
+\begin{enumerate}
+  \setlength{\itemsep}{0pt}
+  \setlength{\parskip}{0pt}
+  \setlength{\parsep}{0pt}
+}{\end{enumerate}}

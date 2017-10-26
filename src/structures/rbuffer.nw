@@ -27,8 +27,7 @@ Pour limiter les calculs, le code..., la taille du buffer est une puissance de 2
 @
 \subsection{la structure}
 
-On note que tous les membres de la structure sont définis comme [[volatile]]. C'est important dans un système embarqué avec des interruptions pouvant manipuler le buffer, cela empêche des boucles d'être optimisées au point de ne plus lire la valeur contenue dans la structure pour la stocker dans un registre. Si une interruption modifie une de ces valeurs, une optimisation trop agressive ne permettra pas d'en tenir compte.
-
+\textbf{\textit{Note: }} tous les membres de la structure sont définis comme [[volatile]]. C'est important dans un système embarqué avec des interruptions pouvant manipuler le buffer. Sans [[volatile]], une optimisation trop agressive pourrait placer une des valeurs entières dans un registre. En cas d'interruption modifiant cette valeur, le registre, lui, ne bougera pas et des caractères pourraient se perdre.
 
 <<tsrbuffer>>=
 /**
@@ -49,13 +48,14 @@ typedef struct {
 \subsubsection{le fonctionnement}
 Le fonctionnement est le suivant pour l'ajout d'un caractère :
 
-\begin{itemize}
+\begin{packed_enum}
   \item on place le caractère dans le buffer à la position [[in]],
   \item on incrémente [[in]],
   \item si on atteint la limite du buffer, on positionne [[in]] à 0,
   \item si le caractère est '$\backslash$n', on incrémente [[line_count]].
-\end{itemize}
+\end{packed_enum}
 
+@
 Pour lire un caractère, c'est un peu plus compliqué, il faut s'assurer qu'il y en a au moins un de présent.
 
 \subsubsection{remarques diverses}
@@ -76,6 +76,7 @@ On pourrait définir un [[VOLATILE]] en fonction de l'architecture du type :
 <<tsrbuffer>>
 
 @
+\section{annexes}
 \subsection{extraits de code}
 
 \nowebchunks

@@ -27,8 +27,7 @@ Pour limiter les calculs, le code..., la taille du buffer est une puissance de 2
 \nwenddocs{}\nwbegindocs{3}\nwdocspar
 \subsection{la structure}
 
-On note que tous les membres de la structure sont définis comme {\Tt{}volatile\nwendquote}. C'est important dans un système embarqué avec des interruptions pouvant manipuler le buffer, cela empêche des boucles d'être optimisées au point de ne plus lire la valeur contenue dans la structure pour la stocker dans un registre. Si une interruption modifie une de ces valeurs, une optimisation trop agressive ne permettra pas d'en tenir compte.
-
+\textbf{\textit{Note: }} tous les membres de la structure sont définis comme {\Tt{}volatile\nwendquote}. C'est important dans un système embarqué avec des interruptions pouvant manipuler le buffer. Sans {\Tt{}volatile\nwendquote}, une optimisation trop agressive pourrait placer une des valeurs entières dans un registre. En cas d'interruption modifiant cette valeur, le registre, lui, ne bougera pas et des caractères pourraient se perdre.
 
 \nwenddocs{}\nwbegincode{4}\sublabel{NW3ofwFz-35IAXm-1}\nwmargintag{{\nwtagstyle{}\subpageref{NW3ofwFz-35IAXm-1}}}\moddef{tsrbuffer~{\nwtagstyle{}\subpageref{NW3ofwFz-35IAXm-1}}}\endmoddef\nwstartdeflinemarkup\nwusesondefline{\\{NW3ofwFz-1p0Y9w-1}}\nwenddeflinemarkup
 /**
@@ -49,29 +48,30 @@ typedef struct \{
 \subsubsection{le fonctionnement}
 Le fonctionnement est le suivant pour l'ajout d'un caractère :
 
-\begin{itemize}
+\begin{packed_enum}
   \item on place le caractère dans le buffer à la position {\Tt{}in\nwendquote},
   \item on incrémente {\Tt{}in\nwendquote},
   \item si on atteint la limite du buffer, on positionne {\Tt{}in\nwendquote} à 0,
   \item si le caractère est '$\backslash$n', on incrémente {\Tt{}line{\_}count\nwendquote}.
-\end{itemize}
+\end{packed_enum}
 
+\nwenddocs{}\nwbegindocs{7}\nwdocspar
 Pour lire un caractère, c'est un peu plus compliqué, il faut s'assurer qu'il y en a au moins un de présent.
 
 \subsubsection{remarques diverses}
 On pourrait définir un {\Tt{}VOLATILE\nwendquote} en fonction de l'architecture du type :
 
-\nwenddocs{}\nwbegincode{7}\sublabel{NW3ofwFz-43E2er-1}\nwmargintag{{\nwtagstyle{}\subpageref{NW3ofwFz-43E2er-1}}}\moddef{define-volatile~{\nwtagstyle{}\subpageref{NW3ofwFz-43E2er-1}}}\endmoddef\nwstartdeflinemarkup\nwenddeflinemarkup
+\nwenddocs{}\nwbegincode{8}\sublabel{NW3ofwFz-43E2er-1}\nwmargintag{{\nwtagstyle{}\subpageref{NW3ofwFz-43E2er-1}}}\moddef{define-volatile~{\nwtagstyle{}\subpageref{NW3ofwFz-43E2er-1}}}\endmoddef\nwstartdeflinemarkup\nwenddeflinemarkup
 #if defined(__with_irqs)
   #define VOLATILE volatile
 #else
   #define VOLATILE
 #endif
 
-\nwnotused{define-volatile}\nwendcode{}\nwbegindocs{8}\nwdocspar
+\nwnotused{define-volatile}\nwendcode{}\nwbegindocs{9}\nwdocspar
 \subsection{le code final}
 
-\nwenddocs{}\nwbegincode{9}\sublabel{NW3ofwFz-1p0Y9w-1}\nwmargintag{{\nwtagstyle{}\subpageref{NW3ofwFz-1p0Y9w-1}}}\moddef{*~{\nwtagstyle{}\subpageref{NW3ofwFz-1p0Y9w-1}}}\endmoddef\nwstartdeflinemarkup\nwenddeflinemarkup
+\nwenddocs{}\nwbegincode{10}\sublabel{NW3ofwFz-1p0Y9w-1}\nwmargintag{{\nwtagstyle{}\subpageref{NW3ofwFz-1p0Y9w-1}}}\moddef{*~{\nwtagstyle{}\subpageref{NW3ofwFz-1p0Y9w-1}}}\endmoddef\nwstartdeflinemarkup\nwenddeflinemarkup
 \LA{}intro-bits~{\nwtagstyle{}\subpageref{NW3ofwFz-2Sh6y8-1}}\RA{}
 \LA{}tsrbuffer~{\nwtagstyle{}\subpageref{NW3ofwFz-35IAXm-1}}\RA{}
 
@@ -85,8 +85,9 @@ On pourrait définir un {\Tt{}VOLATILE\nwendquote} en fonction de l'architecture
 \nwixlogsorted{i}{{\nwixident{RBUFFER{\_}MASK}}{RBUFFER:unMASK}}%
 \nwixlogsorted{i}{{\nwixident{RBUFFER{\_}SIZE}}{RBUFFER:unSIZE}}%
 \nwixlogsorted{i}{{\nwixident{TSrbuffer}}{TSrbuffer}}%
-\nwbegindocs{10}\nwdocspar
-\subsection{exrtaits de code}
+\nwbegindocs{11}\nwdocspar
+\section{annexes}
+\subsection{extraits de code}
 
 \nowebchunks
 
