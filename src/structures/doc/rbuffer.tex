@@ -1,6 +1,14 @@
 \documentclass[10pt]{article}% ===> this file was generated automatically by noweave --- better not edit it
 
 \input{prelude.tex}
+\renewenvironment{abstract}{%
+  \hfill
+  \begin{minipage}
+    {0.95\textwidth}
+    \rule{\textwidth}{1pt}
+    {\par\noindent\rule{\textwidth}{1pt}}
+  \end{minipage}
+}
 
 \author{Bernard Tatin}
 \date{2013/2017}
@@ -44,31 +52,30 @@ typedef struct \{
 \nwused{\\{NW3ofwFz-1p0Y9w-1}}\nwidentdefs{\\{{\nwixident{TSrbuffer}}{TSrbuffer}}}\nwidentuses{\\{{\nwixident{RBUFFER{\_}SIZE}}{RBUFFER:unSIZE}}}\nwindexuse{\nwixident{RBUFFER{\_}SIZE}}{RBUFFER:unSIZE}{NW3ofwFz-35IAXm-1}\nwendcode{}\nwbegindocs{5}\nwdocspar
 \nwenddocs{}\nwbegindocs{6}\nwdocspar
 \subsubsection{les champs}
-
-\subsubsection{le fonctionnement}
-Le fonctionnement est le suivant pour l'ajout d'un caractère :
-
-\begin{packed_enum}
-  \item on place le caractère dans le buffer à la position {\Tt{}in\nwendquote},
-  \item on incrémente {\Tt{}in\nwendquote},
-  \item si on atteint la limite du buffer, on positionne {\Tt{}in\nwendquote} à 0,
-  \item si le caractère est '$\backslash$n', on incrémente {\Tt{}line{\_}count\nwendquote}.
-\end{packed_enum}
-
-\nwenddocs{}\nwbegindocs{7}\nwdocspar
-Pour lire un caractère, c'est un peu plus compliqué, il faut s'assurer qu'il y en a au moins un de présent.
-
 \subsubsection{remarques diverses}
 On pourrait définir un {\Tt{}VOLATILE\nwendquote} en fonction de l'architecture du type :
 
-\nwenddocs{}\nwbegincode{8}\sublabel{NW3ofwFz-43E2er-1}\nwmargintag{{\nwtagstyle{}\subpageref{NW3ofwFz-43E2er-1}}}\moddef{define-volatile~{\nwtagstyle{}\subpageref{NW3ofwFz-43E2er-1}}}\endmoddef\nwstartdeflinemarkup\nwenddeflinemarkup
+\nwenddocs{}\nwbegincode{7}\sublabel{NW3ofwFz-43E2er-1}\nwmargintag{{\nwtagstyle{}\subpageref{NW3ofwFz-43E2er-1}}}\moddef{define-volatile~{\nwtagstyle{}\subpageref{NW3ofwFz-43E2er-1}}}\endmoddef\nwstartdeflinemarkup\nwenddeflinemarkup
 #if defined(__with_irqs)
   #define VOLATILE volatile
 #else
   #define VOLATILE
 #endif
 
-\nwnotused{define-volatile}\nwendcode{}\nwbegindocs{9}\nwdocspar
+\nwnotused{define-volatile}\nwendcode{}\nwbegindocs{8}\nwdocspar
+\subsection{le fonctionnement}
+\subsubsection{ajout d'un caractère}
+Le fonctionnement est le suivant pour l'ajout d'un caractère :
+
+\begin{packed_itemize}
+  \item on place le caractère dans le buffer à la position {\Tt{}in\nwendquote},
+  \item on incrémente {\Tt{}in\nwendquote},
+  \item si on atteint la limite du buffer, on positionne {\Tt{}in\nwendquote} à 0,
+  \item si le caractère est '$\backslash$n', on incrémente {\Tt{}line{\_}count\nwendquote}.
+\end{packed_itemize}
+
+
+\nwenddocs{}\nwbegindocs{9}\nwdocspar
 \subsection{le code final}
 
 \nwenddocs{}\nwbegincode{10}\sublabel{NW3ofwFz-1p0Y9w-1}\nwmargintag{{\nwtagstyle{}\subpageref{NW3ofwFz-1p0Y9w-1}}}\moddef{*~{\nwtagstyle{}\subpageref{NW3ofwFz-1p0Y9w-1}}}\endmoddef\nwstartdeflinemarkup\nwenddeflinemarkup

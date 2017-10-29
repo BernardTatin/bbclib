@@ -70,3 +70,5 @@ bc5o/
 *.idx
 *.toc
 *.out
+*.bbl
+*.blg

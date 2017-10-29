@@ -1,6 +1,14 @@
 \documentclass[10pt]{article}
 
 \input{prelude.tex}
+\renewenvironment{abstract}{%
+  \hfill
+  \begin{minipage}
+    {0.95\textwidth}
+    \rule{\textwidth}{1pt}
+    {\par\noindent\rule{\textwidth}{1pt}}
+  \end{minipage}
+}
 
 \author{Bernard Tatin}
 \date{2013/2017}
@@ -44,20 +52,6 @@ typedef struct {
 
 @
 \subsubsection{les champs}
-
-\subsubsection{le fonctionnement}
-Le fonctionnement est le suivant pour l'ajout d'un caractère :
-
-\begin{packed_enum}
-  \item on place le caractère dans le buffer à la position [[in]],
-  \item on incrémente [[in]],
-  \item si on atteint la limite du buffer, on positionne [[in]] à 0,
-  \item si le caractère est '$\backslash$n', on incrémente [[line_count]].
-\end{packed_enum}
-
-@
-Pour lire un caractère, c'est un peu plus compliqué, il faut s'assurer qu'il y en a au moins un de présent.
-
 \subsubsection{remarques diverses}
 On pourrait définir un [[VOLATILE]] en fonction de l'architecture du type :
 
@@ -67,6 +61,19 @@ On pourrait définir un [[VOLATILE]] en fonction de l'architecture du type :
 #else
   #define VOLATILE
 #endif
+
+@
+\subsection{le fonctionnement}
+\subsubsection{ajout d'un caractère}
+Le fonctionnement est le suivant pour l'ajout d'un caractère :
+
+\begin{packed_itemize}
+  \item on place le caractère dans le buffer à la position [[in]],
+  \item on incrémente [[in]],
+  \item si on atteint la limite du buffer, on positionne [[in]] à 0,
+  \item si le caractère est '$\backslash$n', on incrémente [[line_count]].
+\end{packed_itemize}
+
 
 @
 \subsection{le code final}
