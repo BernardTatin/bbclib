@@ -13,7 +13,7 @@
 \tableofcontents
 \section{rbuffer}
 
-C'est un buffer tournant le plus simple possible, capable de gérer des lignes délimitées par \emph{LF} (\texttt{'$\backslash$n'}) mais \emph{CR} (\texttt{'$\backslash$r'}) n'est pas pris en compte.
+C'est un buffer tournant le plus simple possible, capable de gérer des lignes délimitées par \emph{LF} (\texttt{'$\backslash$n'}) mais \emph{CR} (\texttt{'$\backslash$r'}) n'est pas pris en compte, plus exactement, il est rejetté.
 
 \subsection{premières définitions}
 Pour limiter les calculs, le code..., la taille du buffer est une puissance de 2 d'où la définition du nombre de bits qui ouvre le bal :
@@ -55,6 +55,23 @@ On pourrait définir un [[VOLATILE]] en fonction de l'architecture du type :
 #endif
 
 @
+Ce qui donnerait au final :
+
+<<tsrbuffer-final>>=
+/**
+ * @struct TSrbuffer
+ * La structure gérant le buffer tournant.
+ */
+typedef struct {
+    VOLATILE int in;
+    VOLATILE int out;
+    VOLATILE int line_count;
+    VOLATILE char buffer[RBUFFER_SIZE];
+} TSrbuffer;
+@ %def TSrbuffer
+
+@
+
 \subsection{le fonctionnement}
 \subsubsection{ajout d'un caractère}
 Le fonctionnement est le suivant pour l'ajout d'un caractère :
@@ -84,7 +101,8 @@ static INLINE void rbf_add_char(TSrbuffer *rb, const char c) {
 
 <<*>>=
 <<intro-bits>>
-<<tsrbuffer>>
+<<define-volatile>>
+<<tsrbuffer-final>>
 <<add-char>>
 @
 \section{annexes}
@@ -103,7 +121,8 @@ pdflatex rbuffer.tex && \
 notangle rbuffer.nw > rbuffer.h
 
 @
-\subsection{extraits de code}
+\section{tables et index}
+\subsection{table des extraits de code}
 
 \nowebchunks
 

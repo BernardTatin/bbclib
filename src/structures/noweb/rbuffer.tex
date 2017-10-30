@@ -13,7 +13,7 @@
 \tableofcontents
 \section{rbuffer}
 
-C'est un buffer tournant le plus simple possible, capable de gérer des lignes délimitées par \emph{LF} (\texttt{'$\backslash$n'}) mais \emph{CR} (\texttt{'$\backslash$r'}) n'est pas pris en compte.
+C'est un buffer tournant le plus simple possible, capable de gérer des lignes délimitées par \emph{LF} (\texttt{'$\backslash$n'}) mais \emph{CR} (\texttt{'$\backslash$r'}) n'est pas pris en compte, plus exactement, il est rejetté.
 
 \subsection{premières définitions}
 Pour limiter les calculs, le code..., la taille du buffer est une puissance de 2 d'où la définition du nombre de bits qui ouvre le bal :
@@ -115,7 +115,8 @@ notangle rbuffer.nw > rbuffer.h
 \nwixlogsorted{i}{{\nwixident{RBUFFER{\_}SIZE}}{RBUFFER:unSIZE}}%
 \nwixlogsorted{i}{{\nwixident{TSrbuffer}}{TSrbuffer}}%
 \nwbegindocs{14}\nwdocspar
-\subsection{extraits de code}
+\section{tables et index}
+\subsection{table des extraits de code}
 
 \nowebchunks
 
