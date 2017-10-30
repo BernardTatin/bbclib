@@ -76,6 +76,20 @@ Le fonctionnement est le suivant pour l'ajout d'un caractère :
 
 @
 \section{annexes}
+\subsection{la ligne de commande}
+Pour obtenir le fichier \LaTeX{} et le code source, voici ce qu'il faut faire depuis un terminal :
+
+<<command-line>>=
+# fichier LaTeX
+noweave -delay -index rbuffer.nw > rbuffer.tex
+# fichier PDF
+pdflatex rbuffer.tex && \
+  pdflatex rbuffer.tex && \
+  pdflatex rbuffer.tex
+# le code source
+notangle rbuffer.nw > rbuffer.h
+
+@
 \subsection{extraits de code}
 
 \nowebchunks

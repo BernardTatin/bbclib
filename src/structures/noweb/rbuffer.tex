@@ -74,9 +74,25 @@ Le fonctionnement est le suivant pour l'ajout d'un caractère :
 \LA{}intro-bits~{\nwtagstyle{}\subpageref{NWhQHnA-2Sh6y8-1}}\RA{}
 \LA{}tsrbuffer~{\nwtagstyle{}\subpageref{NWhQHnA-35IAXm-1}}\RA{}
 
-\nwnotused{*}\nwendcode{}
+\nwnotused{*}\nwendcode{}\nwbegindocs{11}\nwdocspar
+\section{annexes}
+\subsection{la ligne de commande}
+Pour obtenir le fichier \LaTeX{} et le code source, voici ce qu'il faut faire depuis un terminal :
+
+\nwenddocs{}\nwbegincode{12}\sublabel{NWhQHnA-2CUXU7-1}\nwmargintag{{\nwtagstyle{}\subpageref{NWhQHnA-2CUXU7-1}}}\moddef{command-line~{\nwtagstyle{}\subpageref{NWhQHnA-2CUXU7-1}}}\endmoddef\nwstartdeflinemarkup\nwenddeflinemarkup
+# fichier LaTeX
+noweave -delay -index rbuffer.nw > rbuffer.tex
+# fichier PDF
+pdflatex rbuffer.tex && \\
+  pdflatex rbuffer.tex && \\
+  pdflatex rbuffer.tex
+# le code source
+notangle rbuffer.nw > rbuffer.h
+
+\nwnotused{command-line}\nwendcode{}
 
 \nwixlogsorted{c}{{*}{NWhQHnA-1p0Y9w-1}{\nwixd{NWhQHnA-1p0Y9w-1}}}%
+\nwixlogsorted{c}{{command-line}{NWhQHnA-2CUXU7-1}{\nwixd{NWhQHnA-2CUXU7-1}}}%
 \nwixlogsorted{c}{{define-volatile}{NWhQHnA-43E2er-1}{\nwixd{NWhQHnA-43E2er-1}}}%
 \nwixlogsorted{c}{{intro-bits}{NWhQHnA-2Sh6y8-1}{\nwixd{NWhQHnA-2Sh6y8-1}\nwixu{NWhQHnA-1p0Y9w-1}}}%
 \nwixlogsorted{c}{{tsrbuffer}{NWhQHnA-35IAXm-1}{\nwixd{NWhQHnA-35IAXm-1}\nwixu{NWhQHnA-1p0Y9w-1}}}%
@@ -84,8 +100,7 @@ Le fonctionnement est le suivant pour l'ajout d'un caractère :
 \nwixlogsorted{i}{{\nwixident{RBUFFER{\_}MASK}}{RBUFFER:unMASK}}%
 \nwixlogsorted{i}{{\nwixident{RBUFFER{\_}SIZE}}{RBUFFER:unSIZE}}%
 \nwixlogsorted{i}{{\nwixident{TSrbuffer}}{TSrbuffer}}%
-\nwbegindocs{11}\nwdocspar
-\section{annexes}
+\nwbegindocs{13}\nwdocspar
 \subsection{extraits de code}
 
 \nowebchunks
