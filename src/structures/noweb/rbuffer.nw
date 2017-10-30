@@ -60,11 +60,23 @@ On pourrait définir un [[VOLATILE]] en fonction de l'architecture du type :
 Le fonctionnement est le suivant pour l'ajout d'un caractère :
 
 \begin{packed_itemize}
+  \item si le caractère est '$\backslash$r', on ne fait rien,
   \item on place le caractère dans le buffer à la position [[in]],
   \item on incrémente [[in]],
   \item si on atteint la limite du buffer, on positionne [[in]] à 0,
   \item si le caractère est '$\backslash$n', on incrémente [[line_count]].
 \end{packed_itemize}
+
+<<add-char>>=
+static INLINE void rbf_add_char(TSrbuffer *rb, const char c) {
+    if (c != '\r') {
+        rb->buffer[rb->in++] = c;
+        rb->in &= RBUFFER_MASK;
+        if (c == '\n') {
+            rb->line_count++;
+        }
+    }
+}
 
 
 @
@@ -73,9 +85,10 @@ Le fonctionnement est le suivant pour l'ajout d'un caractère :
 <<*>>=
 <<intro-bits>>
 <<tsrbuffer>>
-
+<<add-char>>
 @
 \section{annexes}
+
 \subsection{la ligne de commande}
 Pour obtenir le fichier \LaTeX{} et le code source, voici ce qu'il faut faire depuis un terminal :
 

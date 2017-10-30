@@ -60,26 +60,39 @@ On pourrait définir un {\Tt{}VOLATILE\nwendquote} en fonction de l'architecture
 Le fonctionnement est le suivant pour l'ajout d'un caractère :
 
 \begin{packed_itemize}
+  \item si le caractère est '$\backslash$r', on ne fait rien,
   \item on place le caractère dans le buffer à la position {\Tt{}in\nwendquote},
   \item on incrémente {\Tt{}in\nwendquote},
   \item si on atteint la limite du buffer, on positionne {\Tt{}in\nwendquote} à 0,
   \item si le caractère est '$\backslash$n', on incrémente {\Tt{}line{\_}count\nwendquote}.
 \end{packed_itemize}
 
+\nwenddocs{}\nwbegincode{9}\sublabel{NWhQHnA-4LzvSl-1}\nwmargintag{{\nwtagstyle{}\subpageref{NWhQHnA-4LzvSl-1}}}\moddef{add-char~{\nwtagstyle{}\subpageref{NWhQHnA-4LzvSl-1}}}\endmoddef\nwstartdeflinemarkup\nwusesondefline{\\{NWhQHnA-1p0Y9w-1}}\nwenddeflinemarkup
+static INLINE void rbf_add_char(\nwlinkedidentc{TSrbuffer}{NWhQHnA-35IAXm-1} *rb, const char c) \{
+    if (c != '\\r') \{
+        rb->buffer[rb->in++] = c;
+        rb->in &= \nwlinkedidentc{RBUFFER_MASK}{NWhQHnA-2Sh6y8-1};
+        if (c == '\\n') \{
+            rb->line_count++;
+        \}
+    \}
+\}
 
-\nwenddocs{}\nwbegindocs{9}\nwdocspar
+
+\nwused{\\{NWhQHnA-1p0Y9w-1}}\nwidentuses{\\{{\nwixident{RBUFFER{\_}MASK}}{RBUFFER:unMASK}}\\{{\nwixident{TSrbuffer}}{TSrbuffer}}}\nwindexuse{\nwixident{RBUFFER{\_}MASK}}{RBUFFER:unMASK}{NWhQHnA-4LzvSl-1}\nwindexuse{\nwixident{TSrbuffer}}{TSrbuffer}{NWhQHnA-4LzvSl-1}\nwendcode{}\nwbegindocs{10}\nwdocspar
 \subsection{le code final}
 
-\nwenddocs{}\nwbegincode{10}\sublabel{NWhQHnA-1p0Y9w-1}\nwmargintag{{\nwtagstyle{}\subpageref{NWhQHnA-1p0Y9w-1}}}\moddef{*~{\nwtagstyle{}\subpageref{NWhQHnA-1p0Y9w-1}}}\endmoddef\nwstartdeflinemarkup\nwenddeflinemarkup
+\nwenddocs{}\nwbegincode{11}\sublabel{NWhQHnA-1p0Y9w-1}\nwmargintag{{\nwtagstyle{}\subpageref{NWhQHnA-1p0Y9w-1}}}\moddef{*~{\nwtagstyle{}\subpageref{NWhQHnA-1p0Y9w-1}}}\endmoddef\nwstartdeflinemarkup\nwenddeflinemarkup
 \LA{}intro-bits~{\nwtagstyle{}\subpageref{NWhQHnA-2Sh6y8-1}}\RA{}
 \LA{}tsrbuffer~{\nwtagstyle{}\subpageref{NWhQHnA-35IAXm-1}}\RA{}
-
-\nwnotused{*}\nwendcode{}\nwbegindocs{11}\nwdocspar
+\LA{}add-char~{\nwtagstyle{}\subpageref{NWhQHnA-4LzvSl-1}}\RA{}
+\nwnotused{*}\nwendcode{}\nwbegindocs{12}\nwdocspar
 \section{annexes}
+
 \subsection{la ligne de commande}
 Pour obtenir le fichier \LaTeX{} et le code source, voici ce qu'il faut faire depuis un terminal :
 
-\nwenddocs{}\nwbegincode{12}\sublabel{NWhQHnA-2CUXU7-1}\nwmargintag{{\nwtagstyle{}\subpageref{NWhQHnA-2CUXU7-1}}}\moddef{command-line~{\nwtagstyle{}\subpageref{NWhQHnA-2CUXU7-1}}}\endmoddef\nwstartdeflinemarkup\nwenddeflinemarkup
+\nwenddocs{}\nwbegincode{13}\sublabel{NWhQHnA-2CUXU7-1}\nwmargintag{{\nwtagstyle{}\subpageref{NWhQHnA-2CUXU7-1}}}\moddef{command-line~{\nwtagstyle{}\subpageref{NWhQHnA-2CUXU7-1}}}\endmoddef\nwstartdeflinemarkup\nwenddeflinemarkup
 # fichier LaTeX
 noweave -delay -index rbuffer.nw > rbuffer.tex
 # fichier PDF
@@ -92,6 +105,7 @@ notangle rbuffer.nw > rbuffer.h
 \nwnotused{command-line}\nwendcode{}
 
 \nwixlogsorted{c}{{*}{NWhQHnA-1p0Y9w-1}{\nwixd{NWhQHnA-1p0Y9w-1}}}%
+\nwixlogsorted{c}{{add-char}{NWhQHnA-4LzvSl-1}{\nwixd{NWhQHnA-4LzvSl-1}\nwixu{NWhQHnA-1p0Y9w-1}}}%
 \nwixlogsorted{c}{{command-line}{NWhQHnA-2CUXU7-1}{\nwixd{NWhQHnA-2CUXU7-1}}}%
 \nwixlogsorted{c}{{define-volatile}{NWhQHnA-43E2er-1}{\nwixd{NWhQHnA-43E2er-1}}}%
 \nwixlogsorted{c}{{intro-bits}{NWhQHnA-2Sh6y8-1}{\nwixd{NWhQHnA-2Sh6y8-1}\nwixu{NWhQHnA-1p0Y9w-1}}}%
@@ -100,7 +114,7 @@ notangle rbuffer.nw > rbuffer.h
 \nwixlogsorted{i}{{\nwixident{RBUFFER{\_}MASK}}{RBUFFER:unMASK}}%
 \nwixlogsorted{i}{{\nwixident{RBUFFER{\_}SIZE}}{RBUFFER:unSIZE}}%
 \nwixlogsorted{i}{{\nwixident{TSrbuffer}}{TSrbuffer}}%
-\nwbegindocs{13}\nwdocspar
+\nwbegindocs{14}\nwdocspar
 \subsection{extraits de code}
 
 \nowebchunks
