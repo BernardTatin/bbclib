@@ -1,14 +1,6 @@
 \documentclass[10pt]{article}
 
 \input{prelude.tex}
-\renewenvironment{abstract}{%
-  \hfill
-  \begin{minipage}
-    {0.95\textwidth}
-    \rule{\textwidth}{1pt}
-    {\par\noindent\rule{\textwidth}{1pt}}
-  \end{minipage}
-}
 
 \author{Bernard Tatin}
 \date{2013/2017}
