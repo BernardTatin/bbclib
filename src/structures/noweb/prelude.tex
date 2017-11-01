@@ -1,3 +1,10 @@
+%% KOMA needs it
+\let\sf\sffamily
+\let\bf\bfseries
+\let\tt\ttfamily
+\let\it\itshape
+\let\rm\rmfamily
+
 \usepackage{noweb}
 \noweboptions{smallcode,longchunks,longxref}
 
@@ -12,7 +19,9 @@
 \usepackage[utf8]{inputenc}
 % \usepackage[french]{babel}
 
-\usepackage{color}
+\usepackage{xcolor}
+\usepackage{tikz}
+
 \definecolor{mygray}{rgb}{0.4,0.4,0.4}
 \usepackage[bookmarks,backref=page,linkcolor=mygray]{hyperref} %,colorlinks
 \hypersetup{%
@@ -59,3 +68,41 @@
 
 %
 %
+\setkomafont{section}{\mysection}
+\newcommand{\mysection}[1]{%
+    \LARGE\sf\bf%
+    \color{white}%
+    \setlength{\fboxsep}{0cm}%already boxed
+    \colorbox{orange!80}{%
+        \begin{minipage}{\linewidth}%
+            \vspace*{4pt}%Space before
+            #1
+            \vspace*{4pt}%Space after
+        \end{minipage}%
+    }}
+
+\setkomafont{subsection}{\submysection}
+\newcommand{\submysection}[1]{%
+    \large\sf%
+    \color{white}%
+    \setlength{\fboxsep}{0cm}%already boxed
+    \colorbox{orange!80}{%
+        \begin{minipage}{\linewidth}%
+            \vspace*{4pt}%Space before
+            #1
+            \vspace*{4pt}%Space after
+        \end{minipage}%
+    }}
+
+\setkomafont{subsubsection}{\subsubmysection}
+\newcommand{\subsubmysection}[1]{%
+    \itshape\sf%
+    \color{white}%
+    \setlength{\fboxsep}{0cm}%already boxed
+    \colorbox{orange!80}{%
+        \begin{minipage}{\linewidth}%
+            \vspace*{4pt}%Space before
+            #1
+            \vspace*{4pt}%Space after
+        \end{minipage}%
+    }}
