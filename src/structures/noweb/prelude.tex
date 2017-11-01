@@ -13,6 +13,8 @@
 % \usepackage[french]{babel}
 
 \usepackage{xcolor}
+\usepackage{tikz}
+
 \definecolor{mygray}{rgb}{0.4,0.4,0.4}
 \usepackage[bookmarks,backref=page,linkcolor=mygray]{hyperref} %,colorlinks
 \hypersetup{%
@@ -59,12 +61,21 @@
 
 %
 %
-% \usepackage{typearea}
-\usepackage{tikz}
-\makeatletter
-  \setkomafont{section}{\color{white}%
-    \bfseries\Large
-    \begin{tikzpicture}[overlay]
-    \draw[fill=orange] (0,-2pt) rectangle
-    (\linewidth,16.4pt);
-    \end{tikzpicture}}
+\setkomafont{section}{\color{mygray}%
+  \bfseries\Large
+  \begin{tikzpicture}[overlay]
+  \draw[fill=orange] (0,-5pt) rectangle
+  (\linewidth,16.4pt);
+  \end{tikzpicture}}
+\setkomafont{subsection}{\color{black}%
+  \itshape\bfseries\large
+  \begin{tikzpicture}[overlay]
+  \draw[fill=yellow] (0,-5pt) rectangle
+  (\linewidth,16.4pt);
+  \end{tikzpicture}}
+\setkomafont{subsubsection}{\color{mygray}%
+  \itshape\normalsize
+  \begin{tikzpicture}[overlay]
+  \draw[fill=yellow] (0,-5pt) rectangle
+  (\linewidth,16.4pt);
+  \end{tikzpicture}}
