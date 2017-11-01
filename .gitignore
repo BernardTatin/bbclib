@@ -28,6 +28,9 @@
 Release/
 Debug/
 
+# visual code
+.vscode/
+
 *.log
 *.gz
 .*.swp
@@ -64,3 +67,11 @@ bc5o/
 /BccW32.cfg
 /bc5lib.ide
 .zedstate
+
+# latex
+*.aux
+*.idx
+*.toc
+*.out
+*.bbl
+*.blg

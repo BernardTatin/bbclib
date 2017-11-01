@@ -1,0 +1,133 @@
+\documentclass[10pt]{article}
+
+\input{prelude.tex}
+
+\author{Bernard Tatin}
+\date{2013/2017}
+\title{rbuffer.h, un buffer tournant}
+\begin{document}
+
+\pagestyle{noweb}
+\maketitle
+\abstract{Voici un premier essai de \emph{literate programming}, concept inventé par D. Knuth il y a plus de trente ans. À partir de ce seul fichier on génère la documentation et le code. Ici, je reprend du vieux code, cela m'oblige, même s'il est simple, à le repenser et donc, espérons le, à l'améliorer. Même si je passe beaucoup de temps sur la présentation...}
+\tableofcontents
+\section{rbuffer}
+
+C'est un buffer tournant le plus simple possible, capable de gérer des lignes délimitées par \emph{LF} (\texttt{'$\backslash$n'}) mais \emph{CR} (\texttt{'$\backslash$r'}) n'est pas pris en compte, plus exactement, il est rejetté.
+
+\subsection{premières définitions}
+Pour limiter les calculs, le code..., la taille du buffer est une puissance de 2 d'où la définition du nombre de bits qui ouvre le bal :
+
+<<intro-bits>>=
+#define _RBUFFER_BITS   8
+#define RBUFFER_SIZE    (1 << _RBUFFER_BITS)
+#define RBUFFER_MASK    (RBUFFER_SIZE - 1)
+@ %def _RBUFFER_BITS RBUFFER_SIZE RBUFFER_MASK
+
+@
+\subsection{la structure}
+
+\textbf{\textit{Note: }} tous les membres de la structure sont définis comme [[volatile]]. C'est important dans un système embarqué avec des interruptions pouvant manipuler le buffer. Sans [[volatile]], une optimisation trop agressive pourrait placer une des valeurs entières dans un registre. En cas d'interruption modifiant cette valeur, le registre, lui, ne bougera pas et des caractères pourraient se perdre.
+
+<<tsrbuffer>>=
+/**
+ * @struct TSrbuffer
+ * La structure gérant le buffer tournant.
+ */
+typedef struct {
+    volatile int in;
+    volatile int out;
+    volatile int line_count;
+    volatile char buffer[RBUFFER_SIZE];
+} TSrbuffer;
+@ %def TSrbuffer
+
+@
+\subsubsection{les champs}
+\subsubsection{remarques diverses}
+On pourrait définir un [[VOLATILE]] en fonction de l'architecture du type :
+
+<<define-volatile>>=
+#if defined(__with_irqs)
+  #define VOLATILE volatile
+#else
+  #define VOLATILE
+#endif
+
+@
+Ce qui donnerait au final :
+
+<<tsrbuffer-final>>=
+/**
+ * @struct TSrbuffer
+ * La structure gérant le buffer tournant.
+ */
+typedef struct {
+    VOLATILE int in;
+    VOLATILE int out;
+    VOLATILE int line_count;
+    VOLATILE char buffer[RBUFFER_SIZE];
+} TSrbuffer;
+@ %def TSrbuffer
+
+@
+
+\subsection{le fonctionnement}
+\subsubsection{ajout d'un caractère}
+Le fonctionnement est le suivant pour l'ajout d'un caractère :
+
+\begin{packed_itemize}
+  \item si le caractère est '$\backslash$r', on ne fait rien,
+  \item on place le caractère dans le buffer à la position [[in]],
+  \item on incrémente [[in]],
+  \item si on atteint la limite du buffer, on positionne [[in]] à 0,
+  \item si le caractère est '$\backslash$n', on incrémente [[line_count]].
+\end{packed_itemize}
+
+<<add-char>>=
+static INLINE void rbf_add_char(TSrbuffer *rb, const char c) {
+    if (c != '\r') {
+        rb->buffer[rb->in++] = c;
+        rb->in &= RBUFFER_MASK;
+        if (c == '\n') {
+            rb->line_count++;
+        }
+    }
+}
+
+
+@
+\subsection{le code final}
+
+<<*>>=
+<<intro-bits>>
+<<define-volatile>>
+<<tsrbuffer-final>>
+<<add-char>>
+@
+\section{annexes}
+
+\subsection{la ligne de commande}
+Pour obtenir le fichier \LaTeX{} et le code source, voici ce qu'il faut faire depuis un terminal :
+
+<<command-line>>=
+# fichier LaTeX
+noweave -delay -index rbuffer.nw > rbuffer.tex
+# fichier PDF
+pdflatex rbuffer.tex && \
+  pdflatex rbuffer.tex && \
+  pdflatex rbuffer.tex
+# le code source
+notangle rbuffer.nw > rbuffer.h
+
+@
+\section{tables et index}
+\subsection{table des extraits de code}
+
+\nowebchunks
+
+\subsection{index}
+
+\nowebindex
+
+\end{document}

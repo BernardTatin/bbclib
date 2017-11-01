@@ -2,6 +2,22 @@
 
 An experimental clib. Code is taken from some of my (sometimes very) old applications.
 
+A big work is done to use _literate programming_ with `notangle` and `noweave` from the __noweb__ package.
+
+## using `noweb`
+
+To generate the code :
+
+```shell
+notangle rbuffer.nw > rbuffer.h
+```
+
+To generate the documentation :
+
+```shell
+noweave -delay -index rbuffer.nw > rbuffer.tex
+```
+
 ## make
 
 On Linux or Cygwin, you can choose the compiler. A simple _make clean all_ will use _gcc_. If you want to use _clang_, or any other compiler, just do :
@@ -39,6 +55,8 @@ Usage is very similar to _printf_ with limitations.
     - [l] long integer (_cf._ (1)).
 - %[0][_n_][l]x : to print integers in hexadecimal. Modifiers are as above.
 - %[0][_n_][l]b : to print integers in binary. Modifiers are as above.
+
+I did not find bugs... well , it's not a great guaranty.
 
 Notes:
 
