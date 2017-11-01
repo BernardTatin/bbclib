@@ -1,3 +1,7 @@
+%% KOMA needs it
+\let\sf\sffamily
+\let\bf\bfseries
+
 \usepackage{noweb}
 \noweboptions{smallcode,longchunks,longxref}
 
@@ -61,21 +65,41 @@
 
 %
 %
-\setkomafont{section}{\color{mygray}%
-  \bfseries\Large
-  \begin{tikzpicture}[overlay]
-  \draw[fill=orange] (0,-5pt) rectangle
-  (\linewidth,16.4pt);
-  \end{tikzpicture}}
-\setkomafont{subsection}{\color{black}%
-  \itshape\bfseries\large
-  \begin{tikzpicture}[overlay]
-  \draw[fill=yellow] (0,-5pt) rectangle
-  (\linewidth,16.4pt);
-  \end{tikzpicture}}
-\setkomafont{subsubsection}{\color{mygray}%
-  \itshape\normalsize
-  \begin{tikzpicture}[overlay]
-  \draw[fill=yellow] (0,-5pt) rectangle
-  (\linewidth,16.4pt);
-  \end{tikzpicture}}
+\setkomafont{section}{\mysection}
+\newcommand{\mysection}[1]{%
+    \LARGE\sf\bf%
+    \color{white}%
+    \setlength{\fboxsep}{0cm}%already boxed
+    \colorbox{orange!80}{%
+        \begin{minipage}{\linewidth}%
+            \vspace*{4pt}%Space before
+            #1
+            \vspace*{4pt}%Space after
+        \end{minipage}%
+    }}
+
+\setkomafont{subsection}{\submysection}
+\newcommand{\submysection}[1]{%
+    \large\sf%
+    \color{white}%
+    \setlength{\fboxsep}{0cm}%already boxed
+    \colorbox{orange!80}{%
+        \begin{minipage}{\linewidth}%
+            \vspace*{4pt}%Space before
+            #1
+            \vspace*{4pt}%Space after
+        \end{minipage}%
+    }}
+
+\setkomafont{subsubsection}{\subsubmysection}
+\newcommand{\subsubmysection}[1]{%
+    \itshape\sf%
+    \color{white}%
+    \setlength{\fboxsep}{0cm}%already boxed
+    \colorbox{orange!80}{%
+        \begin{minipage}{\linewidth}%
+            \vspace*{4pt}%Space before
+            #1
+            \vspace*{4pt}%Space after
+        \end{minipage}%
+    }}
