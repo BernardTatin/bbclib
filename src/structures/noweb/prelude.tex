@@ -12,7 +12,7 @@
 \usepackage[utf8]{inputenc}
 % \usepackage[french]{babel}
 
-\usepackage{color}
+\usepackage{xcolor}
 \definecolor{mygray}{rgb}{0.4,0.4,0.4}
 \usepackage[bookmarks,backref=page,linkcolor=mygray]{hyperref} %,colorlinks
 \hypersetup{%
@@ -59,3 +59,12 @@
 
 %
 %
+% \usepackage{typearea}
+\usepackage{tikz}
+\makeatletter
+  \setkomafont{section}{\color{white}%
+    \bfseries\Large
+    \begin{tikzpicture}[overlay]
+    \draw[fill=orange] (0,-2pt) rectangle
+    (\linewidth,16.4pt);
+    \end{tikzpicture}}
