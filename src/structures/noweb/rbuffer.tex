@@ -18,18 +18,25 @@ C'est un buffer tournant le plus simple possible, capable de gérer des lignes d
 \subsection{premières définitions}
 Pour limiter les calculs, le code..., la taille du buffer est une puissance de 2 d'où la définition du nombre de bits qui ouvre le bal :
 
-\nwfilename{rbuffer.nw}\nwbegincode{1}\sublabel{NWhQHnA-2Sh6y8-1}\nwmargintag{{\nwtagstyle{}\subpageref{NWhQHnA-2Sh6y8-1}}}\moddef{intro-bits~{\nwtagstyle{}\subpageref{NWhQHnA-2Sh6y8-1}}}\endmoddef\nwstartdeflinemarkup\nwusesondefline{\\{NWhQHnA-1p0Y9w-1}}\nwenddeflinemarkup
+\nwfilename{rbuffer.nw}\nwbegincode{1}\sublabel{NWhQHnA-2Sh6y8-1}\nwmargintag{{\nwtagstyle{}\subpageref{NWhQHnA-2Sh6y8-1}}}\moddef{intro-bits~{\nwtagstyle{}\subpageref{NWhQHnA-2Sh6y8-1}}}\endmoddef\nwstartdeflinemarkup\nwusesondefline{\\{NWhQHnA-1p0Y9w-1}}\nwprevnextdefs{\relax}{NWhQHnA-2Sh6y8-2}\nwenddeflinemarkup
 #define \nwlinkedidentc{_RBUFFER_BITS}{NWhQHnA-2Sh6y8-1}   8\nwindexdefn{\nwixident{{\_}RBUFFER{\_}BITS}}{:unRBUFFER:unBITS}{NWhQHnA-2Sh6y8-1}
-#define \nwlinkedidentc{RBUFFER_SIZE}{NWhQHnA-2Sh6y8-1}    (1 \nwindexdefn{\nwixident{RBUFFER{\_}SIZE}}{RBUFFER:unSIZE}{NWhQHnA-2Sh6y8-1}<< \nwlinkedidentc{_RBUFFER_BITS}{NWhQHnA-2Sh6y8-1})
-#define \nwlinkedidentc{RBUFFER_MASK}{NWhQHnA-2Sh6y8-1}    (\nwlinkedidentc{RBUFFER_SIZE}{NWhQHnA-2Sh6y8-1} - 1)\nwindexdefn{\nwixident{RBUFFER{\_}MASK}}{RBUFFER:unMASK}{NWhQHnA-2Sh6y8-1}
-\nwindexdefn{\nwixident{{\_}RBUFFER{\_}BITS}}{:unRBUFFER:unBITS}{NWhQHnA-2Sh6y8-1}\nwindexdefn{\nwixident{RBUFFER{\_}SIZE}}{RBUFFER:unSIZE}{NWhQHnA-2Sh6y8-1}\nwindexdefn{\nwixident{RBUFFER{\_}MASK}}{RBUFFER:unMASK}{NWhQHnA-2Sh6y8-1}\eatline
-\nwused{\\{NWhQHnA-1p0Y9w-1}}\nwidentdefs{\\{{\nwixident{{\_}RBUFFER{\_}BITS}}{:unRBUFFER:unBITS}}\\{{\nwixident{RBUFFER{\_}MASK}}{RBUFFER:unMASK}}\\{{\nwixident{RBUFFER{\_}SIZE}}{RBUFFER:unSIZE}}}\nwendcode{}\nwbegindocs{2}\nwdocspar
-\nwenddocs{}\nwbegindocs{3}\nwdocspar
+\nwalsodefined{\\{NWhQHnA-2Sh6y8-2}\\{NWhQHnA-2Sh6y8-3}}\nwused{\\{NWhQHnA-1p0Y9w-1}}\nwidentdefs{\\{{\nwixident{{\_}RBUFFER{\_}BITS}}{:unRBUFFER:unBITS}}}\nwendcode{}\nwbegindocs{2}\nwdocspar
+
+La taille du buffer sera donc :
+
+\nwenddocs{}\nwbegincode{3}\sublabel{NWhQHnA-2Sh6y8-2}\nwmargintag{{\nwtagstyle{}\subpageref{NWhQHnA-2Sh6y8-2}}}\moddef{intro-bits~{\nwtagstyle{}\subpageref{NWhQHnA-2Sh6y8-1}}}\plusendmoddef\nwstartdeflinemarkup\nwusesondefline{\\{NWhQHnA-1p0Y9w-1}}\nwprevnextdefs{NWhQHnA-2Sh6y8-1}{NWhQHnA-2Sh6y8-3}\nwenddeflinemarkup
+#define \nwlinkedidentc{RBUFFER_SIZE}{NWhQHnA-2Sh6y8-2}    (1 \nwindexdefn{\nwixident{RBUFFER{\_}SIZE}}{RBUFFER:unSIZE}{NWhQHnA-2Sh6y8-2}<< \nwlinkedidentc{_RBUFFER_BITS}{NWhQHnA-2Sh6y8-1})
+\nwused{\\{NWhQHnA-1p0Y9w-1}}\nwidentdefs{\\{{\nwixident{RBUFFER{\_}SIZE}}{RBUFFER:unSIZE}}}\nwidentuses{\\{{\nwixident{{\_}RBUFFER{\_}BITS}}{:unRBUFFER:unBITS}}}\nwindexuse{\nwixident{{\_}RBUFFER{\_}BITS}}{:unRBUFFER:unBITS}{NWhQHnA-2Sh6y8-2}\nwendcode{}\nwbegindocs{4}\nwdocspar
+Et le masque permettant un rapidide \emph{modulo} arithmétique avec un {\Tt{}and\nwendquote} binaire :
+\nwenddocs{}\nwbegincode{5}\sublabel{NWhQHnA-2Sh6y8-3}\nwmargintag{{\nwtagstyle{}\subpageref{NWhQHnA-2Sh6y8-3}}}\moddef{intro-bits~{\nwtagstyle{}\subpageref{NWhQHnA-2Sh6y8-1}}}\plusendmoddef\nwstartdeflinemarkup\nwusesondefline{\\{NWhQHnA-1p0Y9w-1}}\nwprevnextdefs{NWhQHnA-2Sh6y8-2}{\relax}\nwenddeflinemarkup
+#define \nwlinkedidentc{RBUFFER_MASK}{NWhQHnA-2Sh6y8-3}    (\nwlinkedidentc{RBUFFER_SIZE}{NWhQHnA-2Sh6y8-2} - 1)\nwindexdefn{\nwixident{RBUFFER{\_}MASK}}{RBUFFER:unMASK}{NWhQHnA-2Sh6y8-3}
+
+\nwused{\\{NWhQHnA-1p0Y9w-1}}\nwidentdefs{\\{{\nwixident{RBUFFER{\_}MASK}}{RBUFFER:unMASK}}}\nwidentuses{\\{{\nwixident{RBUFFER{\_}SIZE}}{RBUFFER:unSIZE}}}\nwindexuse{\nwixident{RBUFFER{\_}SIZE}}{RBUFFER:unSIZE}{NWhQHnA-2Sh6y8-3}\nwendcode{}\nwbegindocs{6}\nwdocspar
 \subsection{la structure}
 
 \textbf{\textit{Note: }} tous les membres de la structure sont définis comme {\Tt{}volatile\nwendquote}. C'est important dans un système embarqué avec des interruptions pouvant manipuler le buffer. Sans {\Tt{}volatile\nwendquote}, une optimisation trop agressive pourrait placer une des valeurs entières dans un registre. En cas d'interruption modifiant cette valeur, le registre, lui, ne bougera pas et des caractères pourraient se perdre.
 
-\nwenddocs{}\nwbegincode{4}\sublabel{NWhQHnA-35IAXm-1}\nwmargintag{{\nwtagstyle{}\subpageref{NWhQHnA-35IAXm-1}}}\moddef{tsrbuffer~{\nwtagstyle{}\subpageref{NWhQHnA-35IAXm-1}}}\endmoddef\nwstartdeflinemarkup\nwenddeflinemarkup
+\nwenddocs{}\nwbegincode{7}\sublabel{NWhQHnA-35IAXm-1}\nwmargintag{{\nwtagstyle{}\subpageref{NWhQHnA-35IAXm-1}}}\moddef{tsrbuffer~{\nwtagstyle{}\subpageref{NWhQHnA-35IAXm-1}}}\endmoddef\nwstartdeflinemarkup\nwenddeflinemarkup
 /**
  * @struct \nwlinkedidentc{TSrbuffer}{NWhQHnA-35IAXm-1}
  * La structure gérant le buffer tournant.
@@ -38,26 +45,25 @@ typedef struct \{
     volatile int in;
     volatile int out;
     volatile int line_count;
-    volatile char buffer[\nwlinkedidentc{RBUFFER_SIZE}{NWhQHnA-2Sh6y8-1}];
+    volatile char buffer[\nwlinkedidentc{RBUFFER_SIZE}{NWhQHnA-2Sh6y8-2}];
 \} \nwlinkedidentc{TSrbuffer}{NWhQHnA-35IAXm-1};\nwindexdefn{\nwixident{TSrbuffer}}{TSrbuffer}{NWhQHnA-35IAXm-1}
-\nwindexdefn{\nwixident{TSrbuffer}}{TSrbuffer}{NWhQHnA-35IAXm-1}\eatline
-\nwnotused{tsrbuffer}\nwidentdefs{\\{{\nwixident{TSrbuffer}}{TSrbuffer}}}\nwidentuses{\\{{\nwixident{RBUFFER{\_}SIZE}}{RBUFFER:unSIZE}}}\nwindexuse{\nwixident{RBUFFER{\_}SIZE}}{RBUFFER:unSIZE}{NWhQHnA-35IAXm-1}\nwendcode{}\nwbegindocs{5}\nwdocspar
-\nwenddocs{}\nwbegindocs{6}\nwdocspar
+
+\nwnotused{tsrbuffer}\nwidentdefs{\\{{\nwixident{TSrbuffer}}{TSrbuffer}}}\nwidentuses{\\{{\nwixident{RBUFFER{\_}SIZE}}{RBUFFER:unSIZE}}}\nwindexuse{\nwixident{RBUFFER{\_}SIZE}}{RBUFFER:unSIZE}{NWhQHnA-35IAXm-1}\nwendcode{}\nwbegindocs{8}\nwdocspar
 \subsubsection{les champs}
 \subsubsection{remarques diverses}
 On pourrait définir un {\Tt{}VOLATILE\nwendquote} en fonction de l'architecture du type :
 
-\nwenddocs{}\nwbegincode{7}\sublabel{NWhQHnA-43E2er-1}\nwmargintag{{\nwtagstyle{}\subpageref{NWhQHnA-43E2er-1}}}\moddef{define-volatile~{\nwtagstyle{}\subpageref{NWhQHnA-43E2er-1}}}\endmoddef\nwstartdeflinemarkup\nwusesondefline{\\{NWhQHnA-1p0Y9w-1}}\nwenddeflinemarkup
+\nwenddocs{}\nwbegincode{9}\sublabel{NWhQHnA-43E2er-1}\nwmargintag{{\nwtagstyle{}\subpageref{NWhQHnA-43E2er-1}}}\moddef{define-volatile~{\nwtagstyle{}\subpageref{NWhQHnA-43E2er-1}}}\endmoddef\nwstartdeflinemarkup\nwusesondefline{\\{NWhQHnA-1p0Y9w-1}}\nwenddeflinemarkup
 #if defined(__with_irqs)
   #define VOLATILE volatile
 #else
   #define VOLATILE
 #endif
 
-\nwused{\\{NWhQHnA-1p0Y9w-1}}\nwendcode{}\nwbegindocs{8}\nwdocspar
+\nwused{\\{NWhQHnA-1p0Y9w-1}}\nwendcode{}\nwbegindocs{10}\nwdocspar
 Ce qui donnerait au final :
 
-\nwenddocs{}\nwbegincode{9}\sublabel{NWhQHnA-2grPBU-1}\nwmargintag{{\nwtagstyle{}\subpageref{NWhQHnA-2grPBU-1}}}\moddef{tsrbuffer-final~{\nwtagstyle{}\subpageref{NWhQHnA-2grPBU-1}}}\endmoddef\nwstartdeflinemarkup\nwusesondefline{\\{NWhQHnA-1p0Y9w-1}}\nwenddeflinemarkup
+\nwenddocs{}\nwbegincode{11}\sublabel{NWhQHnA-2grPBU-1}\nwmargintag{{\nwtagstyle{}\subpageref{NWhQHnA-2grPBU-1}}}\moddef{tsrbuffer-final~{\nwtagstyle{}\subpageref{NWhQHnA-2grPBU-1}}}\endmoddef\nwstartdeflinemarkup\nwusesondefline{\\{NWhQHnA-1p0Y9w-1}}\nwenddeflinemarkup
 /**
  * @struct \nwlinkedidentc{TSrbuffer}{NWhQHnA-35IAXm-1}
  * La structure gérant le buffer tournant.
@@ -66,11 +72,11 @@ typedef struct \{
     VOLATILE int in;
     VOLATILE int out;
     VOLATILE int line_count;
-    VOLATILE char buffer[\nwlinkedidentc{RBUFFER_SIZE}{NWhQHnA-2Sh6y8-1}];
+    VOLATILE char buffer[\nwlinkedidentc{RBUFFER_SIZE}{NWhQHnA-2Sh6y8-2}];
 \} \nwlinkedidentc{TSrbuffer}{NWhQHnA-35IAXm-1};\nwindexdefn{\nwixident{TSrbuffer}}{TSrbuffer}{NWhQHnA-2grPBU-1}
 \nwindexdefn{\nwixident{TSrbuffer}}{TSrbuffer}{NWhQHnA-2grPBU-1}\eatline
-\nwused{\\{NWhQHnA-1p0Y9w-1}}\nwidentdefs{\\{{\nwixident{TSrbuffer}}{TSrbuffer}}}\nwidentuses{\\{{\nwixident{RBUFFER{\_}SIZE}}{RBUFFER:unSIZE}}}\nwindexuse{\nwixident{RBUFFER{\_}SIZE}}{RBUFFER:unSIZE}{NWhQHnA-2grPBU-1}\nwendcode{}\nwbegindocs{10}\nwdocspar
-\nwenddocs{}\nwbegindocs{11}\nwdocspar
+\nwused{\\{NWhQHnA-1p0Y9w-1}}\nwidentdefs{\\{{\nwixident{TSrbuffer}}{TSrbuffer}}}\nwidentuses{\\{{\nwixident{RBUFFER{\_}SIZE}}{RBUFFER:unSIZE}}}\nwindexuse{\nwixident{RBUFFER{\_}SIZE}}{RBUFFER:unSIZE}{NWhQHnA-2grPBU-1}\nwendcode{}\nwbegindocs{12}\nwdocspar
+\nwenddocs{}\nwbegindocs{13}\nwdocspar
 
 \subsection{le fonctionnement}
 \subsubsection{ajout d'un caractère}
@@ -84,11 +90,11 @@ Le fonctionnement est le suivant pour l'ajout d'un caractère :
   \item si le caractère est '$\backslash$n', on incrémente {\Tt{}line{\_}count\nwendquote}.
 \end{packed_itemize}
 
-\nwenddocs{}\nwbegincode{12}\sublabel{NWhQHnA-4LzvSl-1}\nwmargintag{{\nwtagstyle{}\subpageref{NWhQHnA-4LzvSl-1}}}\moddef{add-char~{\nwtagstyle{}\subpageref{NWhQHnA-4LzvSl-1}}}\endmoddef\nwstartdeflinemarkup\nwusesondefline{\\{NWhQHnA-1p0Y9w-1}}\nwenddeflinemarkup
+\nwenddocs{}\nwbegincode{14}\sublabel{NWhQHnA-4LzvSl-1}\nwmargintag{{\nwtagstyle{}\subpageref{NWhQHnA-4LzvSl-1}}}\moddef{add-char~{\nwtagstyle{}\subpageref{NWhQHnA-4LzvSl-1}}}\endmoddef\nwstartdeflinemarkup\nwusesondefline{\\{NWhQHnA-1p0Y9w-1}}\nwenddeflinemarkup
 static INLINE void \nwlinkedidentc{rbf_add_char}{NWhQHnA-4LzvSl-1}(\nwlinkedidentc{TSrbuffer}{NWhQHnA-35IAXm-1} *rb, const char c) \{\nwindexdefn{\nwixident{rbf{\_}add{\_}char}}{rbf:unadd:unchar}{NWhQHnA-4LzvSl-1}
     if (c != '\\r') \{
         rb->buffer[rb->in++] = c;
-        rb->in &= \nwlinkedidentc{RBUFFER_MASK}{NWhQHnA-2Sh6y8-1};
+        rb->in &= \nwlinkedidentc{RBUFFER_MASK}{NWhQHnA-2Sh6y8-3};
         if (c == '\\n') \{
             rb->line_count++;
         \}
@@ -96,37 +102,36 @@ static INLINE void \nwlinkedidentc{rbf_add_char}{NWhQHnA-4LzvSl-1}(\nwlinkediden
 \}
 
 
-\nwused{\\{NWhQHnA-1p0Y9w-1}}\nwidentdefs{\\{{\nwixident{rbf{\_}add{\_}char}}{rbf:unadd:unchar}}}\nwidentuses{\\{{\nwixident{RBUFFER{\_}MASK}}{RBUFFER:unMASK}}\\{{\nwixident{TSrbuffer}}{TSrbuffer}}}\nwindexuse{\nwixident{RBUFFER{\_}MASK}}{RBUFFER:unMASK}{NWhQHnA-4LzvSl-1}\nwindexuse{\nwixident{TSrbuffer}}{TSrbuffer}{NWhQHnA-4LzvSl-1}\nwendcode{}\nwbegindocs{13}\nwdocspar
+\nwused{\\{NWhQHnA-1p0Y9w-1}}\nwidentdefs{\\{{\nwixident{rbf{\_}add{\_}char}}{rbf:unadd:unchar}}}\nwidentuses{\\{{\nwixident{RBUFFER{\_}MASK}}{RBUFFER:unMASK}}\\{{\nwixident{TSrbuffer}}{TSrbuffer}}}\nwindexuse{\nwixident{RBUFFER{\_}MASK}}{RBUFFER:unMASK}{NWhQHnA-4LzvSl-1}\nwindexuse{\nwixident{TSrbuffer}}{TSrbuffer}{NWhQHnA-4LzvSl-1}\nwendcode{}\nwbegindocs{15}\nwdocspar
 \subsection{le code final}
 
-\nwenddocs{}\nwbegincode{14}\sublabel{NWhQHnA-1p0Y9w-1}\nwmargintag{{\nwtagstyle{}\subpageref{NWhQHnA-1p0Y9w-1}}}\moddef{*~{\nwtagstyle{}\subpageref{NWhQHnA-1p0Y9w-1}}}\endmoddef\nwstartdeflinemarkup\nwenddeflinemarkup
+\nwenddocs{}\nwbegincode{16}\sublabel{NWhQHnA-1p0Y9w-1}\nwmargintag{{\nwtagstyle{}\subpageref{NWhQHnA-1p0Y9w-1}}}\moddef{*~{\nwtagstyle{}\subpageref{NWhQHnA-1p0Y9w-1}}}\endmoddef\nwstartdeflinemarkup\nwenddeflinemarkup
 \LA{}intro-bits~{\nwtagstyle{}\subpageref{NWhQHnA-2Sh6y8-1}}\RA{}
 \LA{}define-volatile~{\nwtagstyle{}\subpageref{NWhQHnA-43E2er-1}}\RA{}
 \LA{}tsrbuffer-final~{\nwtagstyle{}\subpageref{NWhQHnA-2grPBU-1}}\RA{}
 \LA{}add-char~{\nwtagstyle{}\subpageref{NWhQHnA-4LzvSl-1}}\RA{}
-\nwnotused{*}\nwendcode{}\nwbegindocs{15}\nwdocspar
+\nwnotused{*}\nwendcode{}\nwbegindocs{17}\nwdocspar
 \section{annexes}
 
 \subsection{la ligne de commande}
 Pour obtenir le fichier \LaTeX{} et le code source, voici ce qu'il faut faire depuis un terminal :
 
-\nwenddocs{}\nwbegincode{16}\sublabel{NWhQHnA-2CUXU7-1}\nwmargintag{{\nwtagstyle{}\subpageref{NWhQHnA-2CUXU7-1}}}\moddef{command-line~{\nwtagstyle{}\subpageref{NWhQHnA-2CUXU7-1}}}\endmoddef\nwstartdeflinemarkup\nwenddeflinemarkup
+\nwenddocs{}\nwbegincode{18}\sublabel{NWhQHnA-2CUXU7-1}\nwmargintag{{\nwtagstyle{}\subpageref{NWhQHnA-2CUXU7-1}}}\moddef{command-line~{\nwtagstyle{}\subpageref{NWhQHnA-2CUXU7-1}}}\endmoddef\nwstartdeflinemarkup\nwenddeflinemarkup
 # fichier LaTeX
-noweave -delay -index rbuffer.nw > rbuffer.tex
+noweave -delay -autodefs c -index rbuffer.nw > rbuffer.tex
 # fichier PDF
 pdflatex rbuffer.tex && \\
   pdflatex rbuffer.tex && \\
   pdflatex rbuffer.tex
 # le code source
 notangle rbuffer.nw > rbuffer.h
-
 \nwnotused{command-line}\nwendcode{}
 
 \nwixlogsorted{c}{{*}{NWhQHnA-1p0Y9w-1}{\nwixd{NWhQHnA-1p0Y9w-1}}}%
 \nwixlogsorted{c}{{add-char}{NWhQHnA-4LzvSl-1}{\nwixd{NWhQHnA-4LzvSl-1}\nwixu{NWhQHnA-1p0Y9w-1}}}%
 \nwixlogsorted{c}{{command-line}{NWhQHnA-2CUXU7-1}{\nwixd{NWhQHnA-2CUXU7-1}}}%
 \nwixlogsorted{c}{{define-volatile}{NWhQHnA-43E2er-1}{\nwixd{NWhQHnA-43E2er-1}\nwixu{NWhQHnA-1p0Y9w-1}}}%
-\nwixlogsorted{c}{{intro-bits}{NWhQHnA-2Sh6y8-1}{\nwixd{NWhQHnA-2Sh6y8-1}\nwixu{NWhQHnA-1p0Y9w-1}}}%
+\nwixlogsorted{c}{{intro-bits}{NWhQHnA-2Sh6y8-1}{\nwixd{NWhQHnA-2Sh6y8-1}\nwixd{NWhQHnA-2Sh6y8-2}\nwixd{NWhQHnA-2Sh6y8-3}\nwixu{NWhQHnA-1p0Y9w-1}}}%
 \nwixlogsorted{c}{{tsrbuffer}{NWhQHnA-35IAXm-1}{\nwixd{NWhQHnA-35IAXm-1}}}%
 \nwixlogsorted{c}{{tsrbuffer-final}{NWhQHnA-2grPBU-1}{\nwixd{NWhQHnA-2grPBU-1}\nwixu{NWhQHnA-1p0Y9w-1}}}%
 \nwixlogsorted{i}{{\nwixident{{\_}RBUFFER{\_}BITS}}{:unRBUFFER:unBITS}}%
@@ -134,7 +139,9 @@ notangle rbuffer.nw > rbuffer.h
 \nwixlogsorted{i}{{\nwixident{RBUFFER{\_}MASK}}{RBUFFER:unMASK}}%
 \nwixlogsorted{i}{{\nwixident{RBUFFER{\_}SIZE}}{RBUFFER:unSIZE}}%
 \nwixlogsorted{i}{{\nwixident{TSrbuffer}}{TSrbuffer}}%
-\nwbegindocs{17}\nwdocspar
+\nwbegindocs{19}\nwdocspar
+L'option {\Tt{}-autodefs\ c\nwendquote} permet à {\Tt{}noweave\nwendquote} de déterminer lui-même les éléments du langage C. Sans cette option, dans le cadre de ce fichier, les définitions de {\Tt{}intro-bits\nwendquote} ne seraient pas visibles.
+
 \section{tables et index}
 \subsection{table des extraits de code}
 
