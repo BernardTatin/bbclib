@@ -20,9 +20,16 @@ Pour limiter les calculs, le code..., la taille du buffer est une puissance de 2
 
 <<intro-bits>>=
 #define _RBUFFER_BITS   8
+@
+
+La taille du buffer sera donc :
+
+<<intro-bits>>=
 #define RBUFFER_SIZE    (1 << _RBUFFER_BITS)
+@
+Et le masque permettant un rapidide \emph{modulo} arithmétique avec un [[and]] binaire :
+<<intro-bits>>=
 #define RBUFFER_MASK    (RBUFFER_SIZE - 1)
-@ %def _RBUFFER_BITS RBUFFER_SIZE RBUFFER_MASK
 
 @
 \subsection{la structure}
@@ -40,7 +47,6 @@ typedef struct {
     volatile int line_count;
     volatile char buffer[RBUFFER_SIZE];
 } TSrbuffer;
-@ %def TSrbuffer
 
 @
 \subsubsection{les champs}
@@ -112,15 +118,16 @@ Pour obtenir le fichier \LaTeX{} et le code source, voici ce qu'il faut faire de
 
 <<command-line>>=
 # fichier LaTeX
-noweave -delay -index rbuffer.nw > rbuffer.tex
+noweave -delay -autodefs c -index rbuffer.nw > rbuffer.tex
 # fichier PDF
 pdflatex rbuffer.tex && \
   pdflatex rbuffer.tex && \
   pdflatex rbuffer.tex
 # le code source
 notangle rbuffer.nw > rbuffer.h
-
 @
+L'option [[-autodefs c]] permet à [[noweave]] de déterminer lui-même les éléments du langage C. Sans cette option, dans le cadre de ce fichier, les définitions de [[intro-bits]] ne seraient pas visibles.
+
 \section{tables et index}
 \subsection{table des extraits de code}
 
