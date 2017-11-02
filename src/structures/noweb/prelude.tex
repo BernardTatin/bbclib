@@ -9,12 +9,10 @@
 \noweboptions{smallcode,longchunks,longxref}
 
 \usepackage[T1]{fontenc}
-%\usepackage{imfellEnglish}
-%\usepackage[default]{gillius}
+\usepackage[default]{gillius}
 \usepackage{CormorantGaramond}
-%\usepackage[el,nf]{coelacanth}
 \usepackage[zerostyle=d]{newtxtt}
-%\usepackage{FiraMono}
+\renewcommand{\familydefault}{\rmdefault}
 
 \usepackage[utf8]{inputenc}
 % Babel for French is known to break KOMA scripts
@@ -77,6 +75,7 @@
     \colorbox{orange!80}{%
         \begin{minipage}{\linewidth}%
             \vspace*{4pt}%Space before
+            \hspace*{3pt}
             #1
             \vspace*{4pt}%Space after
         \end{minipage}%
@@ -90,6 +89,7 @@
     \colorbox{orange!80}{%
         \begin{minipage}{\linewidth}%
             \vspace*{4pt}%Space before
+            \hspace*{3pt}
             #1
             \vspace*{4pt}%Space after
         \end{minipage}%
@@ -103,6 +103,7 @@
     \colorbox{orange!80}{%
         \begin{minipage}{\linewidth}%
             \vspace*{4pt}%Space before
+            \hspace*{3pt}
             #1
             \vspace*{4pt}%Space after
         \end{minipage}%
