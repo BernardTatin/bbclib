@@ -1,6 +1,6 @@
 %% KOMA needs it
-\let\sf\sffamily
-\let\bf\bfseries
+% \let\sf\sffamily
+% \let\bf\bfseries
 \let\tt\ttfamily
 \let\it\itshape
 \let\rm\rmfamily
@@ -17,6 +17,7 @@
 %\usepackage{FiraMono}
 
 \usepackage[utf8]{inputenc}
+% Babel for French is known to break KOMA scripts
 % \usepackage[french]{babel}
 
 \usepackage{xcolor}
@@ -70,7 +71,7 @@
 %
 \setkomafont{section}{\mysection}
 \newcommand{\mysection}[1]{%
-    \LARGE\sf\bf%
+    \LARGE\sffamily\bfseries%
     \color{white}%
     \setlength{\fboxsep}{0cm}%already boxed
     \colorbox{orange!80}{%
@@ -83,7 +84,7 @@
 
 \setkomafont{subsection}{\submysection}
 \newcommand{\submysection}[1]{%
-    \large\sf%
+    \large\sffamily%
     \color{white}%
     \setlength{\fboxsep}{0cm}%already boxed
     \colorbox{orange!80}{%
@@ -96,7 +97,7 @@
 
 \setkomafont{subsubsection}{\subsubmysection}
 \newcommand{\subsubmysection}[1]{%
-    \itshape\sf%
+    \itshape\sffamily%
     \color{white}%
     \setlength{\fboxsep}{0cm}%already boxed
     \colorbox{orange!80}{%
