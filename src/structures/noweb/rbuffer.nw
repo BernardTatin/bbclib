@@ -1,6 +1,6 @@
 \documentclass{scrartcl}
 
-\input{prelude.tex}
+\input{common/prelude.tex}
 
 \author{Bernard Tatin}
 \date{2013/2017}
