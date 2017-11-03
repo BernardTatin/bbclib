@@ -5,17 +5,23 @@ TANGLE = notangle
 PDFLATEX = pdflatex
 
 TARG_SRC = rbuffer.h
+#rbuffer.c
 TARG_PDF = rbuffer.pdf
+
+FILTER = common/better-code.sh
 
 SRC = rbuffer.nw
 
 all: $(TARG_PDF) $(TARG_SRC)
 
 %.h: %.nw
-	$(TANGLE) $< > $@
+	$(TANGLE) -R$@ $< > $@
+
+# %.c: %.nw
+# 	$(TANGLE) -R$@ $< > $@
 
 %.tex: %.nw
-	$(WEAVE) -delay -autodefs c -index $< > $@
+	$(shell rm $<.nw; $(FILTER) $< > $<.nw; $(WEAVE) -delay -autodefs c -index $<.nw > $@)
 
 %.pdf: %.tex common/prelude.tex
 	$(PDFLATEX) $<
