@@ -13,6 +13,7 @@
 #define RBUFFER_MASK    (RBUFFER_SIZE - 1)
 
 
+
 #if defined(__with_irqs)
   #define VOLATILE volatile
 #else
@@ -20,10 +21,7 @@
 #endif
 
 
-/**
- * @struct TSrbuffer
- * La structure gérant le buffer tournant.
- */
+
 typedef struct {
     VOLATILE int in;
     VOLATILE int out;
