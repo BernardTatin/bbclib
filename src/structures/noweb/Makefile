@@ -20,7 +20,7 @@ all: $(TARG_PDF) $(TARG_SRC)
 	$(TANGLE) -R$@ $< > $@
 
 %.tex: %.nw
-	$(shell $(FILTER) $< > $<.nw; $(WEAVE) -delay -autodefs c -index $<.nw > $@; rm $<.nw)
+	$(WEAVE) -delay -autodefs c -index $< > $@
 
 %.pdf: %.tex common/prelude.tex
 	$(PDFLATEX) $<

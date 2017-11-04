@@ -9,8 +9,8 @@
 
 \pagestyle{noweb}
 \maketitle
-\abstract{Voici un premier essai de \emph{literate programming}, concept inventé par D. Knuth il y a plus de trente ans. À partir de ce seul fichier on génère la documentation et le code. Ici, je reprend du vieux code, cela m'oblige, même s'il est simple, à le repenser et donc, espérons le, à l'améliorer. Même si je passe beaucoup de temps sur la présentation...
-
+\abstract{Voici un premier essai de \emph{literate programming}, concept inventé par D. Knuth il y a plus de trente ans. À partir de ce seul fichier on génère la documentation et le code. Ici, je reprend du vieux code, cela m'oblige, même s'il est simple, à le repenser et donc, espérons le, à l'améliorer. Même si je passe beaucoup de temps sur la présentation... \\
+\\
 Ce code est très orienté \emph{ligne de caractères} et a servi, entre autre, à la gestion de modems sur des systèmes embarqués. On notera l'absence de gestion de trop plein du buffer, \emph{i.e.} de l'écrasement de caractères lors du remplissage. Certains systèmes embarqués m'en ont découragés par manque de mémoire et une commande de modem écrasée était une commande modem mal formée... Jeu dangereux qui a finalement bien fonctionné.}
 
 \tableofcontents
@@ -21,75 +21,68 @@ C'est un buffer tournant le plus simple possible, capable de gérer des lignes d
 \subsection{premières définitions}
 Pour limiter les calculs, le code..., la taille du buffer est une puissance de 2 d'où la définition du nombre de bits qui ouvre le bal, et en tenant compte du fait que cette définition peut-être donnée en paramètre du préprocesseur :
 
-\nwfilename{rbuffer.nw.nw}\nwbegincode{1}\sublabel{NW4G95aA-2Sh6y8-1}\nwmargintag{{\nwtagstyle{}\subpageref{NW4G95aA-2Sh6y8-1}}}\moddef{intro-bits~{\nwtagstyle{}\subpageref{NW4G95aA-2Sh6y8-1}}}\endmoddef\nwstartdeflinemarkup\nwusesondefline{\\{NW4G95aA-H2ln1-1}\\{NW4G95aA-H2ln1-2}}\nwprevnextdefs{\relax}{NW4G95aA-2Sh6y8-2}\nwenddeflinemarkup
-# if !defined(\nwlinkedidentc{_RBUFFER_BITS}{NW4G95aA-2Sh6y8-1})
-#define \nwlinkedidentc{_RBUFFER_BITS}{NW4G95aA-2Sh6y8-1}   8\nwindexdefn{\nwixident{{\_}RBUFFER{\_}BITS}}{:unRBUFFER:unBITS}{NW4G95aA-2Sh6y8-1}
+\nwfilename{rbuffer.nw}\nwbegincode{1}\sublabel{NWhQHnA-2Sh6y8-1}\nwmargintag{{\nwtagstyle{}\subpageref{NWhQHnA-2Sh6y8-1}}}\moddef{intro-bits~{\nwtagstyle{}\subpageref{NWhQHnA-2Sh6y8-1}}}\endmoddef\nwstartdeflinemarkup\nwusesondefline{\\{NWhQHnA-H2ln1-1}}\nwprevnextdefs{\relax}{NWhQHnA-2Sh6y8-2}\nwenddeflinemarkup
+# if !defined(\nwlinkedidentc{_RBUFFER_BITS}{NWhQHnA-2Sh6y8-1})
+#define \nwlinkedidentc{_RBUFFER_BITS}{NWhQHnA-2Sh6y8-1}   8\nwindexdefn{\nwixident{{\_}RBUFFER{\_}BITS}}{:unRBUFFER:unBITS}{NWhQHnA-2Sh6y8-1}
 #endif
-\nwalsodefined{\\{NW4G95aA-2Sh6y8-2}\\{NW4G95aA-2Sh6y8-3}\\{NW4G95aA-2Sh6y8-4}\\{NW4G95aA-2Sh6y8-5}\\{NW4G95aA-2Sh6y8-6}}\nwused{\\{NW4G95aA-H2ln1-1}\\{NW4G95aA-H2ln1-2}}\nwidentdefs{\\{{\nwixident{{\_}RBUFFER{\_}BITS}}{:unRBUFFER:unBITS}}}\nwendcode{}\nwbegindocs{2}\nwdocspar
-\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
+\nwalsodefined{\\{NWhQHnA-2Sh6y8-2}\\{NWhQHnA-2Sh6y8-3}}\nwused{\\{NWhQHnA-H2ln1-1}}\nwidentdefs{\\{{\nwixident{{\_}RBUFFER{\_}BITS}}{:unRBUFFER:unBITS}}}\nwendcode{}\nwbegindocs{2}\nwdocspar
 
 La taille du buffer sera donc :
 
-\nwenddocs{}\nwbegincode{3}\sublabel{NW4G95aA-2Sh6y8-2}\nwmargintag{{\nwtagstyle{}\subpageref{NW4G95aA-2Sh6y8-2}}}\moddef{intro-bits~{\nwtagstyle{}\subpageref{NW4G95aA-2Sh6y8-1}}}\plusendmoddef\nwstartdeflinemarkup\nwusesondefline{\\{NW4G95aA-H2ln1-1}\\{NW4G95aA-H2ln1-2}}\nwprevnextdefs{NW4G95aA-2Sh6y8-1}{NW4G95aA-2Sh6y8-3}\nwenddeflinemarkup
-#define \nwlinkedidentc{RBUFFER_SIZE}{NW4G95aA-2Sh6y8-2}    (1 \nwindexdefn{\nwixident{RBUFFER{\_}SIZE}}{RBUFFER:unSIZE}{NW4G95aA-2Sh6y8-2}<< \nwlinkedidentc{_RBUFFER_BITS}{NW4G95aA-2Sh6y8-1})
-\nwused{\\{NW4G95aA-H2ln1-1}\\{NW4G95aA-H2ln1-2}}\nwidentdefs{\\{{\nwixident{RBUFFER{\_}SIZE}}{RBUFFER:unSIZE}}}\nwidentuses{\\{{\nwixident{{\_}RBUFFER{\_}BITS}}{:unRBUFFER:unBITS}}}\nwindexuse{\nwixident{{\_}RBUFFER{\_}BITS}}{:unRBUFFER:unBITS}{NW4G95aA-2Sh6y8-2}\nwendcode{}\nwbegindocs{4}\nwdocspar
-\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
+\nwenddocs{}\nwbegincode{3}\sublabel{NWhQHnA-2Sh6y8-2}\nwmargintag{{\nwtagstyle{}\subpageref{NWhQHnA-2Sh6y8-2}}}\moddef{intro-bits~{\nwtagstyle{}\subpageref{NWhQHnA-2Sh6y8-1}}}\plusendmoddef\nwstartdeflinemarkup\nwusesondefline{\\{NWhQHnA-H2ln1-1}}\nwprevnextdefs{NWhQHnA-2Sh6y8-1}{NWhQHnA-2Sh6y8-3}\nwenddeflinemarkup
+#define \nwlinkedidentc{RBUFFER_SIZE}{NWhQHnA-2Sh6y8-2}    (1 \nwindexdefn{\nwixident{RBUFFER{\_}SIZE}}{RBUFFER:unSIZE}{NWhQHnA-2Sh6y8-2}<< \nwlinkedidentc{_RBUFFER_BITS}{NWhQHnA-2Sh6y8-1})
+\nwused{\\{NWhQHnA-H2ln1-1}}\nwidentdefs{\\{{\nwixident{RBUFFER{\_}SIZE}}{RBUFFER:unSIZE}}}\nwidentuses{\\{{\nwixident{{\_}RBUFFER{\_}BITS}}{:unRBUFFER:unBITS}}}\nwindexuse{\nwixident{{\_}RBUFFER{\_}BITS}}{:unRBUFFER:unBITS}{NWhQHnA-2Sh6y8-2}\nwendcode{}\nwbegindocs{4}\nwdocspar
 Et le masque permettant un rapidide \emph{modulo} arithmétique avec un {\Tt{}and\nwendquote} binaire :
-\nwenddocs{}\nwbegincode{5}\sublabel{NW4G95aA-2Sh6y8-3}\nwmargintag{{\nwtagstyle{}\subpageref{NW4G95aA-2Sh6y8-3}}}\moddef{intro-bits~{\nwtagstyle{}\subpageref{NW4G95aA-2Sh6y8-1}}}\plusendmoddef\nwstartdeflinemarkup\nwusesondefline{\\{NW4G95aA-H2ln1-1}\\{NW4G95aA-H2ln1-2}}\nwprevnextdefs{NW4G95aA-2Sh6y8-2}{NW4G95aA-2Sh6y8-4}\nwenddeflinemarkup
-#define \nwlinkedidentc{RBUFFER_MASK}{NW4G95aA-2Sh6y8-3}    (\nwlinkedidentc{RBUFFER_SIZE}{NW4G95aA-2Sh6y8-2} - 1)\nwindexdefn{\nwixident{RBUFFER{\_}MASK}}{RBUFFER:unMASK}{NW4G95aA-2Sh6y8-3}
+\nwenddocs{}\nwbegincode{5}\sublabel{NWhQHnA-2Sh6y8-3}\nwmargintag{{\nwtagstyle{}\subpageref{NWhQHnA-2Sh6y8-3}}}\moddef{intro-bits~{\nwtagstyle{}\subpageref{NWhQHnA-2Sh6y8-1}}}\plusendmoddef\nwstartdeflinemarkup\nwusesondefline{\\{NWhQHnA-H2ln1-1}}\nwprevnextdefs{NWhQHnA-2Sh6y8-2}{\relax}\nwenddeflinemarkup
+#define \nwlinkedidentc{RBUFFER_MASK}{NWhQHnA-2Sh6y8-3}    (\nwlinkedidentc{RBUFFER_SIZE}{NWhQHnA-2Sh6y8-2} - 1)\nwindexdefn{\nwixident{RBUFFER{\_}MASK}}{RBUFFER:unMASK}{NWhQHnA-2Sh6y8-3}
 
-\nwused{\\{NW4G95aA-H2ln1-1}\\{NW4G95aA-H2ln1-2}}\nwidentdefs{\\{{\nwixident{RBUFFER{\_}MASK}}{RBUFFER:unMASK}}}\nwidentuses{\\{{\nwixident{RBUFFER{\_}SIZE}}{RBUFFER:unSIZE}}}\nwindexuse{\nwixident{RBUFFER{\_}SIZE}}{RBUFFER:unSIZE}{NW4G95aA-2Sh6y8-3}\nwendcode{}\nwbegindocs{6}\nwdocspar
-\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
+\nwused{\\{NWhQHnA-H2ln1-1}}\nwidentdefs{\\{{\nwixident{RBUFFER{\_}MASK}}{RBUFFER:unMASK}}}\nwidentuses{\\{{\nwixident{RBUFFER{\_}SIZE}}{RBUFFER:unSIZE}}}\nwindexuse{\nwixident{RBUFFER{\_}SIZE}}{RBUFFER:unSIZE}{NWhQHnA-2Sh6y8-3}\nwendcode{}\nwbegindocs{6}\nwdocspar
 \subsection{la structure}
 
 \textbf{\textit{Note: }} tous les membres de la structure sont définis comme {\Tt{}volatile\nwendquote}. C'est important dans un système embarqué avec des interruptions pouvant manipuler le buffer. Sans {\Tt{}volatile\nwendquote}, une optimisation trop agressive pourrait placer une des valeurs entières dans un registre. En cas d'interruption modifiant cette valeur, le registre, lui, ne bougera pas et des caractères pourraient se perdre.
 
-\nwenddocs{}\nwbegincode{7}\sublabel{NW4G95aA-35IAXm-1}\nwmargintag{{\nwtagstyle{}\subpageref{NW4G95aA-35IAXm-1}}}\moddef{tsrbuffer~{\nwtagstyle{}\subpageref{NW4G95aA-35IAXm-1}}}\endmoddef\nwstartdeflinemarkup\nwprevnextdefs{\relax}{NW4G95aA-35IAXm-2}\nwenddeflinemarkup
+\nwenddocs{}\nwbegincode{7}\sublabel{NWhQHnA-35IAXm-1}\nwmargintag{{\nwtagstyle{}\subpageref{NWhQHnA-35IAXm-1}}}\moddef{tsrbuffer~{\nwtagstyle{}\subpageref{NWhQHnA-35IAXm-1}}}\endmoddef\nwstartdeflinemarkup\nwenddeflinemarkup
 /**
- * @struct \nwlinkedidentc{TSrbuffer}{NW4G95aA-35IAXm-1}
+ * @struct \nwlinkedidentc{TSrbuffer}{NWhQHnA-35IAXm-1}
  * La structure gérant le buffer tournant.
  */
 typedef struct \{
     volatile int in;
     volatile int out;
     volatile int line_count;
-    volatile char buffer[\nwlinkedidentc{RBUFFER_SIZE}{NW4G95aA-2Sh6y8-2}];
-\} \nwlinkedidentc{TSrbuffer}{NW4G95aA-35IAXm-1};\nwindexdefn{\nwixident{TSrbuffer}}{TSrbuffer}{NW4G95aA-35IAXm-1}
+    volatile char buffer[\nwlinkedidentc{RBUFFER_SIZE}{NWhQHnA-2Sh6y8-2}];
+\} \nwlinkedidentc{TSrbuffer}{NWhQHnA-35IAXm-1};\nwindexdefn{\nwixident{TSrbuffer}}{TSrbuffer}{NWhQHnA-35IAXm-1}
 
-\nwalsodefined{\\{NW4G95aA-35IAXm-2}}\nwnotused{tsrbuffer}\nwidentdefs{\\{{\nwixident{TSrbuffer}}{TSrbuffer}}}\nwidentuses{\\{{\nwixident{RBUFFER{\_}SIZE}}{RBUFFER:unSIZE}}}\nwindexuse{\nwixident{RBUFFER{\_}SIZE}}{RBUFFER:unSIZE}{NW4G95aA-35IAXm-1}\nwendcode{}\nwbegindocs{8}\nwdocspar
-\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
+\nwnotused{tsrbuffer}\nwidentdefs{\\{{\nwixident{TSrbuffer}}{TSrbuffer}}}\nwidentuses{\\{{\nwixident{RBUFFER{\_}SIZE}}{RBUFFER:unSIZE}}}\nwindexuse{\nwixident{RBUFFER{\_}SIZE}}{RBUFFER:unSIZE}{NWhQHnA-35IAXm-1}\nwendcode{}\nwbegindocs{8}\nwdocspar
 \subsubsection{les champs}
 \subsubsection{remarques diverses}
 On pourrait définir un {\Tt{}VOLATILE\nwendquote} en fonction de l'architecture du type :
 
-\nwenddocs{}\nwbegincode{9}\sublabel{NW4G95aA-43E2er-1}\nwmargintag{{\nwtagstyle{}\subpageref{NW4G95aA-43E2er-1}}}\moddef{define-volatile~{\nwtagstyle{}\subpageref{NW4G95aA-43E2er-1}}}\endmoddef\nwstartdeflinemarkup\nwusesondefline{\\{NW4G95aA-H2ln1-1}\\{NW4G95aA-H2ln1-2}}\nwprevnextdefs{\relax}{NW4G95aA-43E2er-2}\nwenddeflinemarkup
+\nwenddocs{}\nwbegincode{9}\sublabel{NWhQHnA-43E2er-1}\nwmargintag{{\nwtagstyle{}\subpageref{NWhQHnA-43E2er-1}}}\moddef{define-volatile~{\nwtagstyle{}\subpageref{NWhQHnA-43E2er-1}}}\endmoddef\nwstartdeflinemarkup\nwusesondefline{\\{NWhQHnA-H2ln1-1}}\nwenddeflinemarkup
 #if defined(__with_irqs)
   #define VOLATILE volatile
 #else
   #define VOLATILE
 #endif
 
-\nwalsodefined{\\{NW4G95aA-43E2er-2}}\nwused{\\{NW4G95aA-H2ln1-1}\\{NW4G95aA-H2ln1-2}}\nwendcode{}\nwbegindocs{10}\nwdocspar
-\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
+\nwused{\\{NWhQHnA-H2ln1-1}}\nwendcode{}\nwbegindocs{10}\nwdocspar
 Ce qui donnerait au final :
 
-\nwenddocs{}\nwbegincode{11}\sublabel{NW4G95aA-2grPBU-1}\nwmargintag{{\nwtagstyle{}\subpageref{NW4G95aA-2grPBU-1}}}\moddef{tsrbuffer-final~{\nwtagstyle{}\subpageref{NW4G95aA-2grPBU-1}}}\endmoddef\nwstartdeflinemarkup\nwusesondefline{\\{NW4G95aA-H2ln1-1}\\{NW4G95aA-H2ln1-2}}\nwprevnextdefs{\relax}{NW4G95aA-2grPBU-2}\nwenddeflinemarkup
+\nwenddocs{}\nwbegincode{11}\sublabel{NWhQHnA-2grPBU-1}\nwmargintag{{\nwtagstyle{}\subpageref{NWhQHnA-2grPBU-1}}}\moddef{tsrbuffer-final~{\nwtagstyle{}\subpageref{NWhQHnA-2grPBU-1}}}\endmoddef\nwstartdeflinemarkup\nwusesondefline{\\{NWhQHnA-H2ln1-1}}\nwenddeflinemarkup
 /**
- * @struct \nwlinkedidentc{TSrbuffer}{NW4G95aA-35IAXm-1}
+ * @struct \nwlinkedidentc{TSrbuffer}{NWhQHnA-35IAXm-1}
  * La structure gérant le buffer tournant.
  */
 typedef struct \{
     VOLATILE int in;
     VOLATILE int out;
     VOLATILE int line_count;
-    VOLATILE char buffer[\nwlinkedidentc{RBUFFER_SIZE}{NW4G95aA-2Sh6y8-2}];
-\} \nwlinkedidentc{TSrbuffer}{NW4G95aA-35IAXm-1};\nwindexdefn{\nwixident{TSrbuffer}}{TSrbuffer}{NW4G95aA-2grPBU-1}
+    VOLATILE char buffer[\nwlinkedidentc{RBUFFER_SIZE}{NWhQHnA-2Sh6y8-2}];
+\} \nwlinkedidentc{TSrbuffer}{NWhQHnA-35IAXm-1};\nwindexdefn{\nwixident{TSrbuffer}}{TSrbuffer}{NWhQHnA-2grPBU-1}
 
-\nwindexdefn{\nwixident{TSrbuffer}}{TSrbuffer}{NW4G95aA-2grPBU-1}\eatline
-\nwalsodefined{\\{NW4G95aA-2grPBU-2}}\nwused{\\{NW4G95aA-H2ln1-1}\\{NW4G95aA-H2ln1-2}}\nwidentdefs{\\{{\nwixident{TSrbuffer}}{TSrbuffer}}}\nwidentuses{\\{{\nwixident{RBUFFER{\_}SIZE}}{RBUFFER:unSIZE}}}\nwindexuse{\nwixident{RBUFFER{\_}SIZE}}{RBUFFER:unSIZE}{NW4G95aA-2grPBU-1}\nwendcode{}\nwbegindocs{12}\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
-Quoiqu'il en soit, il est fortement recommandé de lire la définition exacte du {\Tt{}VOLATILE\nwendquote} de votre compilateur, certaines variations pouvant rendre votre code totalement inefficace. Et d'autant plus que votre compilateur cible un système embarqué où les variations autour des standards sont choses communes.
+\nwindexdefn{\nwixident{TSrbuffer}}{TSrbuffer}{NWhQHnA-2grPBU-1}\eatline
+\nwused{\\{NWhQHnA-H2ln1-1}}\nwidentdefs{\\{{\nwixident{TSrbuffer}}{TSrbuffer}}}\nwidentuses{\\{{\nwixident{RBUFFER{\_}SIZE}}{RBUFFER:unSIZE}}}\nwindexuse{\nwixident{RBUFFER{\_}SIZE}}{RBUFFER:unSIZE}{NWhQHnA-2grPBU-1}\nwendcode{}\nwbegindocs{12}Quoiqu'il en soit, il est fortement recommandé de lire la définition exacte du {\Tt{}VOLATILE\nwendquote} de votre compilateur, certaines variations pouvant rendre votre code totalement inefficace. Et d'autant plus que votre compilateur cible un système embarqué où les variations autour des standards sont choses communes.
 \nwenddocs{}\nwbegindocs{13}\nwdocspar
-\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
 
 
 \subsection{le fonctionnement}
@@ -104,80 +97,74 @@ Le fonctionnement est le suivant pour l'ajout d'un caractère :
   \item si le caractère est '$\backslash$n', on incrémente {\Tt{}line{\_}count\nwendquote}.
 \end{packed_itemize}
 
-\nwenddocs{}\nwbegincode{14}\sublabel{NW4G95aA-4LzvSl-1}\nwmargintag{{\nwtagstyle{}\subpageref{NW4G95aA-4LzvSl-1}}}\moddef{add-char~{\nwtagstyle{}\subpageref{NW4G95aA-4LzvSl-1}}}\endmoddef\nwstartdeflinemarkup\nwusesondefline{\\{NW4G95aA-H2ln1-1}\\{NW4G95aA-H2ln1-2}}\nwprevnextdefs{\relax}{NW4G95aA-4LzvSl-2}\nwenddeflinemarkup
-static INLINE void \nwlinkedidentc{rbf_add_char}{NW4G95aA-4LzvSl-1}(\nwlinkedidentc{TSrbuffer}{NW4G95aA-35IAXm-1} *rb, const char c) \{\nwindexdefn{\nwixident{rbf{\_}add{\_}char}}{rbf:unadd:unchar}{NW4G95aA-4LzvSl-1}
+\nwenddocs{}\nwbegincode{14}\sublabel{NWhQHnA-4LzvSl-1}\nwmargintag{{\nwtagstyle{}\subpageref{NWhQHnA-4LzvSl-1}}}\moddef{add-char~{\nwtagstyle{}\subpageref{NWhQHnA-4LzvSl-1}}}\endmoddef\nwstartdeflinemarkup\nwusesondefline{\\{NWhQHnA-H2ln1-1}}\nwenddeflinemarkup
+static INLINE void \nwlinkedidentc{rbf_add_char}{NWhQHnA-4LzvSl-1}(\nwlinkedidentc{TSrbuffer}{NWhQHnA-35IAXm-1} *rb, const char c) \{\nwindexdefn{\nwixident{rbf{\_}add{\_}char}}{rbf:unadd:unchar}{NWhQHnA-4LzvSl-1}
     if (c != '\\r') \{
         rb->buffer[rb->in++] = c;
-        rb->in &= \nwlinkedidentc{RBUFFER_MASK}{NW4G95aA-2Sh6y8-3};
+        rb->in &= \nwlinkedidentc{RBUFFER_MASK}{NWhQHnA-2Sh6y8-3};
         if (c == '\\n') \{
             rb->line_count++;
         \}
     \}
 \}
-\nwalsodefined{\\{NW4G95aA-4LzvSl-2}}\nwused{\\{NW4G95aA-H2ln1-1}\\{NW4G95aA-H2ln1-2}}\nwidentdefs{\\{{\nwixident{rbf{\_}add{\_}char}}{rbf:unadd:unchar}}}\nwidentuses{\\{{\nwixident{RBUFFER{\_}MASK}}{RBUFFER:unMASK}}\\{{\nwixident{TSrbuffer}}{TSrbuffer}}}\nwindexuse{\nwixident{RBUFFER{\_}MASK}}{RBUFFER:unMASK}{NW4G95aA-4LzvSl-1}\nwindexuse{\nwixident{TSrbuffer}}{TSrbuffer}{NW4G95aA-4LzvSl-1}\nwendcode{}\nwbegindocs{15}\nwdocspar
-\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
+\nwused{\\{NWhQHnA-H2ln1-1}}\nwidentdefs{\\{{\nwixident{rbf{\_}add{\_}char}}{rbf:unadd:unchar}}}\nwidentuses{\\{{\nwixident{RBUFFER{\_}MASK}}{RBUFFER:unMASK}}\\{{\nwixident{TSrbuffer}}{TSrbuffer}}}\nwindexuse{\nwixident{RBUFFER{\_}MASK}}{RBUFFER:unMASK}{NWhQHnA-4LzvSl-1}\nwindexuse{\nwixident{TSrbuffer}}{TSrbuffer}{NWhQHnA-4LzvSl-1}\nwendcode{}\nwbegindocs{15}\nwdocspar
 La récupération d'un caractère dans le buffer est l'algorithme inverse :
 
-\nwenddocs{}\nwbegincode{16}\sublabel{NW4G95aA-323doG-1}\nwmargintag{{\nwtagstyle{}\subpageref{NW4G95aA-323doG-1}}}\moddef{get-char~{\nwtagstyle{}\subpageref{NW4G95aA-323doG-1}}}\endmoddef\nwstartdeflinemarkup\nwusesondefline{\\{NW4G95aA-H2ln1-1}\\{NW4G95aA-H2ln1-2}}\nwprevnextdefs{\relax}{NW4G95aA-323doG-2}\nwenddeflinemarkup
-static INLINE char \nwlinkedidentc{rbf_get_char}{NW4G95aA-323doG-1}(\nwlinkedidentc{TSrbuffer}{NW4G95aA-35IAXm-1} *rb) \{\nwindexdefn{\nwixident{rbf{\_}get{\_}char}}{rbf:unget:unchar}{NW4G95aA-323doG-1}
+\nwenddocs{}\nwbegincode{16}\sublabel{NWhQHnA-323doG-1}\nwmargintag{{\nwtagstyle{}\subpageref{NWhQHnA-323doG-1}}}\moddef{get-char~{\nwtagstyle{}\subpageref{NWhQHnA-323doG-1}}}\endmoddef\nwstartdeflinemarkup\nwusesondefline{\\{NWhQHnA-H2ln1-1}}\nwenddeflinemarkup
+static INLINE char \nwlinkedidentc{rbf_get_char}{NWhQHnA-323doG-1}(\nwlinkedidentc{TSrbuffer}{NWhQHnA-35IAXm-1} *rb) \{\nwindexdefn{\nwixident{rbf{\_}get{\_}char}}{rbf:unget:unchar}{NWhQHnA-323doG-1}
     int out = rb->out;
     char c = rb->buffer[out++];
-    out &= \nwlinkedidentc{RBUFFER_MASK}{NW4G95aA-2Sh6y8-3};
+    out &= \nwlinkedidentc{RBUFFER_MASK}{NWhQHnA-2Sh6y8-3};
     rb->out = out;
     if (c == '\\n' && rb->line_count) \{
         rb->line_count--;
     \}
     return c;
 \}
-\nwalsodefined{\\{NW4G95aA-323doG-2}}\nwused{\\{NW4G95aA-H2ln1-1}\\{NW4G95aA-H2ln1-2}}\nwidentdefs{\\{{\nwixident{rbf{\_}get{\_}char}}{rbf:unget:unchar}}}\nwidentuses{\\{{\nwixident{RBUFFER{\_}MASK}}{RBUFFER:unMASK}}\\{{\nwixident{TSrbuffer}}{TSrbuffer}}}\nwindexuse{\nwixident{RBUFFER{\_}MASK}}{RBUFFER:unMASK}{NW4G95aA-323doG-1}\nwindexuse{\nwixident{TSrbuffer}}{TSrbuffer}{NW4G95aA-323doG-1}\nwendcode{}\nwbegindocs{17}\nwdocspar
-\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
+\nwused{\\{NWhQHnA-H2ln1-1}}\nwidentdefs{\\{{\nwixident{rbf{\_}get{\_}char}}{rbf:unget:unchar}}}\nwidentuses{\\{{\nwixident{RBUFFER{\_}MASK}}{RBUFFER:unMASK}}\\{{\nwixident{TSrbuffer}}{TSrbuffer}}}\nwindexuse{\nwixident{RBUFFER{\_}MASK}}{RBUFFER:unMASK}{NWhQHnA-323doG-1}\nwindexuse{\nwixident{TSrbuffer}}{TSrbuffer}{NWhQHnA-323doG-1}\nwendcode{}\nwbegindocs{17}\nwdocspar
 
 Il est cependant très important de déterminer si des caratères sont présents dans le buffer :
-\nwenddocs{}\nwbegincode{18}\sublabel{NW4G95aA-2cjkIS-1}\nwmargintag{{\nwtagstyle{}\subpageref{NW4G95aA-2cjkIS-1}}}\moddef{has-chars~{\nwtagstyle{}\subpageref{NW4G95aA-2cjkIS-1}}}\endmoddef\nwstartdeflinemarkup\nwusesondefline{\\{NW4G95aA-H2ln1-1}\\{NW4G95aA-H2ln1-2}}\nwprevnextdefs{\relax}{NW4G95aA-2cjkIS-2}\nwenddeflinemarkup
-static INLINE \nwlinkedidentc{bool}{NW4G95aA-2cjkIS-1} rbf_has_chars(\nwlinkedidentc{TSrbuffer}{NW4G95aA-35IAXm-1} *rb) \{\nwindexdefn{\nwixident{bool}}{bool}{NW4G95aA-2cjkIS-1}
+\nwenddocs{}\nwbegincode{18}\sublabel{NWhQHnA-2cjkIS-1}\nwmargintag{{\nwtagstyle{}\subpageref{NWhQHnA-2cjkIS-1}}}\moddef{has-chars~{\nwtagstyle{}\subpageref{NWhQHnA-2cjkIS-1}}}\endmoddef\nwstartdeflinemarkup\nwusesondefline{\\{NWhQHnA-H2ln1-1}}\nwenddeflinemarkup
+static INLINE \nwlinkedidentc{bool}{NWhQHnA-2cjkIS-1} rbf_has_chars(\nwlinkedidentc{TSrbuffer}{NWhQHnA-35IAXm-1} *rb) \{\nwindexdefn{\nwixident{bool}}{bool}{NWhQHnA-2cjkIS-1}
     return rb->in != rb->out;
 \}
-\nwalsodefined{\\{NW4G95aA-2cjkIS-2}}\nwused{\\{NW4G95aA-H2ln1-1}\\{NW4G95aA-H2ln1-2}}\nwidentdefs{\\{{\nwixident{bool}}{bool}}}\nwidentuses{\\{{\nwixident{TSrbuffer}}{TSrbuffer}}}\nwindexuse{\nwixident{TSrbuffer}}{TSrbuffer}{NW4G95aA-2cjkIS-1}\nwendcode{}\nwbegindocs{19}\nwdocspar
-\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
+\nwused{\\{NWhQHnA-H2ln1-1}}\nwidentdefs{\\{{\nwixident{bool}}{bool}}}\nwidentuses{\\{{\nwixident{TSrbuffer}}{TSrbuffer}}}\nwindexuse{\nwixident{TSrbuffer}}{TSrbuffer}{NWhQHnA-2cjkIS-1}\nwendcode{}\nwbegindocs{19}\nwdocspar
 
-Le marquage d'une fin de ligne se fait par un '$backslash$0' :
-\nwenddocs{}\nwbegincode{20}\sublabel{NW4G95aA-3wDRpw-1}\nwmargintag{{\nwtagstyle{}\subpageref{NW4G95aA-3wDRpw-1}}}\moddef{end-of-line~{\nwtagstyle{}\subpageref{NW4G95aA-3wDRpw-1}}}\endmoddef\nwstartdeflinemarkup\nwprevnextdefs{\relax}{NW4G95aA-3wDRpw-2}\nwenddeflinemarkup
+Le marquage d'une fin de ligne se fait par un '$\backslash$0' :
+\nwenddocs{}\nwbegincode{20}\sublabel{NWhQHnA-3wDRpw-1}\nwmargintag{{\nwtagstyle{}\subpageref{NWhQHnA-3wDRpw-1}}}\moddef{end-of-line~{\nwtagstyle{}\subpageref{NWhQHnA-3wDRpw-1}}}\endmoddef\nwstartdeflinemarkup\nwenddeflinemarkup
 
-static INLINE void \nwlinkedidentc{rbf_end_of_line}{NW4G95aA-3wDRpw-1}(\nwlinkedidentc{TSrbuffer}{NW4G95aA-35IAXm-1} *rb) \{\nwindexdefn{\nwixident{rbf{\_}end{\_}of{\_}line}}{rbf:unend:unof:unline}{NW4G95aA-3wDRpw-1}
+static INLINE void \nwlinkedidentc{rbf_end_of_line}{NWhQHnA-3wDRpw-1}(\nwlinkedidentc{TSrbuffer}{NWhQHnA-35IAXm-1} *rb) \{\nwindexdefn{\nwixident{rbf{\_}end{\_}of{\_}line}}{rbf:unend:unof:unline}{NWhQHnA-3wDRpw-1}
     rb->buffer[rb->in] = 0;
     rb->line_count++;
 \}
 
-\nwalsodefined{\\{NW4G95aA-3wDRpw-2}}\nwnotused{end-of-line}\nwidentdefs{\\{{\nwixident{rbf{\_}end{\_}of{\_}line}}{rbf:unend:unof:unline}}}\nwidentuses{\\{{\nwixident{TSrbuffer}}{TSrbuffer}}}\nwindexuse{\nwixident{TSrbuffer}}{TSrbuffer}{NW4G95aA-3wDRpw-1}\nwendcode{}\nwbegindocs{21}\nwdocspar
-\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
+\nwnotused{end-of-line}\nwidentdefs{\\{{\nwixident{rbf{\_}end{\_}of{\_}line}}{rbf:unend:unof:unline}}}\nwidentuses{\\{{\nwixident{TSrbuffer}}{TSrbuffer}}}\nwindexuse{\nwixident{TSrbuffer}}{TSrbuffer}{NWhQHnA-3wDRpw-1}\nwendcode{}\nwbegindocs{21}\nwdocspar
 Ces fonctions, nécessitant une boucle, ne sont pas déclarées {\Tt{}INLINE\nwendquote} :
-\nwenddocs{}\nwbegincode{22}\sublabel{NW4G95aA-8LHhU-1}\nwmargintag{{\nwtagstyle{}\subpageref{NW4G95aA-8LHhU-1}}}\moddef{more-functions-h~{\nwtagstyle{}\subpageref{NW4G95aA-8LHhU-1}}}\endmoddef\nwstartdeflinemarkup\nwusesondefline{\\{NW4G95aA-H2ln1-1}\\{NW4G95aA-H2ln1-2}}\nwprevnextdefs{\relax}{NW4G95aA-8LHhU-2}\nwenddeflinemarkup
-void \nwlinkedidentc{rbf_add_line}{NW4G95aA-2kqdfQ-1}(\nwlinkedidentc{TSrbuffer}{NW4G95aA-35IAXm-1} *rb, char *line);
-int \nwlinkedidentc{rbf_get_line}{NW4G95aA-2kqdfQ-2}(\nwlinkedidentc{TSrbuffer}{NW4G95aA-35IAXm-1} *rb, char *line);
-\nwalsodefined{\\{NW4G95aA-8LHhU-2}}\nwused{\\{NW4G95aA-H2ln1-1}\\{NW4G95aA-H2ln1-2}}\nwidentuses{\\{{\nwixident{rbf{\_}add{\_}line}}{rbf:unadd:unline}}\\{{\nwixident{rbf{\_}get{\_}line}}{rbf:unget:unline}}\\{{\nwixident{TSrbuffer}}{TSrbuffer}}}\nwindexuse{\nwixident{rbf{\_}add{\_}line}}{rbf:unadd:unline}{NW4G95aA-8LHhU-1}\nwindexuse{\nwixident{rbf{\_}get{\_}line}}{rbf:unget:unline}{NW4G95aA-8LHhU-1}\nwindexuse{\nwixident{TSrbuffer}}{TSrbuffer}{NW4G95aA-8LHhU-1}\nwendcode{}\nwbegindocs{23}\nwdocspar
-\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
+\nwenddocs{}\nwbegincode{22}\sublabel{NWhQHnA-8LHhU-1}\nwmargintag{{\nwtagstyle{}\subpageref{NWhQHnA-8LHhU-1}}}\moddef{more-functions-h~{\nwtagstyle{}\subpageref{NWhQHnA-8LHhU-1}}}\endmoddef\nwstartdeflinemarkup\nwusesondefline{\\{NWhQHnA-H2ln1-1}}\nwenddeflinemarkup
+void \nwlinkedidentc{rbf_add_line}{NWhQHnA-2kqdfQ-1}(\nwlinkedidentc{TSrbuffer}{NWhQHnA-35IAXm-1} *rb, char *line);
+int \nwlinkedidentc{rbf_get_line}{NWhQHnA-2kqdfQ-2}(\nwlinkedidentc{TSrbuffer}{NWhQHnA-35IAXm-1} *rb, char *line);
+\nwused{\\{NWhQHnA-H2ln1-1}}\nwidentuses{\\{{\nwixident{rbf{\_}add{\_}line}}{rbf:unadd:unline}}\\{{\nwixident{rbf{\_}get{\_}line}}{rbf:unget:unline}}\\{{\nwixident{TSrbuffer}}{TSrbuffer}}}\nwindexuse{\nwixident{rbf{\_}add{\_}line}}{rbf:unadd:unline}{NWhQHnA-8LHhU-1}\nwindexuse{\nwixident{rbf{\_}get{\_}line}}{rbf:unget:unline}{NWhQHnA-8LHhU-1}\nwindexuse{\nwixident{TSrbuffer}}{TSrbuffer}{NWhQHnA-8LHhU-1}\nwendcode{}\nwbegindocs{23}\nwdocspar
 
 L'ajout d'une ligne est \emph{simple} :
-\nwenddocs{}\nwbegincode{24}\sublabel{NW4G95aA-2kqdfQ-1}\nwmargintag{{\nwtagstyle{}\subpageref{NW4G95aA-2kqdfQ-1}}}\moddef{more-functions-c~{\nwtagstyle{}\subpageref{NW4G95aA-2kqdfQ-1}}}\endmoddef\nwstartdeflinemarkup\nwusesondefline{\\{NW4G95aA-2tY7kx-1}\\{NW4G95aA-2tY7kx-2}}\nwprevnextdefs{\relax}{NW4G95aA-2kqdfQ-2}\nwenddeflinemarkup
-void \nwlinkedidentc{rbf_add_line}{NW4G95aA-2kqdfQ-1}(\nwlinkedidentc{TSrbuffer}{NW4G95aA-35IAXm-1} *rb, char *line) \{\nwindexdefn{\nwixident{rbf{\_}add{\_}line}}{rbf:unadd:unline}{NW4G95aA-2kqdfQ-1}
+\nwenddocs{}\nwbegincode{24}\sublabel{NWhQHnA-2kqdfQ-1}\nwmargintag{{\nwtagstyle{}\subpageref{NWhQHnA-2kqdfQ-1}}}\moddef{more-functions-c~{\nwtagstyle{}\subpageref{NWhQHnA-2kqdfQ-1}}}\endmoddef\nwstartdeflinemarkup\nwusesondefline{\\{NWhQHnA-2tY7kx-1}}\nwprevnextdefs{\relax}{NWhQHnA-2kqdfQ-2}\nwenddeflinemarkup
+void \nwlinkedidentc{rbf_add_line}{NWhQHnA-2kqdfQ-1}(\nwlinkedidentc{TSrbuffer}{NWhQHnA-35IAXm-1} *rb, char *line) \{\nwindexdefn{\nwixident{rbf{\_}add{\_}line}}{rbf:unadd:unline}{NWhQHnA-2kqdfQ-1}
     char c;
 
     while ((c = *(line++)) != 0) \{
-        \nwlinkedidentc{rbf_add_char}{NW4G95aA-4LzvSl-1}(rb, c);
+        \nwlinkedidentc{rbf_add_char}{NWhQHnA-4LzvSl-1}(rb, c);
     \}
-    \nwlinkedidentc{rbf_end_of_line}{NW4G95aA-3wDRpw-1}(rb);
+    \nwlinkedidentc{rbf_end_of_line}{NWhQHnA-3wDRpw-1}(rb);
 \}
-\nwalsodefined{\\{NW4G95aA-2kqdfQ-2}\\{NW4G95aA-2kqdfQ-3}\\{NW4G95aA-2kqdfQ-4}}\nwused{\\{NW4G95aA-2tY7kx-1}\\{NW4G95aA-2tY7kx-2}}\nwidentdefs{\\{{\nwixident{rbf{\_}add{\_}line}}{rbf:unadd:unline}}}\nwidentuses{\\{{\nwixident{rbf{\_}add{\_}char}}{rbf:unadd:unchar}}\\{{\nwixident{rbf{\_}end{\_}of{\_}line}}{rbf:unend:unof:unline}}\\{{\nwixident{TSrbuffer}}{TSrbuffer}}}\nwindexuse{\nwixident{rbf{\_}add{\_}char}}{rbf:unadd:unchar}{NW4G95aA-2kqdfQ-1}\nwindexuse{\nwixident{rbf{\_}end{\_}of{\_}line}}{rbf:unend:unof:unline}{NW4G95aA-2kqdfQ-1}\nwindexuse{\nwixident{TSrbuffer}}{TSrbuffer}{NW4G95aA-2kqdfQ-1}\nwendcode{}\nwbegindocs{25}\nwdocspar
-\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
+\nwalsodefined{\\{NWhQHnA-2kqdfQ-2}}\nwused{\\{NWhQHnA-2tY7kx-1}}\nwidentdefs{\\{{\nwixident{rbf{\_}add{\_}line}}{rbf:unadd:unline}}}\nwidentuses{\\{{\nwixident{rbf{\_}add{\_}char}}{rbf:unadd:unchar}}\\{{\nwixident{rbf{\_}end{\_}of{\_}line}}{rbf:unend:unof:unline}}\\{{\nwixident{TSrbuffer}}{TSrbuffer}}}\nwindexuse{\nwixident{rbf{\_}add{\_}char}}{rbf:unadd:unchar}{NWhQHnA-2kqdfQ-1}\nwindexuse{\nwixident{rbf{\_}end{\_}of{\_}line}}{rbf:unend:unof:unline}{NWhQHnA-2kqdfQ-1}\nwindexuse{\nwixident{TSrbuffer}}{TSrbuffer}{NWhQHnA-2kqdfQ-1}\nwendcode{}\nwbegindocs{25}\nwdocspar
 
 Et la lecture d'une ligne :
-\nwenddocs{}\nwbegincode{26}\sublabel{NW4G95aA-2kqdfQ-2}\nwmargintag{{\nwtagstyle{}\subpageref{NW4G95aA-2kqdfQ-2}}}\moddef{more-functions-c~{\nwtagstyle{}\subpageref{NW4G95aA-2kqdfQ-1}}}\plusendmoddef\nwstartdeflinemarkup\nwusesondefline{\\{NW4G95aA-2tY7kx-1}\\{NW4G95aA-2tY7kx-2}}\nwprevnextdefs{NW4G95aA-2kqdfQ-1}{NW4G95aA-2kqdfQ-3}\nwenddeflinemarkup
-int \nwlinkedidentc{rbf_get_line}{NW4G95aA-2kqdfQ-2}(\nwlinkedidentc{TSrbuffer}{NW4G95aA-35IAXm-1} *rb, char *line) \{\nwindexdefn{\nwixident{rbf{\_}get{\_}line}}{rbf:unget:unline}{NW4G95aA-2kqdfQ-2}
+\nwenddocs{}\nwbegincode{26}\sublabel{NWhQHnA-2kqdfQ-2}\nwmargintag{{\nwtagstyle{}\subpageref{NWhQHnA-2kqdfQ-2}}}\moddef{more-functions-c~{\nwtagstyle{}\subpageref{NWhQHnA-2kqdfQ-1}}}\plusendmoddef\nwstartdeflinemarkup\nwusesondefline{\\{NWhQHnA-2tY7kx-1}}\nwprevnextdefs{NWhQHnA-2kqdfQ-1}{\relax}\nwenddeflinemarkup
+int \nwlinkedidentc{rbf_get_line}{NWhQHnA-2kqdfQ-2}(\nwlinkedidentc{TSrbuffer}{NWhQHnA-35IAXm-1} *rb, char *line) \{\nwindexdefn{\nwixident{rbf{\_}get{\_}line}}{rbf:unget:unline}{NWhQHnA-2kqdfQ-2}
     char c;
     int r = 0;
 
     while (rbf_has_chars(rb)) \{
-        c = \nwlinkedidentc{rbf_get_char}{NW4G95aA-323doG-1}(rb);
+        c = \nwlinkedidentc{rbf_get_char}{NWhQHnA-323doG-1}(rb);
 
         if (c == '\\n') \{
             break;
@@ -190,41 +177,39 @@ int \nwlinkedidentc{rbf_get_line}{NW4G95aA-2kqdfQ-2}(\nwlinkedidentc{TSrbuffer}{
     *line = 0;
     return r;
 \}
-\nwused{\\{NW4G95aA-2tY7kx-1}\\{NW4G95aA-2tY7kx-2}}\nwidentdefs{\\{{\nwixident{rbf{\_}get{\_}line}}{rbf:unget:unline}}}\nwidentuses{\\{{\nwixident{rbf{\_}get{\_}char}}{rbf:unget:unchar}}\\{{\nwixident{TSrbuffer}}{TSrbuffer}}}\nwindexuse{\nwixident{rbf{\_}get{\_}char}}{rbf:unget:unchar}{NW4G95aA-2kqdfQ-2}\nwindexuse{\nwixident{TSrbuffer}}{TSrbuffer}{NW4G95aA-2kqdfQ-2}\nwendcode{}\nwbegindocs{27}\nwdocspar
-\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
+\nwused{\\{NWhQHnA-2tY7kx-1}}\nwidentdefs{\\{{\nwixident{rbf{\_}get{\_}line}}{rbf:unget:unline}}}\nwidentuses{\\{{\nwixident{rbf{\_}get{\_}char}}{rbf:unget:unchar}}\\{{\nwixident{TSrbuffer}}{TSrbuffer}}}\nwindexuse{\nwixident{rbf{\_}get{\_}char}}{rbf:unget:unchar}{NWhQHnA-2kqdfQ-2}\nwindexuse{\nwixident{TSrbuffer}}{TSrbuffer}{NWhQHnA-2kqdfQ-2}\nwendcode{}\nwbegindocs{27}\nwdocspar
 
 
 
 \subsection{le code final}
 \subsubsection{{\Tt{}rbuffer.h\nwendquote}}
-\nwenddocs{}\nwbegincode{28}\sublabel{NW4G95aA-H2ln1-1}\nwmargintag{{\nwtagstyle{}\subpageref{NW4G95aA-H2ln1-1}}}\moddef{rbuffer.h~{\nwtagstyle{}\subpageref{NW4G95aA-H2ln1-1}}}\endmoddef\nwstartdeflinemarkup\nwprevnextdefs{\relax}{NW4G95aA-H2ln1-2}\nwenddeflinemarkup
+\nwenddocs{}\nwbegincode{28}\sublabel{NWhQHnA-H2ln1-1}\nwmargintag{{\nwtagstyle{}\subpageref{NWhQHnA-H2ln1-1}}}\moddef{rbuffer.h~{\nwtagstyle{}\subpageref{NWhQHnA-H2ln1-1}}}\endmoddef\nwstartdeflinemarkup\nwenddeflinemarkup
 /*
  * rbuffer.h
  * generated by noweb
  */
 
-#if !defined(\nwlinkedidentc{__rbuffer_h__}{NW4G95aA-H2ln1-1})
-#define \nwlinkedidentc{__rbuffer_h__}{NW4G95aA-H2ln1-1}\nwindexdefn{\nwixident{{\_}{\_}rbuffer{\_}h{\_}{\_}}}{:un:unrbuffer:unh:un:un}{NW4G95aA-H2ln1-1}
+#if !defined(\nwlinkedidentc{__rbuffer_h__}{NWhQHnA-H2ln1-1})
+#define \nwlinkedidentc{__rbuffer_h__}{NWhQHnA-H2ln1-1}\nwindexdefn{\nwixident{{\_}{\_}rbuffer{\_}h{\_}{\_}}}{:un:unrbuffer:unh:un:un}{NWhQHnA-H2ln1-1}
 
-\LA{}intro-bits~{\nwtagstyle{}\subpageref{NW4G95aA-2Sh6y8-1}}\RA{}
+\LA{}intro-bits~{\nwtagstyle{}\subpageref{NWhQHnA-2Sh6y8-1}}\RA{}
 
-\LA{}define-volatile~{\nwtagstyle{}\subpageref{NW4G95aA-43E2er-1}}\RA{}
+\LA{}define-volatile~{\nwtagstyle{}\subpageref{NWhQHnA-43E2er-1}}\RA{}
 
-\LA{}tsrbuffer-final~{\nwtagstyle{}\subpageref{NW4G95aA-2grPBU-1}}\RA{}
+\LA{}tsrbuffer-final~{\nwtagstyle{}\subpageref{NWhQHnA-2grPBU-1}}\RA{}
 
-\LA{}add-char~{\nwtagstyle{}\subpageref{NW4G95aA-4LzvSl-1}}\RA{}
+\LA{}add-char~{\nwtagstyle{}\subpageref{NWhQHnA-4LzvSl-1}}\RA{}
 
-\LA{}get-char~{\nwtagstyle{}\subpageref{NW4G95aA-323doG-1}}\RA{}
+\LA{}get-char~{\nwtagstyle{}\subpageref{NWhQHnA-323doG-1}}\RA{}
 
-\LA{}has-chars~{\nwtagstyle{}\subpageref{NW4G95aA-2cjkIS-1}}\RA{}
+\LA{}has-chars~{\nwtagstyle{}\subpageref{NWhQHnA-2cjkIS-1}}\RA{}
 
-\LA{}more-functions-h~{\nwtagstyle{}\subpageref{NW4G95aA-8LHhU-1}}\RA{}
+\LA{}more-functions-h~{\nwtagstyle{}\subpageref{NWhQHnA-8LHhU-1}}\RA{}
 
-#endif // \nwlinkedidentc{__rbuffer_h__}{NW4G95aA-H2ln1-1}
-\nwalsodefined{\\{NW4G95aA-H2ln1-2}}\nwnotused{rbuffer.h}\nwidentdefs{\\{{\nwixident{{\_}{\_}rbuffer{\_}h{\_}{\_}}}{:un:unrbuffer:unh:un:un}}}\nwendcode{}\nwbegindocs{29}\nwdocspar
-\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
+#endif // \nwlinkedidentc{__rbuffer_h__}{NWhQHnA-H2ln1-1}
+\nwnotused{rbuffer.h}\nwidentdefs{\\{{\nwixident{{\_}{\_}rbuffer{\_}h{\_}{\_}}}{:un:unrbuffer:unh:un:un}}}\nwendcode{}\nwbegindocs{29}\nwdocspar
 \subsubsection{{\Tt{}rbuffer.c\nwendquote}}
-\nwenddocs{}\nwbegincode{30}\sublabel{NW4G95aA-2tY7kx-1}\nwmargintag{{\nwtagstyle{}\subpageref{NW4G95aA-2tY7kx-1}}}\moddef{rbuffer.c~{\nwtagstyle{}\subpageref{NW4G95aA-2tY7kx-1}}}\endmoddef\nwstartdeflinemarkup\nwprevnextdefs{\relax}{NW4G95aA-2tY7kx-2}\nwenddeflinemarkup
+\nwenddocs{}\nwbegincode{30}\sublabel{NWhQHnA-2tY7kx-1}\nwmargintag{{\nwtagstyle{}\subpageref{NWhQHnA-2tY7kx-1}}}\moddef{rbuffer.c~{\nwtagstyle{}\subpageref{NWhQHnA-2tY7kx-1}}}\endmoddef\nwstartdeflinemarkup\nwenddeflinemarkup
 /*
  * rbuffer.c
  * generated by noweb
@@ -232,15 +217,14 @@ int \nwlinkedidentc{rbf_get_line}{NW4G95aA-2kqdfQ-2}(\nwlinkedidentc{TSrbuffer}{
 
 #include "rbuffer.h"
 
-\LA{}more-functions-c~{\nwtagstyle{}\subpageref{NW4G95aA-2kqdfQ-1}}\RA{}
-\nwalsodefined{\\{NW4G95aA-2tY7kx-2}}\nwnotused{rbuffer.c}\nwendcode{}\nwbegindocs{31}\nwdocspar
-\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
+\LA{}more-functions-c~{\nwtagstyle{}\subpageref{NWhQHnA-2kqdfQ-1}}\RA{}
+\nwnotused{rbuffer.c}\nwendcode{}\nwbegindocs{31}\nwdocspar
 \section{annexes}
 
 \subsection{la ligne de commande}
 Pour obtenir le fichier \LaTeX{} et le code source, voici ce qu'il faut faire depuis un terminal :
 
-\nwenddocs{}\nwbegincode{32}\sublabel{NW4G95aA-2CUXU7-1}\nwmargintag{{\nwtagstyle{}\subpageref{NW4G95aA-2CUXU7-1}}}\moddef{command-line~{\nwtagstyle{}\subpageref{NW4G95aA-2CUXU7-1}}}\endmoddef\nwstartdeflinemarkup\nwprevnextdefs{\relax}{NW4G95aA-2CUXU7-2}\nwenddeflinemarkup
+\nwenddocs{}\nwbegincode{32}\sublabel{NWhQHnA-2CUXU7-1}\nwmargintag{{\nwtagstyle{}\subpageref{NWhQHnA-2CUXU7-1}}}\moddef{command-line~{\nwtagstyle{}\subpageref{NWhQHnA-2CUXU7-1}}}\endmoddef\nwstartdeflinemarkup\nwenddeflinemarkup
 # fichier LaTeX
 noweave -delay -autodefs c -index rbuffer.nw > rbuffer.tex
 # fichier PDF
@@ -249,286 +233,21 @@ pdflatex rbuffer.tex && \\
   pdflatex rbuffer.tex
 # le code source
 notangle rbuffer.nw > rbuffer.h
-\nwalsodefined{\\{NW4G95aA-2CUXU7-2}}\nwnotused{command-line}\nwendcode{}\nwbegindocs{33}\nwdocspar
-\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
-L'option {\Tt{}-autodefs\ c\nwendquote} permet à {\Tt{}noweave\nwendquote} de déterminer lui-même les éléments du langage C. Sans cette option, dans le cadre de ce fichier, les définitions de {\Tt{}intro-bits\nwendquote} ne seraient pas visibles.
+\nwnotused{command-line}\nwendcode{}
 
-\section{tables et index}
-\subsection{table des extraits de code}
-
-\nowebchunks
-
-\subsection{index}
-
-\nowebindex
-
-\end{document}
-\documentclass{scrartcl}
-
-\input{common/prelude.tex}
-
-\author{Bernard Tatin}
-\date{2013/2017}
-\title{rbuffer.h, un buffer tournant}
-\begin{document}
-
-\pagestyle{noweb}
-\maketitle
-\abstract{Voici un premier essai de \emph{literate programming}, concept inventé par D. Knuth il y a plus de trente ans. À partir de ce seul fichier on génère la documentation et le code. Ici, je reprend du vieux code, cela m'oblige, même s'il est simple, à le repenser et donc, espérons le, à l'améliorer. Même si je passe beaucoup de temps sur la présentation...
-
-Ce code est très orienté \emph{ligne de caractères} et a servi, entre autre, à la gestion de modems sur des systèmes embarqués. On notera l'absence de gestion de trop plein du buffer, \emph{i.e.} de l'écrasement de caractères lors du remplissage. Certains systèmes embarqués m'en ont découragés par manque de mémoire et une commande de modem écrasée était une commande modem mal formée... Jeu dangereux qui a finalement bien fonctionné.}
-
-\tableofcontents
-\section{rbuffer}
-
-C'est un buffer tournant le plus simple possible, capable de gérer des lignes délimitées par \emph{LF} (\texttt{'$\backslash$n'}) mais \emph{CR} (\texttt{'$\backslash$r'}) n'est pas pris en compte, plus exactement, il est rejetté.
-
-\subsection{premières définitions}
-Pour limiter les calculs, le code..., la taille du buffer est une puissance de 2 d'où la définition du nombre de bits qui ouvre le bal, et en tenant compte du fait que cette définition peut-être donnée en paramètre du préprocesseur :
-
-\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
-\nwenddocs{}\nwbegincode{34}\sublabel{NW4G95aA-2Sh6y8-4}\nwmargintag{{\nwtagstyle{}\subpageref{NW4G95aA-2Sh6y8-4}}}\moddef{intro-bits~{\nwtagstyle{}\subpageref{NW4G95aA-2Sh6y8-1}}}\plusendmoddef\nwstartdeflinemarkup\nwusesondefline{\\{NW4G95aA-H2ln1-1}\\{NW4G95aA-H2ln1-2}}\nwprevnextdefs{NW4G95aA-2Sh6y8-3}{NW4G95aA-2Sh6y8-5}\nwenddeflinemarkup
-# if !defined(\nwlinkedidentc{_RBUFFER_BITS}{NW4G95aA-2Sh6y8-1})
-#define \nwlinkedidentc{_RBUFFER_BITS}{NW4G95aA-2Sh6y8-1}   8\nwindexdefn{\nwixident{{\_}RBUFFER{\_}BITS}}{:unRBUFFER:unBITS}{NW4G95aA-2Sh6y8-4}
-#endif
-\nwused{\\{NW4G95aA-H2ln1-1}\\{NW4G95aA-H2ln1-2}}\nwidentdefs{\\{{\nwixident{{\_}RBUFFER{\_}BITS}}{:unRBUFFER:unBITS}}}\nwendcode{}\nwbegindocs{35}\nwdocspar
-
-La taille du buffer sera donc :
-
-\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
-\nwenddocs{}\nwbegincode{36}\sublabel{NW4G95aA-2Sh6y8-5}\nwmargintag{{\nwtagstyle{}\subpageref{NW4G95aA-2Sh6y8-5}}}\moddef{intro-bits~{\nwtagstyle{}\subpageref{NW4G95aA-2Sh6y8-1}}}\plusendmoddef\nwstartdeflinemarkup\nwusesondefline{\\{NW4G95aA-H2ln1-1}\\{NW4G95aA-H2ln1-2}}\nwprevnextdefs{NW4G95aA-2Sh6y8-4}{NW4G95aA-2Sh6y8-6}\nwenddeflinemarkup
-#define \nwlinkedidentc{RBUFFER_SIZE}{NW4G95aA-2Sh6y8-2}    (1 \nwindexdefn{\nwixident{RBUFFER{\_}SIZE}}{RBUFFER:unSIZE}{NW4G95aA-2Sh6y8-5}<< \nwlinkedidentc{_RBUFFER_BITS}{NW4G95aA-2Sh6y8-1})
-\nwused{\\{NW4G95aA-H2ln1-1}\\{NW4G95aA-H2ln1-2}}\nwidentdefs{\\{{\nwixident{RBUFFER{\_}SIZE}}{RBUFFER:unSIZE}}}\nwidentuses{\\{{\nwixident{{\_}RBUFFER{\_}BITS}}{:unRBUFFER:unBITS}}}\nwindexuse{\nwixident{{\_}RBUFFER{\_}BITS}}{:unRBUFFER:unBITS}{NW4G95aA-2Sh6y8-5}\nwendcode{}\nwbegindocs{37}\nwdocspar
-Et le masque permettant un rapidide \emph{modulo} arithmétique avec un {\Tt{}and\nwendquote} binaire :
-\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
-\nwenddocs{}\nwbegincode{38}\sublabel{NW4G95aA-2Sh6y8-6}\nwmargintag{{\nwtagstyle{}\subpageref{NW4G95aA-2Sh6y8-6}}}\moddef{intro-bits~{\nwtagstyle{}\subpageref{NW4G95aA-2Sh6y8-1}}}\plusendmoddef\nwstartdeflinemarkup\nwusesondefline{\\{NW4G95aA-H2ln1-1}\\{NW4G95aA-H2ln1-2}}\nwprevnextdefs{NW4G95aA-2Sh6y8-5}{\relax}\nwenddeflinemarkup
-#define \nwlinkedidentc{RBUFFER_MASK}{NW4G95aA-2Sh6y8-3}    (\nwlinkedidentc{RBUFFER_SIZE}{NW4G95aA-2Sh6y8-2} - 1)\nwindexdefn{\nwixident{RBUFFER{\_}MASK}}{RBUFFER:unMASK}{NW4G95aA-2Sh6y8-6}
-
-\nwused{\\{NW4G95aA-H2ln1-1}\\{NW4G95aA-H2ln1-2}}\nwidentdefs{\\{{\nwixident{RBUFFER{\_}MASK}}{RBUFFER:unMASK}}}\nwidentuses{\\{{\nwixident{RBUFFER{\_}SIZE}}{RBUFFER:unSIZE}}}\nwindexuse{\nwixident{RBUFFER{\_}SIZE}}{RBUFFER:unSIZE}{NW4G95aA-2Sh6y8-6}\nwendcode{}\nwbegindocs{39}\nwdocspar
-\subsection{la structure}
-
-\textbf{\textit{Note: }} tous les membres de la structure sont définis comme {\Tt{}volatile\nwendquote}. C'est important dans un système embarqué avec des interruptions pouvant manipuler le buffer. Sans {\Tt{}volatile\nwendquote}, une optimisation trop agressive pourrait placer une des valeurs entières dans un registre. En cas d'interruption modifiant cette valeur, le registre, lui, ne bougera pas et des caractères pourraient se perdre.
-
-\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
-\nwenddocs{}\nwbegincode{40}\sublabel{NW4G95aA-35IAXm-2}\nwmargintag{{\nwtagstyle{}\subpageref{NW4G95aA-35IAXm-2}}}\moddef{tsrbuffer~{\nwtagstyle{}\subpageref{NW4G95aA-35IAXm-1}}}\plusendmoddef\nwstartdeflinemarkup\nwprevnextdefs{NW4G95aA-35IAXm-1}{\relax}\nwenddeflinemarkup
-/**
- * @struct \nwlinkedidentc{TSrbuffer}{NW4G95aA-35IAXm-1}
- * La structure gérant le buffer tournant.
- */
-typedef struct \{
-    volatile int in;
-    volatile int out;
-    volatile int line_count;
-    volatile char buffer[\nwlinkedidentc{RBUFFER_SIZE}{NW4G95aA-2Sh6y8-2}];
-\} \nwlinkedidentc{TSrbuffer}{NW4G95aA-35IAXm-1};\nwindexdefn{\nwixident{TSrbuffer}}{TSrbuffer}{NW4G95aA-35IAXm-2}
-
-\nwidentdefs{\\{{\nwixident{TSrbuffer}}{TSrbuffer}}}\nwidentuses{\\{{\nwixident{RBUFFER{\_}SIZE}}{RBUFFER:unSIZE}}}\nwindexuse{\nwixident{RBUFFER{\_}SIZE}}{RBUFFER:unSIZE}{NW4G95aA-35IAXm-2}\nwendcode{}\nwbegindocs{41}\nwdocspar
-\subsubsection{les champs}
-\subsubsection{remarques diverses}
-On pourrait définir un {\Tt{}VOLATILE\nwendquote} en fonction de l'architecture du type :
-
-\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
-\nwenddocs{}\nwbegincode{42}\sublabel{NW4G95aA-43E2er-2}\nwmargintag{{\nwtagstyle{}\subpageref{NW4G95aA-43E2er-2}}}\moddef{define-volatile~{\nwtagstyle{}\subpageref{NW4G95aA-43E2er-1}}}\plusendmoddef\nwstartdeflinemarkup\nwusesondefline{\\{NW4G95aA-H2ln1-1}\\{NW4G95aA-H2ln1-2}}\nwprevnextdefs{NW4G95aA-43E2er-1}{\relax}\nwenddeflinemarkup
-#if defined(__with_irqs)
-  #define VOLATILE volatile
-#else
-  #define VOLATILE
-#endif
-
-\nwused{\\{NW4G95aA-H2ln1-1}\\{NW4G95aA-H2ln1-2}}\nwendcode{}\nwbegindocs{43}\nwdocspar
-Ce qui donnerait au final :
-
-\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
-\nwenddocs{}\nwbegincode{44}\sublabel{NW4G95aA-2grPBU-2}\nwmargintag{{\nwtagstyle{}\subpageref{NW4G95aA-2grPBU-2}}}\moddef{tsrbuffer-final~{\nwtagstyle{}\subpageref{NW4G95aA-2grPBU-1}}}\plusendmoddef\nwstartdeflinemarkup\nwusesondefline{\\{NW4G95aA-H2ln1-1}\\{NW4G95aA-H2ln1-2}}\nwprevnextdefs{NW4G95aA-2grPBU-1}{\relax}\nwenddeflinemarkup
-/**
- * @struct \nwlinkedidentc{TSrbuffer}{NW4G95aA-35IAXm-1}
- * La structure gérant le buffer tournant.
- */
-typedef struct \{
-    VOLATILE int in;
-    VOLATILE int out;
-    VOLATILE int line_count;
-    VOLATILE char buffer[\nwlinkedidentc{RBUFFER_SIZE}{NW4G95aA-2Sh6y8-2}];
-\} \nwlinkedidentc{TSrbuffer}{NW4G95aA-35IAXm-1};\nwindexdefn{\nwixident{TSrbuffer}}{TSrbuffer}{NW4G95aA-2grPBU-2}
-
-\nwindexdefn{\nwixident{TSrbuffer}}{TSrbuffer}{NW4G95aA-2grPBU-2}\eatline
-\nwused{\\{NW4G95aA-H2ln1-1}\\{NW4G95aA-H2ln1-2}}\nwidentdefs{\\{{\nwixident{TSrbuffer}}{TSrbuffer}}}\nwidentuses{\\{{\nwixident{RBUFFER{\_}SIZE}}{RBUFFER:unSIZE}}}\nwindexuse{\nwixident{RBUFFER{\_}SIZE}}{RBUFFER:unSIZE}{NW4G95aA-2grPBU-2}\nwendcode{}\nwbegindocs{45}Quoiqu'il en soit, il est fortement recommandé de lire la définition exacte du {\Tt{}VOLATILE\nwendquote} de votre compilateur, certaines variations pouvant rendre votre code totalement inefficace. Et d'autant plus que votre compilateur cible un système embarqué où les variations autour des standards sont choses communes.
-\nwenddocs{}\nwbegindocs{46}\nwdocspar
-
-
-\subsection{le fonctionnement}
-\subsubsection{ajout d'un caractère}
-Le fonctionnement est le suivant pour l'ajout d'un caractère :
-
-\begin{packed_itemize}
-  \item si le caractère est '$\backslash$r', on ne fait rien,
-  \item on place le caractère dans le buffer à la position {\Tt{}in\nwendquote},
-  \item on incrémente {\Tt{}in\nwendquote},
-  \item si on atteint la limite du buffer, on positionne {\Tt{}in\nwendquote} à 0,
-  \item si le caractère est '$\backslash$n', on incrémente {\Tt{}line{\_}count\nwendquote}.
-\end{packed_itemize}
-
-\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
-\nwenddocs{}\nwbegincode{47}\sublabel{NW4G95aA-4LzvSl-2}\nwmargintag{{\nwtagstyle{}\subpageref{NW4G95aA-4LzvSl-2}}}\moddef{add-char~{\nwtagstyle{}\subpageref{NW4G95aA-4LzvSl-1}}}\plusendmoddef\nwstartdeflinemarkup\nwusesondefline{\\{NW4G95aA-H2ln1-1}\\{NW4G95aA-H2ln1-2}}\nwprevnextdefs{NW4G95aA-4LzvSl-1}{\relax}\nwenddeflinemarkup
-static INLINE void \nwlinkedidentc{rbf_add_char}{NW4G95aA-4LzvSl-1}(\nwlinkedidentc{TSrbuffer}{NW4G95aA-35IAXm-1} *rb, const char c) \{\nwindexdefn{\nwixident{rbf{\_}add{\_}char}}{rbf:unadd:unchar}{NW4G95aA-4LzvSl-2}
-    if (c != '\\r') \{
-        rb->buffer[rb->in++] = c;
-        rb->in &= \nwlinkedidentc{RBUFFER_MASK}{NW4G95aA-2Sh6y8-3};
-        if (c == '\\n') \{
-            rb->line_count++;
-        \}
-    \}
-\}
-\nwused{\\{NW4G95aA-H2ln1-1}\\{NW4G95aA-H2ln1-2}}\nwidentdefs{\\{{\nwixident{rbf{\_}add{\_}char}}{rbf:unadd:unchar}}}\nwidentuses{\\{{\nwixident{RBUFFER{\_}MASK}}{RBUFFER:unMASK}}\\{{\nwixident{TSrbuffer}}{TSrbuffer}}}\nwindexuse{\nwixident{RBUFFER{\_}MASK}}{RBUFFER:unMASK}{NW4G95aA-4LzvSl-2}\nwindexuse{\nwixident{TSrbuffer}}{TSrbuffer}{NW4G95aA-4LzvSl-2}\nwendcode{}\nwbegindocs{48}\nwdocspar
-La récupération d'un caractère dans le buffer est l'algorithme inverse :
-
-\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
-\nwenddocs{}\nwbegincode{49}\sublabel{NW4G95aA-323doG-2}\nwmargintag{{\nwtagstyle{}\subpageref{NW4G95aA-323doG-2}}}\moddef{get-char~{\nwtagstyle{}\subpageref{NW4G95aA-323doG-1}}}\plusendmoddef\nwstartdeflinemarkup\nwusesondefline{\\{NW4G95aA-H2ln1-1}\\{NW4G95aA-H2ln1-2}}\nwprevnextdefs{NW4G95aA-323doG-1}{\relax}\nwenddeflinemarkup
-static INLINE char \nwlinkedidentc{rbf_get_char}{NW4G95aA-323doG-1}(\nwlinkedidentc{TSrbuffer}{NW4G95aA-35IAXm-1} *rb) \{\nwindexdefn{\nwixident{rbf{\_}get{\_}char}}{rbf:unget:unchar}{NW4G95aA-323doG-2}
-    int out = rb->out;
-    char c = rb->buffer[out++];
-    out &= \nwlinkedidentc{RBUFFER_MASK}{NW4G95aA-2Sh6y8-3};
-    rb->out = out;
-    if (c == '\\n' && rb->line_count) \{
-        rb->line_count--;
-    \}
-    return c;
-\}
-\nwused{\\{NW4G95aA-H2ln1-1}\\{NW4G95aA-H2ln1-2}}\nwidentdefs{\\{{\nwixident{rbf{\_}get{\_}char}}{rbf:unget:unchar}}}\nwidentuses{\\{{\nwixident{RBUFFER{\_}MASK}}{RBUFFER:unMASK}}\\{{\nwixident{TSrbuffer}}{TSrbuffer}}}\nwindexuse{\nwixident{RBUFFER{\_}MASK}}{RBUFFER:unMASK}{NW4G95aA-323doG-2}\nwindexuse{\nwixident{TSrbuffer}}{TSrbuffer}{NW4G95aA-323doG-2}\nwendcode{}\nwbegindocs{50}\nwdocspar
-
-Il est cependant très important de déterminer si des caratères sont présents dans le buffer :
-\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
-\nwenddocs{}\nwbegincode{51}\sublabel{NW4G95aA-2cjkIS-2}\nwmargintag{{\nwtagstyle{}\subpageref{NW4G95aA-2cjkIS-2}}}\moddef{has-chars~{\nwtagstyle{}\subpageref{NW4G95aA-2cjkIS-1}}}\plusendmoddef\nwstartdeflinemarkup\nwusesondefline{\\{NW4G95aA-H2ln1-1}\\{NW4G95aA-H2ln1-2}}\nwprevnextdefs{NW4G95aA-2cjkIS-1}{\relax}\nwenddeflinemarkup
-static INLINE \nwlinkedidentc{bool}{NW4G95aA-2cjkIS-1} rbf_has_chars(\nwlinkedidentc{TSrbuffer}{NW4G95aA-35IAXm-1} *rb) \{\nwindexdefn{\nwixident{bool}}{bool}{NW4G95aA-2cjkIS-2}
-    return rb->in != rb->out;
-\}
-\nwused{\\{NW4G95aA-H2ln1-1}\\{NW4G95aA-H2ln1-2}}\nwidentdefs{\\{{\nwixident{bool}}{bool}}}\nwidentuses{\\{{\nwixident{TSrbuffer}}{TSrbuffer}}}\nwindexuse{\nwixident{TSrbuffer}}{TSrbuffer}{NW4G95aA-2cjkIS-2}\nwendcode{}\nwbegindocs{52}\nwdocspar
-
-Le marquage d'une fin de ligne se fait par un '$backslash$0' :
-\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
-\nwenddocs{}\nwbegincode{53}\sublabel{NW4G95aA-3wDRpw-2}\nwmargintag{{\nwtagstyle{}\subpageref{NW4G95aA-3wDRpw-2}}}\moddef{end-of-line~{\nwtagstyle{}\subpageref{NW4G95aA-3wDRpw-1}}}\plusendmoddef\nwstartdeflinemarkup\nwprevnextdefs{NW4G95aA-3wDRpw-1}{\relax}\nwenddeflinemarkup
-
-static INLINE void \nwlinkedidentc{rbf_end_of_line}{NW4G95aA-3wDRpw-1}(\nwlinkedidentc{TSrbuffer}{NW4G95aA-35IAXm-1} *rb) \{\nwindexdefn{\nwixident{rbf{\_}end{\_}of{\_}line}}{rbf:unend:unof:unline}{NW4G95aA-3wDRpw-2}
-    rb->buffer[rb->in] = 0;
-    rb->line_count++;
-\}
-
-\nwidentdefs{\\{{\nwixident{rbf{\_}end{\_}of{\_}line}}{rbf:unend:unof:unline}}}\nwidentuses{\\{{\nwixident{TSrbuffer}}{TSrbuffer}}}\nwindexuse{\nwixident{TSrbuffer}}{TSrbuffer}{NW4G95aA-3wDRpw-2}\nwendcode{}\nwbegindocs{54}\nwdocspar
-Ces fonctions, nécessitant une boucle, ne sont pas déclarées {\Tt{}INLINE\nwendquote} :
-\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
-\nwenddocs{}\nwbegincode{55}\sublabel{NW4G95aA-8LHhU-2}\nwmargintag{{\nwtagstyle{}\subpageref{NW4G95aA-8LHhU-2}}}\moddef{more-functions-h~{\nwtagstyle{}\subpageref{NW4G95aA-8LHhU-1}}}\plusendmoddef\nwstartdeflinemarkup\nwusesondefline{\\{NW4G95aA-H2ln1-1}\\{NW4G95aA-H2ln1-2}}\nwprevnextdefs{NW4G95aA-8LHhU-1}{\relax}\nwenddeflinemarkup
-void \nwlinkedidentc{rbf_add_line}{NW4G95aA-2kqdfQ-1}(\nwlinkedidentc{TSrbuffer}{NW4G95aA-35IAXm-1} *rb, char *line);
-int \nwlinkedidentc{rbf_get_line}{NW4G95aA-2kqdfQ-2}(\nwlinkedidentc{TSrbuffer}{NW4G95aA-35IAXm-1} *rb, char *line);
-\nwused{\\{NW4G95aA-H2ln1-1}\\{NW4G95aA-H2ln1-2}}\nwidentuses{\\{{\nwixident{rbf{\_}add{\_}line}}{rbf:unadd:unline}}\\{{\nwixident{rbf{\_}get{\_}line}}{rbf:unget:unline}}\\{{\nwixident{TSrbuffer}}{TSrbuffer}}}\nwindexuse{\nwixident{rbf{\_}add{\_}line}}{rbf:unadd:unline}{NW4G95aA-8LHhU-2}\nwindexuse{\nwixident{rbf{\_}get{\_}line}}{rbf:unget:unline}{NW4G95aA-8LHhU-2}\nwindexuse{\nwixident{TSrbuffer}}{TSrbuffer}{NW4G95aA-8LHhU-2}\nwendcode{}\nwbegindocs{56}\nwdocspar
-
-L'ajout d'une ligne est \emph{simple} :
-\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
-\nwenddocs{}\nwbegincode{57}\sublabel{NW4G95aA-2kqdfQ-3}\nwmargintag{{\nwtagstyle{}\subpageref{NW4G95aA-2kqdfQ-3}}}\moddef{more-functions-c~{\nwtagstyle{}\subpageref{NW4G95aA-2kqdfQ-1}}}\plusendmoddef\nwstartdeflinemarkup\nwusesondefline{\\{NW4G95aA-2tY7kx-1}\\{NW4G95aA-2tY7kx-2}}\nwprevnextdefs{NW4G95aA-2kqdfQ-2}{NW4G95aA-2kqdfQ-4}\nwenddeflinemarkup
-void \nwlinkedidentc{rbf_add_line}{NW4G95aA-2kqdfQ-1}(\nwlinkedidentc{TSrbuffer}{NW4G95aA-35IAXm-1} *rb, char *line) \{\nwindexdefn{\nwixident{rbf{\_}add{\_}line}}{rbf:unadd:unline}{NW4G95aA-2kqdfQ-3}
-    char c;
-
-    while ((c = *(line++)) != 0) \{
-        \nwlinkedidentc{rbf_add_char}{NW4G95aA-4LzvSl-1}(rb, c);
-    \}
-    \nwlinkedidentc{rbf_end_of_line}{NW4G95aA-3wDRpw-1}(rb);
-\}
-\nwused{\\{NW4G95aA-2tY7kx-1}\\{NW4G95aA-2tY7kx-2}}\nwidentdefs{\\{{\nwixident{rbf{\_}add{\_}line}}{rbf:unadd:unline}}}\nwidentuses{\\{{\nwixident{rbf{\_}add{\_}char}}{rbf:unadd:unchar}}\\{{\nwixident{rbf{\_}end{\_}of{\_}line}}{rbf:unend:unof:unline}}\\{{\nwixident{TSrbuffer}}{TSrbuffer}}}\nwindexuse{\nwixident{rbf{\_}add{\_}char}}{rbf:unadd:unchar}{NW4G95aA-2kqdfQ-3}\nwindexuse{\nwixident{rbf{\_}end{\_}of{\_}line}}{rbf:unend:unof:unline}{NW4G95aA-2kqdfQ-3}\nwindexuse{\nwixident{TSrbuffer}}{TSrbuffer}{NW4G95aA-2kqdfQ-3}\nwendcode{}\nwbegindocs{58}\nwdocspar
-
-Et la lecture d'une ligne :
-\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
-\nwenddocs{}\nwbegincode{59}\sublabel{NW4G95aA-2kqdfQ-4}\nwmargintag{{\nwtagstyle{}\subpageref{NW4G95aA-2kqdfQ-4}}}\moddef{more-functions-c~{\nwtagstyle{}\subpageref{NW4G95aA-2kqdfQ-1}}}\plusendmoddef\nwstartdeflinemarkup\nwusesondefline{\\{NW4G95aA-2tY7kx-1}\\{NW4G95aA-2tY7kx-2}}\nwprevnextdefs{NW4G95aA-2kqdfQ-3}{\relax}\nwenddeflinemarkup
-int \nwlinkedidentc{rbf_get_line}{NW4G95aA-2kqdfQ-2}(\nwlinkedidentc{TSrbuffer}{NW4G95aA-35IAXm-1} *rb, char *line) \{\nwindexdefn{\nwixident{rbf{\_}get{\_}line}}{rbf:unget:unline}{NW4G95aA-2kqdfQ-4}
-    char c;
-    int r = 0;
-
-    while (rbf_has_chars(rb)) \{
-        c = \nwlinkedidentc{rbf_get_char}{NW4G95aA-323doG-1}(rb);
-
-        if (c == '\\n') \{
-            break;
-        \}
-        if (c != 0) \{
-            *(line++) = c;
-        \}
-        r++;
-    \}
-    *line = 0;
-    return r;
-\}
-\nwused{\\{NW4G95aA-2tY7kx-1}\\{NW4G95aA-2tY7kx-2}}\nwidentdefs{\\{{\nwixident{rbf{\_}get{\_}line}}{rbf:unget:unline}}}\nwidentuses{\\{{\nwixident{rbf{\_}get{\_}char}}{rbf:unget:unchar}}\\{{\nwixident{TSrbuffer}}{TSrbuffer}}}\nwindexuse{\nwixident{rbf{\_}get{\_}char}}{rbf:unget:unchar}{NW4G95aA-2kqdfQ-4}\nwindexuse{\nwixident{TSrbuffer}}{TSrbuffer}{NW4G95aA-2kqdfQ-4}\nwendcode{}\nwbegindocs{60}\nwdocspar
-
-
-
-\subsection{le code final}
-\subsubsection{{\Tt{}rbuffer.h\nwendquote}}
-\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
-\nwenddocs{}\nwbegincode{61}\sublabel{NW4G95aA-H2ln1-2}\nwmargintag{{\nwtagstyle{}\subpageref{NW4G95aA-H2ln1-2}}}\moddef{rbuffer.h~{\nwtagstyle{}\subpageref{NW4G95aA-H2ln1-1}}}\plusendmoddef\nwstartdeflinemarkup\nwprevnextdefs{NW4G95aA-H2ln1-1}{\relax}\nwenddeflinemarkup
-/*
- * rbuffer.h
- * generated by noweb
- */
-
-#if !defined(\nwlinkedidentc{__rbuffer_h__}{NW4G95aA-H2ln1-1})
-#define \nwlinkedidentc{__rbuffer_h__}{NW4G95aA-H2ln1-1}\nwindexdefn{\nwixident{{\_}{\_}rbuffer{\_}h{\_}{\_}}}{:un:unrbuffer:unh:un:un}{NW4G95aA-H2ln1-2}
-
-\LA{}intro-bits~{\nwtagstyle{}\subpageref{NW4G95aA-2Sh6y8-1}}\RA{}
-
-\LA{}define-volatile~{\nwtagstyle{}\subpageref{NW4G95aA-43E2er-1}}\RA{}
-
-\LA{}tsrbuffer-final~{\nwtagstyle{}\subpageref{NW4G95aA-2grPBU-1}}\RA{}
-
-\LA{}add-char~{\nwtagstyle{}\subpageref{NW4G95aA-4LzvSl-1}}\RA{}
-
-\LA{}get-char~{\nwtagstyle{}\subpageref{NW4G95aA-323doG-1}}\RA{}
-
-\LA{}has-chars~{\nwtagstyle{}\subpageref{NW4G95aA-2cjkIS-1}}\RA{}
-
-\LA{}more-functions-h~{\nwtagstyle{}\subpageref{NW4G95aA-8LHhU-1}}\RA{}
-
-#endif // \nwlinkedidentc{__rbuffer_h__}{NW4G95aA-H2ln1-1}
-\nwidentdefs{\\{{\nwixident{{\_}{\_}rbuffer{\_}h{\_}{\_}}}{:un:unrbuffer:unh:un:un}}}\nwendcode{}\nwbegindocs{62}\nwdocspar
-\subsubsection{{\Tt{}rbuffer.c\nwendquote}}
-\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
-\nwenddocs{}\nwbegincode{63}\sublabel{NW4G95aA-2tY7kx-2}\nwmargintag{{\nwtagstyle{}\subpageref{NW4G95aA-2tY7kx-2}}}\moddef{rbuffer.c~{\nwtagstyle{}\subpageref{NW4G95aA-2tY7kx-1}}}\plusendmoddef\nwstartdeflinemarkup\nwprevnextdefs{NW4G95aA-2tY7kx-1}{\relax}\nwenddeflinemarkup
-/*
- * rbuffer.c
- * generated by noweb
- */
-
-#include "rbuffer.h"
-
-\LA{}more-functions-c~{\nwtagstyle{}\subpageref{NW4G95aA-2kqdfQ-1}}\RA{}
-\nwendcode{}\nwbegindocs{64}\nwdocspar
-\section{annexes}
-
-\subsection{la ligne de commande}
-Pour obtenir le fichier \LaTeX{} et le code source, voici ce qu'il faut faire depuis un terminal :
-
-\noindent\makebox[\linewidth]{\rule{\paperwidth}{0.4pt}}
-\nwenddocs{}\nwbegincode{65}\sublabel{NW4G95aA-2CUXU7-2}\nwmargintag{{\nwtagstyle{}\subpageref{NW4G95aA-2CUXU7-2}}}\moddef{command-line~{\nwtagstyle{}\subpageref{NW4G95aA-2CUXU7-1}}}\plusendmoddef\nwstartdeflinemarkup\nwprevnextdefs{NW4G95aA-2CUXU7-1}{\relax}\nwenddeflinemarkup
-# fichier LaTeX
-noweave -delay -autodefs c -index rbuffer.nw > rbuffer.tex
-# fichier PDF
-pdflatex rbuffer.tex && \\
-  pdflatex rbuffer.tex && \\
-  pdflatex rbuffer.tex
-# le code source
-notangle rbuffer.nw > rbuffer.h
-\nwendcode{}
-
-\nwixlogsorted{c}{{add-char}{NW4G95aA-4LzvSl-1}{\nwixd{NW4G95aA-4LzvSl-1}\nwixu{NW4G95aA-H2ln1-1}\nwixd{NW4G95aA-4LzvSl-2}\nwixu{NW4G95aA-H2ln1-2}}}%
-\nwixlogsorted{c}{{command-line}{NW4G95aA-2CUXU7-1}{\nwixd{NW4G95aA-2CUXU7-1}\nwixd{NW4G95aA-2CUXU7-2}}}%
-\nwixlogsorted{c}{{define-volatile}{NW4G95aA-43E2er-1}{\nwixd{NW4G95aA-43E2er-1}\nwixu{NW4G95aA-H2ln1-1}\nwixd{NW4G95aA-43E2er-2}\nwixu{NW4G95aA-H2ln1-2}}}%
-\nwixlogsorted{c}{{end-of-line}{NW4G95aA-3wDRpw-1}{\nwixd{NW4G95aA-3wDRpw-1}\nwixd{NW4G95aA-3wDRpw-2}}}%
-\nwixlogsorted{c}{{get-char}{NW4G95aA-323doG-1}{\nwixd{NW4G95aA-323doG-1}\nwixu{NW4G95aA-H2ln1-1}\nwixd{NW4G95aA-323doG-2}\nwixu{NW4G95aA-H2ln1-2}}}%
-\nwixlogsorted{c}{{has-chars}{NW4G95aA-2cjkIS-1}{\nwixd{NW4G95aA-2cjkIS-1}\nwixu{NW4G95aA-H2ln1-1}\nwixd{NW4G95aA-2cjkIS-2}\nwixu{NW4G95aA-H2ln1-2}}}%
-\nwixlogsorted{c}{{intro-bits}{NW4G95aA-2Sh6y8-1}{\nwixd{NW4G95aA-2Sh6y8-1}\nwixd{NW4G95aA-2Sh6y8-2}\nwixd{NW4G95aA-2Sh6y8-3}\nwixu{NW4G95aA-H2ln1-1}\nwixd{NW4G95aA-2Sh6y8-4}\nwixd{NW4G95aA-2Sh6y8-5}\nwixd{NW4G95aA-2Sh6y8-6}\nwixu{NW4G95aA-H2ln1-2}}}%
-\nwixlogsorted{c}{{more-functions-c}{NW4G95aA-2kqdfQ-1}{\nwixd{NW4G95aA-2kqdfQ-1}\nwixd{NW4G95aA-2kqdfQ-2}\nwixu{NW4G95aA-2tY7kx-1}\nwixd{NW4G95aA-2kqdfQ-3}\nwixd{NW4G95aA-2kqdfQ-4}\nwixu{NW4G95aA-2tY7kx-2}}}%
-\nwixlogsorted{c}{{more-functions-h}{NW4G95aA-8LHhU-1}{\nwixd{NW4G95aA-8LHhU-1}\nwixu{NW4G95aA-H2ln1-1}\nwixd{NW4G95aA-8LHhU-2}\nwixu{NW4G95aA-H2ln1-2}}}%
-\nwixlogsorted{c}{{rbuffer.c}{NW4G95aA-2tY7kx-1}{\nwixd{NW4G95aA-2tY7kx-1}\nwixd{NW4G95aA-2tY7kx-2}}}%
-\nwixlogsorted{c}{{rbuffer.h}{NW4G95aA-H2ln1-1}{\nwixd{NW4G95aA-H2ln1-1}\nwixd{NW4G95aA-H2ln1-2}}}%
-\nwixlogsorted{c}{{tsrbuffer}{NW4G95aA-35IAXm-1}{\nwixd{NW4G95aA-35IAXm-1}\nwixd{NW4G95aA-35IAXm-2}}}%
-\nwixlogsorted{c}{{tsrbuffer-final}{NW4G95aA-2grPBU-1}{\nwixd{NW4G95aA-2grPBU-1}\nwixu{NW4G95aA-H2ln1-1}\nwixd{NW4G95aA-2grPBU-2}\nwixu{NW4G95aA-H2ln1-2}}}%
+\nwixlogsorted{c}{{add-char}{NWhQHnA-4LzvSl-1}{\nwixd{NWhQHnA-4LzvSl-1}\nwixu{NWhQHnA-H2ln1-1}}}%
+\nwixlogsorted{c}{{command-line}{NWhQHnA-2CUXU7-1}{\nwixd{NWhQHnA-2CUXU7-1}}}%
+\nwixlogsorted{c}{{define-volatile}{NWhQHnA-43E2er-1}{\nwixd{NWhQHnA-43E2er-1}\nwixu{NWhQHnA-H2ln1-1}}}%
+\nwixlogsorted{c}{{end-of-line}{NWhQHnA-3wDRpw-1}{\nwixd{NWhQHnA-3wDRpw-1}}}%
+\nwixlogsorted{c}{{get-char}{NWhQHnA-323doG-1}{\nwixd{NWhQHnA-323doG-1}\nwixu{NWhQHnA-H2ln1-1}}}%
+\nwixlogsorted{c}{{has-chars}{NWhQHnA-2cjkIS-1}{\nwixd{NWhQHnA-2cjkIS-1}\nwixu{NWhQHnA-H2ln1-1}}}%
+\nwixlogsorted{c}{{intro-bits}{NWhQHnA-2Sh6y8-1}{\nwixd{NWhQHnA-2Sh6y8-1}\nwixd{NWhQHnA-2Sh6y8-2}\nwixd{NWhQHnA-2Sh6y8-3}\nwixu{NWhQHnA-H2ln1-1}}}%
+\nwixlogsorted{c}{{more-functions-c}{NWhQHnA-2kqdfQ-1}{\nwixd{NWhQHnA-2kqdfQ-1}\nwixd{NWhQHnA-2kqdfQ-2}\nwixu{NWhQHnA-2tY7kx-1}}}%
+\nwixlogsorted{c}{{more-functions-h}{NWhQHnA-8LHhU-1}{\nwixd{NWhQHnA-8LHhU-1}\nwixu{NWhQHnA-H2ln1-1}}}%
+\nwixlogsorted{c}{{rbuffer.c}{NWhQHnA-2tY7kx-1}{\nwixd{NWhQHnA-2tY7kx-1}}}%
+\nwixlogsorted{c}{{rbuffer.h}{NWhQHnA-H2ln1-1}{\nwixd{NWhQHnA-H2ln1-1}}}%
+\nwixlogsorted{c}{{tsrbuffer}{NWhQHnA-35IAXm-1}{\nwixd{NWhQHnA-35IAXm-1}}}%
+\nwixlogsorted{c}{{tsrbuffer-final}{NWhQHnA-2grPBU-1}{\nwixd{NWhQHnA-2grPBU-1}\nwixu{NWhQHnA-H2ln1-1}}}%
 \nwixlogsorted{i}{{\nwixident{{\_}{\_}rbuffer{\_}h{\_}{\_}}}{:un:unrbuffer:unh:un:un}}%
 \nwixlogsorted{i}{{\nwixident{{\_}RBUFFER{\_}BITS}}{:unRBUFFER:unBITS}}%
 \nwixlogsorted{i}{{\nwixident{bool}}{bool}}%
@@ -540,7 +259,7 @@ notangle rbuffer.nw > rbuffer.h
 \nwixlogsorted{i}{{\nwixident{RBUFFER{\_}MASK}}{RBUFFER:unMASK}}%
 \nwixlogsorted{i}{{\nwixident{RBUFFER{\_}SIZE}}{RBUFFER:unSIZE}}%
 \nwixlogsorted{i}{{\nwixident{TSrbuffer}}{TSrbuffer}}%
-\nwbegindocs{66}\nwdocspar
+\nwbegindocs{33}\nwdocspar
 L'option {\Tt{}-autodefs\ c\nwendquote} permet à {\Tt{}noweave\nwendquote} de déterminer lui-même les éléments du langage C. Sans cette option, dans le cadre de ce fichier, les définitions de {\Tt{}intro-bits\nwendquote} ne seraient pas visibles.
 
 \section{tables et index}

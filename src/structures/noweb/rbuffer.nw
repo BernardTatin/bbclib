@@ -4,13 +4,13 @@
 
 \author{Bernard Tatin}
 \date{2013/2017}
-\title{rbuffer.h, un buffer tournant}
+\title{rbuffer, un buffer tournant}
 \begin{document}
 
 \pagestyle{noweb}
 \maketitle
-\abstract{Voici un premier essai de \emph{literate programming}, concept inventé par D. Knuth il y a plus de trente ans. À partir de ce seul fichier on génère la documentation et le code. Ici, je reprend du vieux code, cela m'oblige, même s'il est simple, à le repenser et donc, espérons le, à l'améliorer. Même si je passe beaucoup de temps sur la présentation...
-
+\abstract{Voici un premier essai de \emph{literate programming}, concept inventé par D. Knuth il y a plus de trente ans. À partir de ce seul fichier on génère la documentation et le code. Ici, je reprend du vieux code, cela m'oblige, même s'il est simple, à le repenser et donc, espérons le, à l'améliorer. Même si je passe beaucoup de temps sur la présentation... \\
+\\
 Ce code est très orienté \emph{ligne de caractères} et a servi, entre autre, à la gestion de modems sur des systèmes embarqués. On notera l'absence de gestion de trop plein du buffer, \emph{i.e.} de l'écrasement de caractères lors du remplissage. Certains systèmes embarqués m'en ont découragés par manque de mémoire et une commande de modem écrasée était une commande modem mal formée... Jeu dangereux qui a finalement bien fonctionné.}
 
 \tableofcontents
@@ -130,7 +130,7 @@ static INLINE bool rbf_has_chars(TSrbuffer *rb) {
 }
 @
 
-Le marquage d'une fin de ligne se fait par un '$backslash$0' :
+Le marquage d'une fin de ligne se fait par un '$\backslash$0' :
 <<end-of-line>>=
 
 static INLINE void rbf_end_of_line(TSrbuffer *rb) {
