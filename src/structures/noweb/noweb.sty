@@ -44,10 +44,15 @@
   \obeyspaces\Tt
 }
 \newcommand{\fullrule}[1]{%
-  \hfill
-  \break
-  \vspace{#1}
-  \noindent\makebox[\linewidth]{\rule{\textwidth}{0.4pt}}
+%  \begin{center}
+%    \line(1,0){\textwidth}
+%  \end{center}
+%  \vspace{#1}
+%  \hfill
+%  \break
+  \par
+  \noindent
+  \rule{\textwidth}{#1}
 }
 %\let\nwlbrace=\{
 %\let\nwrbrace=\}
@@ -139,13 +144,13 @@ I'll try to avoid such incompatible changes in the future.}%
 }
 \let\nwopt@noshift\@empty
 \def\nwbegincode#1{%
-\fullrule{0cm}
   \begingroup
+    \fullrule{0.2pt}
     \topsep \nwcodetopsep
     \@beginparpenalty \@highpenalty
     \@endparpenalty -\@highpenalty
   \@begincode }
-\def\nwendcode{\endtrivlist \endgroup \filbreak \fullrule{0cm}} % keeps code on 1 page
+\def\nwendcode{\endtrivlist \fullrule{1.0pt} \endgroup \filbreak} % keeps code on 1 page
 
 \newenvironment{webcode}{%
   \@begincode
@@ -218,7 +223,9 @@ I'll try to avoid such incompatible changes in the future.}%
                 \catcode`\{=1 \catcode`\}=2 \nw@filename}
   \def\nw@filename##1{\endgroup\markboth{##1}{##1}\let\nw@filename=\nw@laterfilename}%
 }
-\def\nw@laterfilename#1{\endgroup\clearpage \markboth{#1}{#1}}
+\def\nw@laterfilename#1{\endgroup
+  % \clearpage 
+  \markboth{#1}{#1}}
 \let\nwfilename=\@gobble
 \def\nwcodecomment#1{\@@par\penalty\nwcodepenalty
     \if@firstnwcodecomment
