@@ -13,9 +13,9 @@ void rbf_add_line(TSrbuffer *rb, char *line) {
     }
     rbf_end_of_line(rb);
 }
-int rbf_get_line(TSrbuffer *rb, char *line) {
+INT rbf_get_line(TSrbuffer *rb, char *line) {
     char c;
-    int r = 0;
+    INT r = 0;
 
     while (rbf_has_chars(rb)) {
         c = rbf_get_char(rb);
