@@ -7,9 +7,7 @@ PDFLATEX = pdflatex
 TARG_SRC = include/standard.h include/rbuffer.h src/rbuffer.c
 TARG_PDF = rbuffer.pdf
 
-TEX_DEPS = noweb.sty common/prelude.tex
-
-FILTER = common/better-code.sh
+TEX_DEPS = common/noweb.sty common/prelude.tex
 
 SRC = rbuffer.nw
 
@@ -27,6 +25,7 @@ $(filter %.h,$(TARG_SRC)): %.h: rbuffer.nw
 $(filter %.c,$(TARG_SRC)): %.c: rbuffer.nw
 	$(TANGLE) -R$(shell basename $@) $< > $@
 
+.PRECIOUS: rbuffer.tex
 %.tex: %.nw
 	$(WEAVE) -delay -autodefs c -index $< > $@
 
