@@ -21,11 +21,15 @@
 #endif
 
 
+#if !defined(INT)
+#define INT int
+#endif
+
 
 typedef struct {
-    VOLATILE int in;
-    VOLATILE int out;
-    VOLATILE int line_count;
+    VOLATILE INT in;
+    VOLATILE INT out;
+    VOLATILE INT line_count;
     VOLATILE char buffer[RBUFFER_SIZE];
 } TSrbuffer;
 
@@ -41,7 +45,7 @@ static INLINE void rbf_add_char(TSrbuffer *rb, const char c) {
 }
 
 static INLINE char rbf_get_char(TSrbuffer *rb) {
-    int out = rb->out;
+    INT out = rb->out;
     char c = rb->buffer[out++];
     out &= RBUFFER_MASK;
     rb->out = out;
@@ -56,6 +60,6 @@ static INLINE bool rbf_has_chars(TSrbuffer *rb) {
 }
 
 void rbf_add_line(TSrbuffer *rb, char *line);
-int rbf_get_line(TSrbuffer *rb, char *line);
+INT rbf_get_line(TSrbuffer *rb, char *line);
 
 #endif // __rbuffer_h__
