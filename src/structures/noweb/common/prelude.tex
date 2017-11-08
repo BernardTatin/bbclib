@@ -1,11 +1,20 @@
 %% prelude.tex
-%%
+%% https://tex.stackexchange.com/questions/36609/formatting-section-titles
 %% KOMA needs it
 \let\sf\sffamily
 \let\bf\bfseries
 \let\tt\ttfamily
 \let\it\itshape
 \let\rm\rmfamily
+
+%% KOMA for headers :
+\usepackage{scrlayer-scrpage}
+\pagestyle{scrheadings}
+\automark[section]{section}
+\cfoot[\pagemark]{\pagemark}
+%% for date/time
+\usepackage{scrdate}
+\usepackage{scrtime}
 
 %% package for noweb
 \usepackage{noweb}
@@ -50,7 +59,7 @@
     {0.95\textwidth}
     \rule{\textwidth}{1pt}
     \footnotesize
-    #1
+    #1\footnote{Document crée le \today à \thistime}
     \normalsize
     {%
       \par\noindent
@@ -72,11 +81,6 @@
   \setlength{\parsep}{0pt}
 }{\end{itemize}}
 
-%% using parts, the beginning
-% \makeatletter
-% \let\old@part\@part
-% \def\@part[#1]#2{\setcounter{section}{0}\old@part[#1]{#2\markboth{\MakeUppercase{\partname.\ #1}}{}}}
-% \makeatother
 
 %% colorized parts
 \setkomafont{part}{\mypart}
@@ -92,6 +96,7 @@
             #1
             \vspace*{4pt}%Space after
         \end{minipage}%
+        % \ihead{#1}
     }}
 
 %% colorized sections
@@ -107,6 +112,7 @@
             #1
             \vspace*{4pt}%Space after
         \end{minipage}%
+        % \ohead{#1}
     }}
 
 %% colorized subsections
