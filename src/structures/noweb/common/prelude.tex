@@ -1,0 +1,110 @@
+%% KOMA needs it
+% \let\sf\sffamily
+\let\bf\bfseries
+\let\tt\ttfamily
+\let\it\itshape
+\let\rm\rmfamily
+
+\usepackage{noweb}
+\noweboptions{smallcode,longchunks,longxref}
+
+\usepackage[T1]{fontenc}
+\usepackage[default]{gillius}
+\usepackage{CormorantGaramond}
+\usepackage[zerostyle=d]{newtxtt}
+\renewcommand{\familydefault}{\rmdefault}
+
+\usepackage[utf8]{inputenc}
+% Babel for French is known to break KOMA scripts
+% \usepackage[french]{babel}
+
+\usepackage{xcolor}
+\usepackage{tikz}
+
+\definecolor{mygray}{rgb}{0.4,0.4,0.4}
+\usepackage[bookmarks,backref=page,linkcolor=mygray]{hyperref} %,colorlinks
+\hypersetup{%
+  pdfauthor = {Bernard Tatin},
+  pdftitle = {},
+  pdfsubject = {},
+  pdfkeywords = {},
+  colorlinks=true,
+  linkcolor= mygray,
+  citecolor= black,
+  pageanchor=true,
+  urlcolor = mygray,
+  plainpages = false,
+  linktocpage
+}
+
+\let\oldabstract\abstract
+\renewenvironment{abstract}[1]{%
+  \hfill
+  \begin{minipage}
+    {0.95\textwidth}
+    \rule{\textwidth}{1pt}
+    \footnotesize
+    #1
+    \normalsize
+    {%
+      \par\noindent
+      \rule{\textwidth}{1pt}
+    }
+  \end{minipage}
+}
+%% format des paragraphes
+%% \setlength{\parindent}{0cm}
+%% \setlength{\parskip}{4mm}
+%% \linespread{1.1}
+%% \let\nwdocspar=\smallbreak
+
+\newenvironment{packed_itemize}{
+\begin{itemize}
+  \setlength{\itemsep}{0pt}
+  \setlength{\parskip}{0pt}
+  \setlength{\parsep}{0pt}
+}{\end{itemize}}
+
+%
+%
+\setkomafont{section}{\mysection}
+\newcommand{\mysection}[1]{%
+    \LARGE\sffamily\bfseries%
+    \color{white}%
+    \setlength{\fboxsep}{0cm}%already boxed
+    \colorbox{orange!80}{%
+        \begin{minipage}{\linewidth}%
+            \vspace*{4pt}%Space before
+            \hspace*{3pt}
+            #1
+            \vspace*{4pt}%Space after
+        \end{minipage}%
+    }}
+
+\setkomafont{subsection}{\submysection}
+\newcommand{\submysection}[1]{%
+    \large\sffamily%
+    \color{white}%
+    \setlength{\fboxsep}{0cm}%already boxed
+    \colorbox{orange!80}{%
+        \begin{minipage}{\linewidth}%
+            \vspace*{4pt}%Space before
+            \hspace*{3pt}
+            #1
+            \vspace*{4pt}%Space after
+        \end{minipage}%
+    }}
+
+\setkomafont{subsubsection}{\subsubmysection}
+\newcommand{\subsubmysection}[1]{%
+    \itshape\sffamily%
+    \color{white}%
+    \setlength{\fboxsep}{0cm}%already boxed
+    \colorbox{orange!80}{%
+        \begin{minipage}{\linewidth}%
+            \vspace*{4pt}%Space before
+            \hspace*{3pt}
+            #1
+            \vspace*{4pt}%Space after
+        \end{minipage}%
+    }}
