@@ -14,6 +14,7 @@ TEX_DEPS = common/newnoweb.sty common/prelude.tex
 SRC = $(PROJECT).nw
 MORENW = rbuffer.nw annexes.nw
 ALLNW = $(SRC) $(MORENW)
+_tmpnw = _noweb.nw
 
 all: pdf code
 
@@ -31,7 +32,10 @@ $(filter %.c,$(TARG_SRC)): %.c: $(ALLNW)
 
 .PRECIOUS: $(PROJECT).tex
 $(PROJECT).tex: $(ALLNW)
-	$(WEAVE) -n -delay -autodefs c -index $(ALLNW) > $@
+	cat $(ALLNW) > $(_tmpnw)
+	$(WEAVE) -n -delay -autodefs c -index $(_tmpnw) > $@
+
+	# rm -fv $(_tmpnw)
 
 $(PROJECT).pdf: $(PROJECT).tex  $(TEX_DEPS)
 	$(PDFLATEX) $<
