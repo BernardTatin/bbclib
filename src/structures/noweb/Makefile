@@ -12,7 +12,7 @@ TARG_PDF = $(PROJECT).pdf
 TEX_DEPS = common/newnoweb.sty common/prelude.tex
 
 SRC = $(PROJECT).nw
-MORENW = rbuffer.nw annexes.nw
+MORENW = standard.nw rbuffer.nw annexes.nw
 ALLNW = $(SRC) $(MORENW)
 _tmpnw = _noweb.nw
 
