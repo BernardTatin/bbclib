@@ -1,0 +1,275 @@
+\part{rbuffer}
+
+C'est un buffer tournant le plus simple possible, capable de gérer des lignes délimitées par \emph{LF} (\texttt{'$\backslash$n'}) mais \emph{CR} (\texttt{'$\backslash$r'}) n'est pas pris en compte, plus exactement, il est rejetté.
+
+\section{premières définitions}
+Pour limiter les calculs, le code..., la taille du buffer est une puissance de 2 d'où la définition du nombre de bits qui ouvre le bal, et en tenant compte du fait que cette définition peut-être donnée en paramètre du préprocesseur :
+
+<<intro-bits>>=
+# if !defined(_RBUFFER_BITS)
+#define _RBUFFER_BITS   8
+#endif
+@
+La taille du buffer sera donc :
+
+<<intro-bits>>=
+#define RBUFFER_SIZE    (1 << _RBUFFER_BITS)
+@
+Et le masque permettant un rapide \emph{modulo} arithmétique avec un [[and]] binaire :
+<<intro-bits>>=
+#define RBUFFER_MASK    (RBUFFER_SIZE - 1)
+
+@
+\section{la structure}
+La voici :
+
+<<tsrbuffer>>=
+
+typedef struct {
+    volatile int in;
+    volatile int out;
+    volatile int line_count;
+    volatile char buffer[RBUFFER_SIZE];
+} TSrbuffer;
+
+@
+\subsection{les champs}
+\subsection{remarques diverses}
+Tous les membres de la structure sont définis comme [[volatile int]]. C'est important dans un système embarqué avec des interruptions pouvant manipuler le buffer. Sans [[volatile]], une optimisation trop agressive pourrait placer une des valeurs entières dans un registre. En cas d'interruption modifiant cette valeur, le registre, lui, ne bougera pas et des caractères pourraient se perdre.
+On pourrait définir un [[VOLATILE]] en fonction de l'architecture du type :
+
+<<define-volatile>>=
+
+#if defined(__with_irqs)
+  #define VOLATILE volatile
+#else
+  #define VOLATILE
+#endif
+
+@ %def __with_irqs, VOLATILE
+L'utilisation du type [[int]] permet d'utiliser le type entier permettant en général le meilleur compromis vitesse/taille. Mais ce n'est pas toujours vrai, tout dépend de l'architecture du processeur et des choix des concepteurs du compilateur. On va donc utiliser un [[define]] ce qui autorise la définition sur la igne de commande du compilateur, contrairement au [[typedef]]:
+
+<<define-int>>=
+
+#if !defined(INT)
+#define INT int
+#endif
+@ %def INT
+Ce qui donnerait au final :
+
+<<tsrbuffer-final>>=
+
+typedef struct {
+    VOLATILE INT in;
+    VOLATILE INT out;
+    VOLATILE INT line_count;
+    VOLATILE char buffer[RBUFFER_SIZE];
+} TSrbuffer;
+
+@ %def TSrbuffer
+Quoiqu'il en soit, il est fortement recommandé de lire la définition exacte du [[VOLATILE]] de votre compilateur, certaines variations pouvant rendre votre code totalement inefficace. Et d'autant plus que votre compilateur cible un système embarqué où les variations autour des standards sont choses communes.
+
+Cependant, nous ne résolvons pas tous les problèmes, en particuliers ceux du \emph{multi-threading} qui sont laissés à l'utilisateur dans cette version.
+
+
+\section{le fonctionnement}
+\subsection{types et modificateurs}
+On utilise [[bool]] qui n'est pas défini avant \emph{C11} :
+<<type-bool>>=
+#ifndef no_c11
+  #include <stdbool.h>
+#else
+typedef enum {
+  false = 0,
+  true = 1
+} bool;
+#ifndef no_inline
+  #define no_inline
+#endif
+#endif
+
+@ %def bool no_inline false true
+Certaines fonctions sont [[inline]]. La diversité des compilateurs nous obligent à définir un [[INLINE]] ainsi (et nous ne couvrons pas tous les cas, loin de là):
+<<define-inline>>=
+#if defined(with_watcominline)
+        #define INLINE __inline
+#elif !defined(no_inline)
+        #define INLINE inline
+#else
+        #define INLINE
+#endif
+@ %def INLINE
+\subsection{ajout d'un caractère}
+Le fonctionnement est le suivant pour l'ajout d'un caractère :
+
+\begin{packed_itemize}
+  \item si le caractère est '$\backslash$r', on ne fait rien,
+  \item on place le caractère dans le buffer à la position [[in]],
+  \item on incrémente [[in]],
+  \item si on atteint la limite du buffer, on positionne [[in]] à 0,
+  \item si le caractère est '$\backslash$n', on incrémente [[line_count]].
+\end{packed_itemize}
+
+<<add-char>>=
+static INLINE void rbf_add_char(TSrbuffer *rb, const char c) {
+    if (c != '\r') {
+        rb->buffer[rb->in++] = c;
+        rb->in &= RBUFFER_MASK;
+        if (c == '\n') {
+            rb->line_count++;
+        }
+    }
+}
+@
+La récupération d'un caractère dans le buffer est l'algorithme inverse :
+
+<<get-char>>=
+static INLINE char rbf_get_char(TSrbuffer *rb) {
+    INT out = rb->out;
+    char c = rb->buffer[out++];
+    out &= RBUFFER_MASK;
+    rb->out = out;
+    if (c == '\n' && rb->line_count) {
+        rb->line_count--;
+    }
+    return c;
+}
+@
+Il est cependant très important de déterminer si des caratères sont présents dans le buffer :
+<<has-chars>>=
+static INLINE bool rbf_has_chars(TSrbuffer *rb) {
+    return rb->in != rb->out;
+}
+@
+Le marquage d'une fin de ligne se fait par un '$\backslash$0' :
+<<end-of-line>>=
+
+static INLINE void rbf_end_of_line(TSrbuffer *rb) {
+    rb->buffer[rb->in] = 0;
+    rb->line_count++;
+}
+
+@
+Ces fonctions, nécessitant une boucle, ne sont pas déclarées [[INLINE]] :
+<<more-functions-h>>=
+void rbf_add_line(TSrbuffer *rb, char *line);
+INT rbf_get_line(TSrbuffer *rb, char *line);
+@
+L'ajout d'une ligne est \emph{simple} :
+<<more-functions-c>>=
+void rbf_add_line(TSrbuffer *rb, char *line) {
+    char c;
+
+    while ((c = *(line++)) != 0) {
+        rbf_add_char(rb, c);
+    }
+    rbf_end_of_line(rb);
+}
+@
+Et la lecture d'une ligne :
+<<more-functions-c>>=
+INT rbf_get_line(TSrbuffer *rb, char *line) {
+    char c;
+    INT r = 0;
+
+    while (rbf_has_chars(rb)) {
+        c = rbf_get_char(rb);
+
+        if (c == '\n') {
+            break;
+        }
+        if (c != 0) {
+            *(line++) = c;
+        }
+        r++;
+    }
+    *line = 0;
+    return r;
+}
+@
+
+\section{le code final}
+\subsection{[[standard.h]]}
+<<standard.h>>=
+/*
+ * _standard.h
+ * generated by noweb
+ */
+#ifndef INCLUDE__COMPAT__STANDARD_H_
+#define INCLUDE__COMPAT__STANDARD_H_
+
+#include <stdlib.h>
+#include <stdarg.h>
+
+<<type-bool>>
+
+<<define-inline>>
+
+#endif /* INCLUDE__COMPAT__STANDARD_H_ */
+@
+\subsection{[[rbuffer.h]]}
+<<rbuffer.h>>=
+/*
+ * rbuffer.h
+ * generated by noweb
+ */
+
+#if !defined(__rbuffer_h__)
+#define __rbuffer_h__
+
+<<intro-bits>>
+
+<<define-volatile>>
+<<define-int>>
+
+<<tsrbuffer-final>>
+
+<<add-char>>
+
+<<get-char>>
+
+<<has-chars>>
+
+<<more-functions-h>>
+
+#endif // __rbuffer_h__
+@
+\subsection{[[rbuffer.c]]}
+<<rbuffer.c>>=
+/*
+ * rbuffer.c
+ * generated by noweb
+ */
+
+#include "rbuffer.h"
+
+<<more-functions-c>>
+@
+
+\part{annexes}
+
+\section{la ligne de commande}
+Pour obtenir le fichier \LaTeX{} et le code source, voici ce qu'il faut faire depuis un terminal :
+
+<<command-line>>=
+# fichier LaTeX
+noweave -delay -autodefs c -index rbuffer.nw > rbuffer.tex
+# fichier PDF
+pdflatex rbuffer.tex && \
+  pdflatex rbuffer.tex && \
+  pdflatex rbuffer.tex
+# le code source
+notangle rbuffer.nw > rbuffer.h
+@
+L'option [[-autodefs c]] permet à [[noweave]] de déterminer lui-même les éléments du langage C. Sans cette option, dans le cadre de ce fichier, les définitions de [[intro-bits]] ne seraient pas visibles.
+
+\section{tables et index}
+\subsection{table des extraits de code}
+
+\nowebchunks
+
+\subsection{index}
+
+\nowebindex
+
+\end{document}
