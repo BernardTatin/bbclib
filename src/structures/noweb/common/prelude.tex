@@ -1,13 +1,26 @@
+%% prelude.tex
+%% https://tex.stackexchange.com/questions/36609/formatting-section-titles
 %% KOMA needs it
-% \let\sf\sffamily
+\let\sf\sffamily
 \let\bf\bfseries
 \let\tt\ttfamily
 \let\it\itshape
 \let\rm\rmfamily
 
-\usepackage{noweb}
+%% KOMA for headers :
+\usepackage{scrlayer-scrpage}
+\pagestyle{scrheadings}
+\automark[section]{section}
+\cfoot[\pagemark]{\pagemark}
+%% for date/time
+\usepackage{scrdate}
+\usepackage{scrtime}
+
+%% package for noweb
+\usepackage{common/newnoweb}
 \noweboptions{smallcode,longchunks,longxref}
 
+%% fonts and encoding
 \usepackage[T1]{fontenc}
 \usepackage[default]{gillius}
 \usepackage{CormorantGaramond}
@@ -18,9 +31,11 @@
 % Babel for French is known to break KOMA scripts
 % \usepackage[french]{babel}
 
+%% packages needed for section coloring
 \usepackage{xcolor}
 \usepackage{tikz}
 
+%% hyperlinks initialisation
 \definecolor{mygray}{rgb}{0.4,0.4,0.4}
 \usepackage[bookmarks,backref=page,linkcolor=mygray]{hyperref} %,colorlinks
 \hypersetup{%
@@ -37,14 +52,14 @@
   linktocpage
 }
 
-\let\oldabstract\abstract
+%% a better abstract (I hope...)
 \renewenvironment{abstract}[1]{%
   \hfill
   \begin{minipage}
     {0.95\textwidth}
     \rule{\textwidth}{1pt}
     \footnotesize
-    #1
+    #1\footnote{Document crée le \today à \thistime}
     \normalsize
     {%
       \par\noindent
@@ -58,6 +73,7 @@
 %% \linespread{1.1}
 %% \let\nwdocspar=\smallbreak
 
+%% better itemize
 \newenvironment{packed_itemize}{
 \begin{itemize}
   \setlength{\itemsep}{0pt}
@@ -65,8 +81,25 @@
   \setlength{\parsep}{0pt}
 }{\end{itemize}}
 
-%
-%
+
+%% colorized parts
+\setkomafont{part}{\mypart}
+\newcommand{\mypart}[1]{%
+    \setcounter{section}{0}
+    \huge\sffamily\bfseries%
+    \color{white}%
+    \setlength{\fboxsep}{0cm}%already boxed
+    \colorbox{mygray!90}{%
+        \begin{minipage}{\linewidth}%
+            \vspace*{4pt}%Space before
+            \hspace*{3pt}
+            #1
+            \vspace*{4pt}%Space after
+        \end{minipage}%
+        % \ihead{#1}
+    }}
+
+%% colorized sections
 \setkomafont{section}{\mysection}
 \newcommand{\mysection}[1]{%
     \LARGE\sffamily\bfseries%
@@ -79,8 +112,10 @@
             #1
             \vspace*{4pt}%Space after
         \end{minipage}%
+        % \ohead{#1}
     }}
 
+%% colorized subsections
 \setkomafont{subsection}{\submysection}
 \newcommand{\submysection}[1]{%
     \large\sffamily%
@@ -95,6 +130,7 @@
         \end{minipage}%
     }}
 
+%% colorized subsubsections
 \setkomafont{subsubsection}{\subsubmysection}
 \newcommand{\subsubmysection}[1]{%
     \itshape\sffamily%

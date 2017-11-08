@@ -1,0 +1,27 @@
+\part{annexes}
+
+\section{la ligne de commande}
+Pour obtenir le fichier \LaTeX{} et le code source, voici ce qu'il faut faire depuis un terminal :
+
+<<command-line>>=
+# fichier LaTeX
+noweave -delay -autodefs c -index rbuffer.nw > rbuffer.tex
+# fichier PDF
+pdflatex rbuffer.tex && \
+  pdflatex rbuffer.tex && \
+  pdflatex rbuffer.tex
+# le code source
+notangle rbuffer.nw > rbuffer.h
+@
+L'option [[-autodefs c]] permet à [[noweave]] de déterminer lui-même les éléments du langage C. Sans cette option, dans le cadre de ce fichier, les définitions de [[intro-bits]] ne seraient pas visibles.
+
+\section{tables et index}
+\subsection{table des extraits de code}
+
+\nowebchunks
+
+\subsection{index}
+
+\nowebindex
+
+\end{document}

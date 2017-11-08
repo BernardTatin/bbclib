@@ -1,0 +1,18 @@
+\documentclass{scrartcl}
+
+\input{common/prelude.tex}
+
+\author{Bernard Tatin}
+\date{2013/2017}
+\title{bbclib, une bibliothèque C}
+\begin{document}
+
+%% \pagestyle{noweb}
+\maketitle
+\abstract{Voici un premier essai de \emph{literate programming}, concept inventé par D. Knuth il y a plus de trente ans. À partir de ce seul fichier on génère la documentation et le code. Ici, je reprend du vieux code, cela m'oblige, même s'il est simple, à le repenser et donc, espérons le, à l'améliorer. Même si je passe beaucoup de temps sur la présentation... \\
+\\
+Ce code est très orienté \emph{embarqué} car il a été développé principalement dans cette optique. C'est pour cela que certaines gestions d'erreur n'ont pas été développées, faute de place. Il en est de même pour d'autres choix qui pourront paraître curieux au lecteur. \\
+\\
+Pour finir cette présentation, les fichiers crées à partir du document maître comme les sources et le PDF sont inclus dans ce dépôt pour permettre une visualisation simple des résultats obtenus sans avoir à installer quoique ce soit de spécial dont \texttt{noweb} et \LaTeX.}
+
+\tableofcontents
