@@ -9,7 +9,7 @@ PROJECT = bbclib
 TARG_SRC = include/standard.h include/rbuffer.h src/rbuffer.c
 TARG_PDF = $(PROJECT).pdf
 
-TEX_DEPS = common/noweb.sty common/prelude.tex
+TEX_DEPS = common/newnoweb.sty common/prelude.tex
 
 SRC = $(PROJECT).nw
 

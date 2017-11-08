@@ -145,12 +145,12 @@ I'll try to avoid such incompatible changes in the future.}%
 }
 \let\nwopt@noshift\@empty
 \def\nwbegincode#1{%
+    \fullrule{0.2pt}
   \begingroup
     \topsep \nwcodetopsep
     \@beginparpenalty \@highpenalty
     \@endparpenalty -\@highpenalty
   \@begincode
-    \fullrule{0.2pt}
 }
 \def\nwendcode{\endtrivlist \fullrule{1.0pt} \endgroup \filbreak} % keeps code on 1 page
 
