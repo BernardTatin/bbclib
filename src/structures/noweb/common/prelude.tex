@@ -85,7 +85,8 @@
 %% colorized parts
 \setkomafont{part}{\mypart}
 \newcommand{\mypart}[1]{%
-    \setcounter{section}{0}
+    %% the TOC does not point on good pages
+    % \setcounter{section}{0}
     \huge\sffamily\bfseries%
     \color{white}%
     \setlength{\fboxsep}{0cm}%already boxed
