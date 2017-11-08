@@ -4,23 +4,23 @@
 
 \author{Bernard Tatin}
 \date{2013/2017}
-\title{rbuffer, un buffer tournant}
+\title{bbclib, une bibliothèque C}
 \begin{document}
 
 \pagestyle{noweb}
 \maketitle
 \abstract{Voici un premier essai de \emph{literate programming}, concept inventé par D. Knuth il y a plus de trente ans. À partir de ce seul fichier on génère la documentation et le code. Ici, je reprend du vieux code, cela m'oblige, même s'il est simple, à le repenser et donc, espérons le, à l'améliorer. Même si je passe beaucoup de temps sur la présentation... \\
 \\
-Ce code est très orienté \emph{ligne de caractères} et a servi, entre autre, à la gestion de modems sur des systèmes embarqués. On notera l'absence de gestion de trop plein du buffer, \emph{i.e.} de l'écrasement de caractères lors du remplissage. Certains systèmes embarqués m'en ont découragés par manque de mémoire et une commande de modem écrasée était une commande modem mal formée... Jeu dangereux qui a finalement bien fonctionné.\\
+Ce code est très orienté \emph{embarqué} car il a été développé principalement dans cette optique. C'est pour cela que certaines gestions d'erreur n'ont pas été développées, faute de place. Il en est de même pour d'autres choix qui pourront paraître curieux au lecteur. \\
 \\
 Pour finir cette présentation, les fichiers crées à partir du document maître comme les sources et le PDF sont inclus dans ce dépôt pour permettre une visualisation simple des résultats obtenus sans avoir à installer quoique ce soit de spécial dont \texttt{noweb} et \LaTeX.}
 
 \tableofcontents
-\section{rbuffer}
+\part{rbuffer}
 
 C'est un buffer tournant le plus simple possible, capable de gérer des lignes délimitées par \emph{LF} (\texttt{'$\backslash$n'}) mais \emph{CR} (\texttt{'$\backslash$r'}) n'est pas pris en compte, plus exactement, il est rejetté.
 
-\subsection{premières définitions}
+\section{premières définitions}
 Pour limiter les calculs, le code..., la taille du buffer est une puissance de 2 d'où la définition du nombre de bits qui ouvre le bal, et en tenant compte du fait que cette définition peut-être donnée en paramètre du préprocesseur :
 
 <<intro-bits>>=
@@ -38,7 +38,7 @@ Et le masque permettant un rapide \emph{modulo} arithmétique avec un [[and]] bi
 #define RBUFFER_MASK    (RBUFFER_SIZE - 1)
 
 @
-\subsection{la structure}
+\section{la structure}
 La voici :
 
 <<tsrbuffer>>=
@@ -51,8 +51,8 @@ typedef struct {
 } TSrbuffer;
 
 @
-\subsubsection{les champs}
-\subsubsection{remarques diverses}
+\subsection{les champs}
+\subsection{remarques diverses}
 Tous les membres de la structure sont définis comme [[volatile int]]. C'est important dans un système embarqué avec des interruptions pouvant manipuler le buffer. Sans [[volatile]], une optimisation trop agressive pourrait placer une des valeurs entières dans un registre. En cas d'interruption modifiant cette valeur, le registre, lui, ne bougera pas et des caractères pourraient se perdre.
 On pourrait définir un [[VOLATILE]] en fonction de l'architecture du type :
 
@@ -90,8 +90,8 @@ Quoiqu'il en soit, il est fortement recommandé de lire la définition exacte du
 Cependant, nous ne résolvons pas tous les problèmes, en particuliers ceux du \emph{multi-threading} qui sont laissés à l'utilisateur dans cette version.
 
 
-\subsection{le fonctionnement}
-\subsubsection{types et modificateurs}
+\section{le fonctionnement}
+\subsection{types et modificateurs}
 On utilise [[bool]] qui n'est pas défini avant \emph{C11} :
 <<type-bool>>=
 #ifndef no_c11
@@ -117,7 +117,7 @@ Certaines fonctions sont [[inline]]. La diversité des compilateurs nous obligen
         #define INLINE
 #endif
 @ %def INLINE
-\subsubsection{ajout d'un caractère}
+\subsection{ajout d'un caractère}
 Le fonctionnement est le suivant pour l'ajout d'un caractère :
 
 \begin{packed_itemize}
@@ -206,8 +206,8 @@ INT rbf_get_line(TSrbuffer *rb, char *line) {
 }
 @
 
-\subsection{le code final}
-\subsubsection{[[standard.h]]}
+\section{le code final}
+\subsection{[[standard.h]]}
 <<standard.h>>=
 /*
  * _standard.h
@@ -225,7 +225,7 @@ INT rbf_get_line(TSrbuffer *rb, char *line) {
 
 #endif /* INCLUDE__COMPAT__STANDARD_H_ */
 @
-\subsubsection{[[rbuffer.h]]}
+\subsection{[[rbuffer.h]]}
 <<rbuffer.h>>=
 /*
  * rbuffer.h
@@ -252,7 +252,7 @@ INT rbf_get_line(TSrbuffer *rb, char *line) {
 
 #endif // __rbuffer_h__
 @
-\subsubsection{[[rbuffer.c]]}
+\subsection{[[rbuffer.c]]}
 <<rbuffer.c>>=
 /*
  * rbuffer.c
@@ -264,9 +264,9 @@ INT rbf_get_line(TSrbuffer *rb, char *line) {
 <<more-functions-c>>
 @
 
-\section{annexes}
+\part{annexes}
 
-\subsection{la ligne de commande}
+\section{la ligne de commande}
 Pour obtenir le fichier \LaTeX{} et le code source, voici ce qu'il faut faire depuis un terminal :
 
 <<command-line>>=

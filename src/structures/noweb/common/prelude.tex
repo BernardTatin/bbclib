@@ -1,5 +1,5 @@
 %% KOMA needs it
-% \let\sf\sffamily
+\let\sf\sffamily
 \let\bf\bfseries
 \let\tt\ttfamily
 \let\it\itshape
@@ -17,6 +17,7 @@
 \usepackage[utf8]{inputenc}
 % Babel for French is known to break KOMA scripts
 % \usepackage[french]{babel}
+
 
 \usepackage{xcolor}
 \usepackage{tikz}
@@ -58,6 +59,7 @@
 %% \linespread{1.1}
 %% \let\nwdocspar=\smallbreak
 
+
 \newenvironment{packed_itemize}{
 \begin{itemize}
   \setlength{\itemsep}{0pt}
@@ -66,6 +68,12 @@
 }{\end{itemize}}
 
 %
+\makeatletter
+\let\old@part\@part
+\def\@part[#1]#2{\setcounter{section}{0}\old@part[#1]{#2\markboth{\MakeUppercase{\partname.\ #1}}{}}}
+
+\makeatother
+
 %
 \setkomafont{section}{\mysection}
 \newcommand{\mysection}[1]{%
