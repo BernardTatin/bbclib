@@ -12,7 +12,7 @@ TARG_PDF = $(PROJECT).pdf
 TEX_DEPS = common/newnoweb.sty common/prelude.tex
 
 SRC = $(PROJECT).nw
-MORENW = rbuffer.nw
+MORENW = rbuffer.nw annexes.nw
 ALLNW = $(SRC) $(MORENW)
 
 all: pdf code
@@ -30,10 +30,10 @@ $(filter %.c,$(TARG_SRC)): %.c: $(ALLNW)
 	$(TANGLE) -R$(shell basename $@) $(ALLNW) > $@
 
 .PRECIOUS: $(PROJECT).tex
-%.tex: %.nw
-	$(WEAVE) -delay -autodefs c -index $(ALLNW) > $@
+$(PROJECT).tex: $(ALLNW)
+	$(WEAVE) -n -delay -autodefs c -index $(ALLNW) > $@
 
-%.pdf: %.tex  $(TEX_DEPS)
+$(PROJECT).pdf: $(PROJECT).tex  $(TEX_DEPS)
 	$(PDFLATEX) $<
 	$(PDFLATEX) $<
 	$(PDFLATEX) $<
