@@ -32,7 +32,7 @@
 % \usepackage[french]{babel}
 
 %% packages needed for section coloring
-\usepackage{xcolor}
+\usepackage[table]{xcolor}
 \usepackage{tikz}
 
 %% hyperlinks initialisation
@@ -66,6 +66,7 @@
       \rule{\textwidth}{1pt}
     }
   \end{minipage}
+  \clearpage
 }
 %% format des paragraphes
 %% \setlength{\parindent}{0cm}
@@ -81,24 +82,44 @@
   \setlength{\parsep}{0pt}
 }{\end{itemize}}
 
-
-%% colorized parts
-\setkomafont{part}{\mypart}
-\newcommand{\mypart}[1]{%
-    %% the TOC does not point on good pages
-    % \setcounter{section}{0}
-    \huge\sffamily\bfseries%
-    \color{white}%
-    \setlength{\fboxsep}{0cm}%already boxed
-    \colorbox{mygray!90}{%
-        \begin{minipage}{\linewidth}%
-            \vspace*{4pt}%Space before
-            \hspace*{3pt}
-            #1
-            \vspace*{4pt}%Space after
-        \end{minipage}%
-        % \ihead{#1}
-    }}
+\renewcommand{\thesection}{\thepart.\arabic{section}}
+% from : https://tex.stackexchange.com/questions/245979/numberwithinequationsubsection-fails-for-subsections-0
+% reset section counter at each part
+\makeatletter
+\@addtoreset{section}{part}
+\makeatother
+%% from https://tex.stackexchange.com/questions/192838/part-heading-style?rq=1
+\makeatletter
+\def\@part[#1]#2{%
+\cleardoublepage
+    \ifnum \c@secnumdepth >-2\relax
+      \refstepcounter{part}%
+      \addcontentsline{toc}{part}{\thepart\hspace{1em}#1}%
+    \else
+      \addcontentsline{toc}{part}{#1}%
+    \fi
+    \markboth{}{}%
+  \reset@font
+  \parindent \z@
+  \vspace*{10\p@}%
+  \hbox{%
+    \vbox{%
+      \hsize=7mm%
+      \begin{tabular}{@{}p{7mm}@{}}
+        % \makebox[7mm]{\scshape\strut\small\partname}\\
+        \makebox[7mm]{\cellcolor{orange}\Huge\color{white}\bfseries\strut\thepart\rule[-4cm]{0pt}{4cm}}%
+      \end{tabular}%
+      \makebox(0,0){\put(-10,-100){\fbox{\phantom{\rule[-4cm]{7mm}{4cm}}}}}
+      }%
+    \kern-2pt
+    \vbox to 0pt{%
+       \tabular[t]{@{}p{1cm}p{\dimexpr\hsize-2.1cm}@{}}\hline
+          & \Huge\bfseries\itshape\rule{0pt}{1.5\ht\strutbox}#1\endtabular}%
+    }%
+  \cleardoublepage
+%  \vskip 100\p@
+}
+\makeatother
 
 %% colorized sections
 \setkomafont{section}{\mysection}
