@@ -89,36 +89,37 @@
 \@addtoreset{section}{part}
 \makeatother
 %% from https://tex.stackexchange.com/questions/192838/part-heading-style?rq=1
+\newcommand{\addtocontenttable}[4]{%
+      \refstepcounter{#1}%
+      \addcontentsline{toc}{#1}{#2\hspace{#3}#4}%
+}
+
+%% for vbox, see https://tex.stackexchange.com/questions/83930/what-are-the-different-kinds-of-boxes-in-latex
 \makeatletter
 \def\@part[#1]#2{%
 \cleardoublepage
-    \ifnum \c@secnumdepth >-2\relax
-      \refstepcounter{part}%
-      \addcontentsline{toc}{part}{\thepart\hspace{1em}#1}%
-    \else
-      \addcontentsline{toc}{part}{#1}%
-    \fi
+  \addtocontenttable{part}{\thepart}{1em}{#1}
     \markboth{}{}%
   \reset@font
   \parindent \z@
   \vspace*{10\p@}%
-  \hbox{%
-    \vbox{%
-      \hsize=7mm%
+  \mbox{%
+    \begin{minipage}{7mm}
       \begin{tabular}{@{}p{7mm}@{}}
-        % \makebox[7mm]{\scshape\strut\small\partname}\\
         \makebox[7mm]{\cellcolor{orange}\Huge\color{white}\bfseries\strut\thepart\rule[-4cm]{0pt}{4cm}}%
       \end{tabular}%
-      \makebox(0,0){\put(-10,-100){\fbox{\phantom{\rule[-4cm]{7mm}{4cm}}}}}
-      }%
+    \end{minipage}
     \kern-2pt
-    \vbox to 0pt{%
+    \begin{minipage}{170mm}
+    %% \vbox to 0pt{%
        \tabular[t]{@{}p{1cm}p{\dimexpr\hsize-2.1cm}@{}}\hline
-          & \Huge\bfseries\itshape\rule{0pt}{1.5\ht\strutbox}#1\endtabular}%
-    }%
+          & \Huge\bfseries\itshape\rule{0pt}{1.5\ht\strutbox}#1\endtabular
+      %% }%
+    \end{minipage}
+    } %% mbox
   \cleardoublepage
 %  \vskip 100\p@
-}
+} %% \def\@part
 \makeatother
 
 %% colorized sections
