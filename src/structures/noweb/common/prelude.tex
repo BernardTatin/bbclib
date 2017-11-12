@@ -7,6 +7,9 @@
 \let\it\itshape
 \let\rm\rmfamily
 
+\usepackage{boolexpr,pdftexcmds,trace}
+\usepackage{multicol}
+
 %% KOMA for headers :
 \usepackage{scrlayer-scrpage}
 \pagestyle{scrheadings}
@@ -22,8 +25,10 @@
 
 %% fonts and encoding
 \usepackage[T1]{fontenc}
-\usepackage[default]{gillius}
+%\usepackage[default]{gillius}
+\usepackage[condensed,sfdefault]{universalis}
 \usepackage{CormorantGaramond}
+% \usepackage{quattrocento}
 \usepackage[zerostyle=d]{newtxtt}
 \renewcommand{\familydefault}{\rmdefault}
 
@@ -90,8 +95,13 @@
 \makeatother
 %% from https://tex.stackexchange.com/questions/192838/part-heading-style?rq=1
 \newcommand{\addtocontenttable}[4]{%
-      \refstepcounter{#1}%
-      \addcontentsline{toc}{#1}{#2\hspace{#3}#4}%
+  \refstepcounter{#1}%
+  \addcontentsline{toc}{#1}{#2\hspace{#3}#4}%
+  % pour les entêtes de page
+  % \markboth{}{}%
+  % \reset@font
+  % \parindent \z@
+  % \vspace*{10\p@}%
 }
 
 %% for vbox, see https://tex.stackexchange.com/questions/83930/what-are-the-different-kinds-of-boxes-in-latex
@@ -99,10 +109,6 @@
 \def\@part[#1]#2{%
 \cleardoublepage
   \addtocontenttable{part}{\thepart}{1em}{#1}
-    \markboth{}{}%
-  \reset@font
-  \parindent \z@
-  \vspace*{10\p@}%
   \mbox{%
     \begin{minipage}{7mm}
       \begin{tabular}{@{}p{7mm}@{}}
@@ -111,15 +117,38 @@
     \end{minipage}
     \kern-2pt
     \begin{minipage}{170mm}
-    %% \vbox to 0pt{%
        \tabular[t]{@{}p{1cm}p{\dimexpr\hsize-2.1cm}@{}}\hline
           & \Huge\bfseries\itshape\rule{0pt}{1.5\ht\strutbox}#1\endtabular
-      %% }%
     \end{minipage}
     } %% mbox
-  \cleardoublepage
-%  \vskip 100\p@
+  % \cleardoublepage
+ \vskip 100\p@
 } %% \def\@part
+\makeatother
+
+\makeatletter
+\def\@section[#1]#2{%
+% \newcommand{\section}[2]{%
+  \cleardoublepage
+  \addtocontenttable{section}{\thesection}{3em}{#1}
+  \mbox{%
+    \begin{minipage}{7mm}
+      \begin{tabular}{@{}p{7mm}@{}}
+        \makebox[7mm]{\cellcolor{orange}\Large\color{white}\bfseries\strut\thesection{}\rule[-4cm]{0pt}{4cm}}%
+      \end{tabular}%
+    \end{minipage}
+    \kern-2pt
+    \begin{minipage}{170mm}
+       \tabular[t]{@{}p{1cm}p{\dimexpr\hsize-2.1cm}@{}}\hline
+          & \Large\bfseries\itshape\rule{0pt}{1.5\ht\strutbox}#1\endtabular
+    \end{minipage}
+    } %% mbox
+%  \vskip 100\p@
+} %% \def\@section
+\makeatother
+
+\makeatletter
+\long\def\isequal#1#2{\pdf@strcmp{#1}{#2}}
 \makeatother
 
 %% colorized sections
@@ -128,15 +157,36 @@
     \LARGE\sffamily\bfseries%
     \color{white}%
     \setlength{\fboxsep}{0cm}%already boxed
-    \colorbox{orange!80}{%
-        \begin{minipage}{\linewidth}%
-            \vspace*{4pt}%Space before
-            \hspace*{3pt}
-            #1
-            \vspace*{4pt}%Space after
-        \end{minipage}%
-        % \ohead{#1}
-    }}
+  \mbox{%
+    \begin{minipage}{7mm}
+      \begin{tabular}{@{}p{7mm}@{}}
+        \makebox[7mm]{\cellcolor{orange}\Large\color{white}\bfseries\strut
+        \switch
+          \case{\isequal{\thesection}{.0}}
+            {}
+          \otherwise
+            \thesection{}
+        \endswitch
+        \rule[-1.5cm]{0pt}{4cm}}%
+      \end{tabular}%
+    \end{minipage}
+    \kern-2pt
+    \begin{minipage}{170mm}
+      \color{mygray}
+       \tabular[t]{@{}p{1cm}p{\dimexpr\hsize-2.1cm}@{}}\hline
+          & \Large\bfseries\itshape\rule{0pt}{1.5\ht\strutbox}#1\endtabular
+    \end{minipage}
+    } %% mbox
+    % \colorbox{orange!80}{%
+    %     \begin{minipage}{\linewidth}%
+    %         \vspace*{4pt}%Space before
+    %         \hspace*{3pt}
+    %         #1
+    %         \vspace*{4pt}%Space after
+    %     \end{minipage}%
+    %     % \ohead{#1}
+    % }
+    }
 
 %% colorized subsections
 \setkomafont{subsection}{\submysection}
