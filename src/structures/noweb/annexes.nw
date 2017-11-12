@@ -17,10 +17,14 @@ L'option [[-autodefs c]] permet à [[noweave]] de déterminer lui-même les él�
 \section{tables et index}
 \subsection{table des extraits de code}
 
+\begin{multicols}{2}
 \nowebchunks
+\end{multicols}
 
 \subsection{index}
 
+\begin{multicols}{2}
 \nowebindex
+\end{multicols}
 
 \end{document}
