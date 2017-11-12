@@ -1,4 +1,5 @@
 % noweb.sty -- LaTeX support for noweb
+% https://tex.stackexchange.com/questions/36609/formatting-section-titles
 % DON'T read or edit this file!  Use ...noweb-source/tex/support.nw instead.
 {\obeyspaces\AtBeginDocument{\global\let =\ }} % from texbook, p 381
 \def\nwopt@nomargintag{\let\nwmargintag=\@gobble}
@@ -144,12 +145,13 @@ I'll try to avoid such incompatible changes in the future.}%
 }
 \let\nwopt@noshift\@empty
 \def\nwbegincode#1{%
-  \begingroup
     \fullrule{0.2pt}
+  \begingroup
     \topsep \nwcodetopsep
     \@beginparpenalty \@highpenalty
     \@endparpenalty -\@highpenalty
-  \@begincode }
+  \@begincode
+}
 \def\nwendcode{\endtrivlist \fullrule{1.0pt} \endgroup \filbreak} % keeps code on 1 page
 
 \newenvironment{webcode}{%
@@ -224,7 +226,7 @@ I'll try to avoid such incompatible changes in the future.}%
   \def\nw@filename##1{\endgroup\markboth{##1}{##1}\let\nw@filename=\nw@laterfilename}%
 }
 \def\nw@laterfilename#1{\endgroup
-  % \clearpage 
+  % \clearpage
   \markboth{#1}{#1}}
 \let\nwfilename=\@gobble
 \def\nwcodecomment#1{\@@par\penalty\nwcodepenalty
