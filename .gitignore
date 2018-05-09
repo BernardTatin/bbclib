@@ -27,6 +27,7 @@
 *.vcproj*
 Release/
 Debug/
+tags
 
 # visual code
 .vscode/
